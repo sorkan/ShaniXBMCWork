@@ -188,7 +188,7 @@ def TopRatedDramas(Fromurl):
 	return
 
 def AddEnteries(Fromurl):
-	print 'getting enteries',Fromurl
+	print 'getting enteries %s' % Fromurl
 
 	req = urllib2.Request(Fromurl)
 	req.add_header('User-Agent','Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
@@ -205,7 +205,8 @@ def AddEnteries(Fromurl):
 #	match =re.findall('<div class=\"post-title\"><a href=\"(.*?)\".*<b>(.*)<\/b><\/a>', link, re.IGNORECASE)
 #	match =re.findall('<img src="(.*?)" alt=".*".+<\/a>\n*.+<div class="post-title"><a href="(.*?)".*<b>(.*)<\/b>', link, re.UNICODE)
 #	print Fromurl
-	match =re.findall('<div class="videopart">\s*<div class="paneleft">\s*<a class="pthumb" href="(.*?)" title="(.*?)".*?img.*?src="(.*?)" class="attachment-index-post-thumbnail wp-post-image"', link, re.M|re.DOTALL)
+#	match =re.findall('<div class="videopart">\s*<div class="paneleft">\s*<a class="pthumb" href="(.*?)" title="(.*?)".*?img.*?src="(.*?)" class="attachment-index-post-thumbnail wp-post-image"', link, re.M|re.DOTALL)
+	match =re.findall('<div class="video_thumnail_hover" href="#">\s*<a class="pthumb" href="(.*?)" title="(.*?)" ><img alt="" src=".*?hover_bg.png"><\/a>\s*<\/div>\s*<a class="pthumb"\s+href=".*?" title=".*?" ><span></span>\s*<img width="128" height="102" src="(.*?)" class="attachment-index-post-thumbnail wp-post-image".*?\/><\/a>', link, re.M|re.DOTALL)
 #	print Fromurl
 
 	#print match
@@ -382,7 +383,8 @@ def SelectUrl(html, url):
 			available_source.append('Playwire Video')
 		defaultlinks='Dailymotion Video|Tune Video|Playwire Video'.split('|')
 		defaultLinkType=selfAddon.getSetting( "DefaultVideoType" ) 
-		if defaultLinkType is None: defaultLinkType='0'
+		if defaultLinkType is None or defaultLinkType == '':
+			defaultLinkType='0'
 		print defaultLinkType
 		defaultLinkType = defaultlinks[int(defaultLinkType)]
 		print defaultLinkType
