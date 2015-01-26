@@ -44,3 +44,5 @@
 - Removed common
 [B]Version 2.4.0[/B]
 - Shows the list if the prefered video source is not available
+[B]Version 2.4.1[/B]
+- fix website changes, thanks to Kashiif@github
