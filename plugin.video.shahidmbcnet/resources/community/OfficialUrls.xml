@@ -1,5 +1,11 @@
 <streamingInfos>
-
+<streaminginfo>
+	<cname>Diwan</cname>
+	<item>
+	<title>Low</title>
+    	<link>http://87.101.228.11/m3ugen/mptslive/Directweb.mp4</link>
+	</item>
+</streaminginfo>
 <streaminginfo>
 	<cname>Fujairah</cname>
 	<item>
