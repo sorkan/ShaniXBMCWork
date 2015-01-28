@@ -1,5 +1,13 @@
 <channels>
 <channel>
+    <cname>Diwan</cname>
+    <imageurl>http://s17.postimg.org/6l7dc5363/logo.png</imageurl>
+    <enabled>True</enabled>
+    <assignedcategory>
+    <category>gulf</category>
+    </assignedcategory>
+</channel>
+<channel>
     <cname>Fujairah</cname>
     <imageurl>https://pbs.twimg.com/profile_images/1219775822/ftv.png</imageurl>
     <enabled>True</enabled>
