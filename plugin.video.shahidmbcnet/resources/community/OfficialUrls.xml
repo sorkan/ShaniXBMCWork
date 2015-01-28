@@ -1,5 +1,19 @@
 <streamingInfos>
 <streaminginfo>
+	<cname>GK</cname>
+	<item>
+	<title>360p</title>
+    <link>rtmp://64.150.177.45:1935/live/myStream timeout=20</link>
+	</item>
+</streaminginfo>
+<streaminginfo>
+	<cname>GK</cname>
+	<item>
+	<title>720p</title>
+    <link>rtmp://64.150.177.45:1935/live/myStream timeout=20</link>
+	</item>
+</streaminginfo>
+<streaminginfo>
 	<cname>Diwan</cname>
 	<item>
 	<title>Low</title>
