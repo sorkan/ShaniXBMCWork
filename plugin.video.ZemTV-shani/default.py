@@ -163,40 +163,42 @@ def AddEnteries(type):
 
 def AddChannelsFromOthers():
     main_ch='(<section_name>Pakistani<\/section_name>.*?<\/section>)'
-    patt='<channel><channel_number>.*?<channel_name>(.+?[^<])</channel_name><channel_type>(.+?)</channel_type>.*?[^<"]<channel_url>(.*?)</channel_url></channel>'
-    url="http://ferrarilb.jemtv.com/index.php/2_2/gxml/channel_list/1"
-    req = urllib2.Request(url)
-    req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
-    response = urllib2.urlopen(req)
-    link=response.read()
-    response.close()
+    patt='<item><name>(.*?)<.*?<link>(.*?)<.*?albumart>(.*?)<'
+    url=base64.b64decode("aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbC9pdGVtcy8xMzE0LyVkLw==")
+    match=[]
+    
+    pageIndex=0
+    while True:
+        newUrl=url%pageIndex
+        pageIndex+=24
+        req = urllib2.Request(newUrl)
+        req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+        response = urllib2.urlopen(req)
+        link=response.read()
+        response.close()
+        totalcountPattern='<totalitems>(.*?)<'
+        totalcount =int(re.findall(totalcountPattern,link)[0])
+        
+        #match =re.findall(main_ch,link)[0]
+        matchtemp =re.findall(patt,link)
+        match+=matchtemp
+        if pageIndex>totalcount:
+            break
 
-    match =re.findall(main_ch,link)[0]
-    match =re.findall(patt,match)
-    if not any('News One' == x[0] for x in match):
-        match.append(('News One','manual','http://dag.total-stream.net/dag1.asx?id=ad1!newsone'))
-    match.append(('Ary news (manual)','manual','http://dag.total-stream.net/dag1.asx?id=ad1!arynews'))
-    match.append(('Express news (manual)','manual','http://dag.total-stream.net/dag1.asx?id=ad1!expressnews'))
-    match.append(('Geo news (manual)','manual','http://dag.total-stream.net/dag1.asx?id=jdp!geonewsap'))
-    match.append(('Ary Zindagi','manual','http://live.aryzindagi.tv/'))
-    match.append(('ETV Urdu','manual','etv'))
-    match.append(('Tez','manual','http://dag.total-stream.net/dag1.asx?id=ad1!tez'))
-
-    match.append((base64.b64decode('U2t5IFNwb3J0IDE='),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMTY=')))
-
-    match.append((base64.b64decode('U2t5IFNwb3J0IDI='),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMjY=')))
-
-    match.append((base64.b64decode('U2t5IFNwb3J0IDQ='),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMTU=')))
-
+    match.append((base64.b64decode('U2t5IFNwb3J0IDE='),base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMTY='),''))
+    match.append((base64.b64decode('U2t5IFNwb3J0IDI='),base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMjY='),''))
+    match.append((base64.b64decode('U2t5IFNwb3J0IDQ='),base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMTU='),''))
+    match.append(('ETV Urdu','etv',''))
+    match.append(('Ary Zindagi','http://live.aryzindagi.tv/','http://www.aryzindagi.tv/wp-content/uploads/2014/10/Final-logo-2.gif'))
 ##other v2
-    match.append((base64.b64decode('U2tpIFNwb3J0IDEgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTEgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ==')))
-    match.append((base64.b64decode('U2tpIFNwb3J0IDIgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTIgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ==')))
-    match.append((base64.b64decode('U2tpIFNwb3J0IDMgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTMgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ==')))
-    match.append((base64.b64decode('U2tpIFNwb3J0IDQgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTQgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ==')))
-    match.append((base64.b64decode('U2tpIFNwb3J0IDUgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTUgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ==')))
-    match.append((base64.b64decode('U2tpIFNwb3J0IEYxIFYy'),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreWYxIHBhZ2VVcmw9aHR0cDovL3d3dy5oZGNhc3Qub3JnLyB0b2tlbj0jeXcldHQjd0Bra3U=')))
+    match.append((base64.b64decode('U2tpIFNwb3J0IDEgVjI='),base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTEgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
+    match.append((base64.b64decode('U2tpIFNwb3J0IDIgVjI='),base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTIgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
+    match.append((base64.b64decode('U2tpIFNwb3J0IDMgVjI='),base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTMgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
+    match.append((base64.b64decode('U2tpIFNwb3J0IDQgVjI='),base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTQgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
+    match.append((base64.b64decode('U2tpIFNwb3J0IDUgVjI='),base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTUgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
+    match.append((base64.b64decode('U2tpIFNwb3J0IEYxIFYy'),base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreWYxIHBhZ2VVcmw9aHR0cDovL3d3dy5oZGNhc3Qub3JnLyB0b2tlbj0jeXcldHQjd0Bra3U='),''))
 
-
+#    print match
 
 
     #for s in [92,104,126,127,133,136,137,168,169,173,177,218,219,230,234,236,242,249,250,251,252,253,262,268,278,280,286,288,307,308,318,336,341,362,363,373,382,404,411,412,417,418,422,428,464,529,531,533,535,537,539,567,569,573,614,620,621,624,625,626,627,628,629,674,676,683,692,693,697,702,703,728,729,745,746,748,752,753,764,840,909,]:
@@ -208,9 +210,10 @@ def AddChannelsFromOthers():
 
 #    match=sorted(match,key=itemgetter(0)   )
     match=sorted(match,key=lambda s: s[0].lower()   )
-    for cname, ctype,curl in match:
-        if ctype<>'liveWMV':
-            addDir(Colored(cname.capitalize(),'ZM') ,curl ,11,'', False, True,isItFolder=False)		#name,url,mode,icon
+    for cname,curl,imgurl in match:
+        if 1==1:# ctype=='liveWMV' or ctype=='manual':
+            print curl
+            addDir(Colored(cname.capitalize(),'ZM') ,curl ,11,imgurl, False, True,isItFolder=False)		#name,url,mode,icon
     return
     
 def re_me(data, re_patten):
