@@ -1,5 +1,12 @@
 <channels>
-
+<channel>
+    <cname>Fujairah</cname>
+    <imageurl>https://pbs.twimg.com/profile_images/1219775822/ftv.png</imageurl>
+    <enabled>True</enabled>
+    <assignedcategory>
+    <category>gulf</category>
+    </assignedcategory>
+</channel>
 <channel>
     <cname>Misr Alaan</cname>
     <imageurl>http://www.lyngsat-logo.com/hires/mm/misr_alaan_eg.png</imageurl>
