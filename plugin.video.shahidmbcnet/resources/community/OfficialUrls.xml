@@ -1,4 +1,12 @@
 <streamingInfos>
+
+<streaminginfo>
+	<cname>Fujairah</cname>
+	<item>
+	<title>Low</title>
+    	<link>rtmp://ccfz.dyndns.org:4425/mc2014/mc2014 swfUrl=http://www.fujtv.ae/player.swf pageUrl=http://www.fujtv.ae/ live=1 timeout=20</link>
+	</item>
+</streaminginfo>
 <streaminginfo>
 	<cname>Misr Alaan</cname>
 	<item>
