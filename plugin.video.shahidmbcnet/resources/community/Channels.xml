@@ -1,5 +1,13 @@
 <channels>
 <channel>
+    <cname>GK</cname>
+    <imageurl>http://www.lyngsat-logo.com/logo/tv/gg/gk_channel.png</imageurl>
+    <enabled>True</enabled>
+    <assignedcategory>
+    <category>Iraq</category>
+    </assignedcategory>
+</channel>
+<channel>
     <cname>Diwan</cname>
     <imageurl>http://s17.postimg.org/6l7dc5363/logo.png</imageurl>
     <enabled>True</enabled>
