@@ -23,4 +23,5 @@
 	<file fname="TelvzaUrls.xml"/> 
 	<file fname="../settings.xml" /> 
 	<file fname="../../default.py" /> 
+	<file fname="iptvplanetUrls.xml" /> 
 </resources>
