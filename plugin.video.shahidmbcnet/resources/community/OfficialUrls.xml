@@ -1,4 +1,20 @@
 <streamingInfos>
+
+<streaminginfo>
+	<cname>Aldar</cname>
+	<item>
+    	<title>low</title>
+    	<link>rtmp://live.wmncdn.net/aldartv/72781e965e0681e980034a778ee7067b.sdp swfUrl=http://player-emea-uk.webmobilive.com/jw/player.swf pageUrl=http://www.aldarmedia.ae/live live=1 timeout=20</link>
+	</item>
+</streaminginfo>
+<streaminginfo>
+	<cname>Aldar</cname>
+	<item>
+    	<title>Med</title>
+    	<link>rtmp://live.wmncdn.net/aldartv/bbb19eae240ec100af921d511efc86a0.sdp swfUrl=http://player-emea-uk.webmobilive.com/jw/player.swf pageUrl=http://www.aldarmedia.ae/live live=1 timeout=20</link>
+	</item>
+</streaminginfo>
+
 <streaminginfo>
 	<cname>GK</cname>
 	<item>
