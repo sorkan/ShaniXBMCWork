@@ -730,7 +730,8 @@ def replaceGLArabVariables(link, d,gcid):
             sessionserver=sessionpage.split(':')[0].replace(':2077','')
 
         else:        
-            sessionpage=getUrl('http://www.glarab.com/ajax.aspx?stream=live&type=reg&ppoint=%s'%videoPath,cookieJar)
+            header=[('X-hello-data','you-are-allow'),('Referer','http://www.glarab.com/player.aspx')]
+            sessionpage=getUrl('http://www.glarab.com/ajax.aspx?stream=live&type=reg&ppoint=%s'%videoPath,cookieJar,headers=header)
             print sessionpage
             session=sessionpage.split('|')[1]
             sessionserver=sessionpage.split('|')[2].replace(':2077','')
