@@ -729,8 +729,14 @@ def replaceGLArabVariables(link, d,gcid):
             session=sessionpage.split(':')[2]
             sessionserver=sessionpage.split(':')[0].replace(':2077','')
 
-        else:        
-            header=[('X-hello-data','you-are-allow'),('Referer','http://www.glarab.com/player.aspx')]
+        else:
+            hell_pat='hello-data", "(.*?)"'
+            header=[('Referer','http://www.glarab.com/homepage.aspx')]
+            hellHtml=getUrl('http://www.glarab.com/js/glapi.ashx ',cookieJar,headers=header)
+
+            hello_data=re.compile(hell_pat).findall(hellHtml)[0] 
+            header=[('X-hello-data',hello_data),('Referer','http://www.glarab.com/player.aspx')]
+            
             sessionpage=getUrl('http://www.glarab.com/ajax.aspx?stream=live&type=reg&ppoint=%s'%videoPath,cookieJar,headers=header)
             print sessionpage
             session=sessionpage.split('|')[1]
