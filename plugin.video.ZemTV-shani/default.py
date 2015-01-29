@@ -213,7 +213,7 @@ def AddChannelsFromOthers():
     for cname,curl,imgurl in match:
         if 1==1:# ctype=='liveWMV' or ctype=='manual':
             print curl
-            addDir(Colored(cname.capitalize(),'ZM') ,curl ,11,imgurl, False, True,isItFolder=False)		#name,url,mode,icon
+            addDir(Colored(cname.capitalize(),'ZM') ,base64.b64encode(curl) ,11,imgurl, False, True,isItFolder=False)		#name,url,mode,icon
     return
     
 def re_me(data, re_patten):
@@ -259,6 +259,7 @@ def get_dag_url(page_data):
     return final_url
     
 def PlayOtherUrl ( url ):
+    url=base64.b64decode(url)
     progress = xbmcgui.DialogProgress()
     progress.create('Progress', 'Fetching Streaming Info')
     progress.update( 10, "", "Finding links..", "" )
