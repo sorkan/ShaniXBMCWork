@@ -1,3 +1,5 @@
+<streamingInfos>
+
 <streaminginfo>
 	<cname>Abu Dhabi</cname>
 	<item>
@@ -411,3 +413,4 @@
 		<link>rtmp://web.iptv-planet.com:1936/live2 playpath=Hi_zeeaflem swfUrl=http://iptv-planet.com/swfs/player.swf pageUrl=http://iptv-planet.com/</link>
 	</item>
 </streaminginfo>
+</streamingInfos>

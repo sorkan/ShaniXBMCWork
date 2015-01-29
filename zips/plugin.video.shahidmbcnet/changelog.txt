@@ -1,3 +1,6 @@
+[B]Version 3.4.8[/B]
+Added new source iptvplanet thanks to allouch89@github
+
 [B]Version 3.4.7[/B]
 fix the icons issues for geoblocked users(channels)
 
