@@ -1,5 +1,13 @@
 <channels>
 <channel>
+    <cname>Aldar</cname>
+    <imageurl>http://www.aldarmedia.ae/site/logo-new.png</imageurl>
+    <enabled>True</enabled>
+    <assignedcategory>
+    <category>gulf</category>
+    </assignedcategory>
+</channel>
+<channel>
     <cname>GK</cname>
     <imageurl>http://www.lyngsat-logo.com/logo/tv/gg/gk_channel.png</imageurl>
     <enabled>True</enabled>
