@@ -6499,15 +6499,6 @@
             </assignedcategory>
     </channel>
     <channel>
-        <cname>Al Nahar Drama</cname>
-        <imageurl>http://i1064.photobucket.com/albums/u379/zombiB/nhreg_zps67cbfc95.png</imageurl>
-        <enabled>True</enabled>
-        <assignedcategory>
-            <category>drama</category>
-            <category>egypt</category>
-            </assignedcategory>
-    </channel>
-    <channel>
         <cname>Al Oula Inter</cname>
         <imageurl></imageurl>
         <enabled>True</enabled>
