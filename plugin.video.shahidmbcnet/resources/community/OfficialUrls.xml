@@ -1,5 +1,18 @@
 <streamingInfos>
-
+<streaminginfo>
+	<cname>Atlas Music</cname>
+	<item>
+    	<title>rtmp360</title>
+    	<link>rtmp://live.ditve.tv:1935/atlasmusique/atlasmusique.stream_360p swfUrl=http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf pageUrl=http://www.atlasmusic.tv/ timeout=20</link>
+	</item>
+</streaminginfo>
+<streaminginfo>
+	<cname>Atlas Music</cname>
+	<item>
+    	<title>360</title>
+	<link>http://live.ditve.tv:1935/atlasmusique/atlasmusique.stream_360hp/playlist.m3u8</link>
+	</item>
+</streaminginfo>
 <streaminginfo>
 	<cname>Aldar</cname>
 	<item>
