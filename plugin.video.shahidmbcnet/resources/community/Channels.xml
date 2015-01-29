@@ -6488,6 +6488,49 @@
             <category>Drama</category>
             </assignedcategory>
     </channel>
+    
+    <channel>
+        <cname>Alhayat Drama</cname>
+        <imageurl>http://i1064.photobucket.com/albums/u379/zombiB/hyt2_zps5a349a8c.png</imageurl>
+        <enabled>True</enabled>
+        <assignedcategory>
+            <category>drama</category>
+            <category>egypt</category>
+            </assignedcategory>
+    </channel>
+    <channel>
+        <cname>Al Nahar Drama</cname>
+        <imageurl>http://i1064.photobucket.com/albums/u379/zombiB/nhreg_zps67cbfc95.png</imageurl>
+        <enabled>True</enabled>
+        <assignedcategory>
+            <category>drama</category>
+            <category>egypt</category>
+            </assignedcategory>
+    </channel>
+    <channel>
+        <cname>Al Oula Inter</cname>
+        <imageurl></imageurl>
+        <enabled>True</enabled>
+        <assignedcategory>
+            <category>ent</category>
+            </assignedcategory>
+    </channel>
+    <channel>
+        <cname>Attounsiya</cname>
+        <imageurl></imageurl>
+        <enabled>True</enabled>
+        <assignedcategory>
+            <category>tunis</category>
+            </assignedcategory>
+    </channel>
+    <channel>
+        <cname>Drama 2</cname>
+        <imageurl></imageurl>
+        <enabled>True</enabled>
+        <assignedcategory>
+            <category>drama</category>
+            </assignedcategory>
+    </channel>
 
 
 
