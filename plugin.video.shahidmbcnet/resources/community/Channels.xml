@@ -6498,8 +6498,60 @@
             <category>egypt</category>
             </assignedcategory>
     </channel>
+<<<<<<< HEAD
 
 
+=======
+    <channel>
+        <cname>Royal Secrets</cname>
+        <imageurl>http://www.lyngsat-logo.com/logo/tv/rr/royal_secrets_sa.png</imageurl>
+        <enabled>True</enabled>
+        <assignedcategory>
+            <category>drama</category>
+            </assignedcategory>
+    </channel>
+    <channel>
+        <cname>OCS Choc</cname>
+        <imageurl>http://www.lyngsat-logo.com/logo/tv/oo/ocs_choc.png</imageurl>
+        <enabled>True</enabled>
+        <assignedcategory>
+            <category>French</category>
+            </assignedcategory>
+    </channel>
+    <channel>
+        <cname>BFM Business</cname>
+        <imageurl>http://www.lyngsat-logo.com/logo/tv/bb/bfm_business.png</imageurl>
+        <enabled>True</enabled>
+        <assignedcategory>
+            <category>French</category>
+            </assignedcategory>
+    </channel>
+    <channel>
+        <cname>SRF 1</cname>
+        <imageurl>http://www.lyngsat-logo.com/logo/tv/ss/srf_1_ch.png</imageurl>
+        <enabled>True</enabled>
+        <assignedcategory>
+            <category>French</category>
+            </assignedcategory>
+    </channel>
+    <channel>
+        <cname>SRF 2</cname>
+        <imageurl>http://www.lyngsat-logo.com/logo/tv/ss/srf_2_ch.png</imageurl>
+        <enabled>True</enabled>
+        <assignedcategory>
+            <category>French</category>
+            </assignedcategory>
+    </channel>
+    <channel>
+        <cname>Sens TV</cname>
+        <imageurl>http://www.lyngsat-logo.com/logo/tv/ss/sens_tv.png</imageurl>
+        <enabled>True</enabled>
+        <assignedcategory>
+            <category>drama</category>
+            </assignedcategory>
+    </channel>
+    
+>>>>>>> 909cca02b37778e356c4b9971582738900b7828d
 
 
 
