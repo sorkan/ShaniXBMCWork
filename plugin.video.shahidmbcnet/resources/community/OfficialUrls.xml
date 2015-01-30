@@ -1403,7 +1403,7 @@
 	<cname>Halab Today</cname>
 	<item>
 	<title>SD</title>
-	<link>rtmp://tulip.wowzacontrol.com:1935/8010/8010 swfUrl=http://www.tootvs.com/streaming/FLVplayer_Custom.swf pageUrl=http://halabtoday.org/ live=1 timeout=20</link>
+	<link>rtmp://streaming.tootvs.com:1935/8010/8010 live=1 timeout=20</link>
 	</item>
 </streaminginfo>
 <streaminginfo>
@@ -2151,7 +2151,7 @@
    	<cname>Alqudis</cname>
 	<item>
 	<title>Low</title>
-	<link>rtmp://196.205.23.142:1935/livepkgr/livestream?adbe-live-event=liveevent swfUrl=http://www.qudstv.com/player.swf pageUrl=http://www.qudstv.com/LiveFeed.aspx live=1 timeout=20</link>
+	<link>rtmp://www.qudstv.com:1935/livepkgr/livestream?adbe-live-event=liveevent live=1 timeout=20</link>
 	</item>
 </streaminginfo>
 
