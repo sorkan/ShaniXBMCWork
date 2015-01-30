@@ -1,3 +1,6 @@
+Version 1.5.4
+minor change in vipracing for ilive
+
 Version 1.5.3
 added a function to parse ads in hls m38 file ferrari
 
