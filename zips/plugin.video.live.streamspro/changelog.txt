@@ -1,3 +1,6 @@
+Version 1.5.5
+added zemtv addon in ignore setsolved list, thanks to gujal and alibaba, a quick fix in iphonetv_url function
+
 Version 1.5.4
 minor change in vipracing for ilive
 
