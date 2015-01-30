@@ -2094,7 +2094,7 @@
     <cname>Alkitab</cname>
 	<item>
 	<title>Low</title>
-	<link>rtmp://egservers.com/alkitab.live playpath=mp4:mystream.mp4 swfUrl=http://www.alkitab.ps/live/player.swf pageUrl=http://www.alkitab.ps/live/ live=1 timeout=20</link>
+	<link>rtmp://176.58.79.15:1936/live/ALKITAB?token=CO66W6RKGL1CW3AjF-iG9w&amp;e=1422809181 live=1 timeout=20</link>
 	</item>
 </streaminginfo>
 <streaminginfo>
