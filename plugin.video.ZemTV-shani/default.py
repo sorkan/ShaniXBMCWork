@@ -165,54 +165,70 @@ def AddChannelsFromOthers():
     main_ch='(<section_name>Pakistani<\/section_name>.*?<\/section>)'
     patt='<item><name>(.*?)<.*?<link>(.*?)<.*?albumart>(.*?)<'
     url=base64.b64decode("aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbC9pdGVtcy8xMzE0LyVkLw==")
-    match=[]
-    
+    match=[]    
     pageIndex=0
-    while True:
-        newUrl=url%pageIndex
-        pageIndex+=24
-        req = urllib2.Request(newUrl)
+    try:
+        while True:
+            newUrl=url%pageIndex
+            pageIndex+=24
+            req = urllib2.Request(newUrl)
+            req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+            response = urllib2.urlopen(req)
+            link=response.read()
+            response.close()
+            totalcountPattern='<totalitems>(.*?)<'
+            totalcount =int(re.findall(totalcountPattern,link)[0])
+            
+            #match =re.findall(main_ch,link)[0]
+            matchtemp =re.findall(patt,link)
+            for cname,curl,imgurl in matchtemp:
+                match.append((cname,'plus',curl,imgurl))
+            #match+=matchtemp
+            if pageIndex>totalcount:
+                break
+    except: pass
+    try:
+        patt='<channel><channel_number>.*?<channel_name>(.+?[^<])</channel_name><channel_type>(.+?)</channel_type>.*?[^<"]<channel_url>(.*?)</channel_url></channel>'
+        url=base64.b64decode("aHR0cDovL2ZlcnJhcmlsYi5qZW10di5jb20vaW5kZXgucGhwLzJfMi9neG1sL2NoYW5uZWxfbGlzdC8x")
+        req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
         response = urllib2.urlopen(req)
         link=response.read()
         response.close()
-        totalcountPattern='<totalitems>(.*?)<'
-        totalcount =int(re.findall(totalcountPattern,link)[0])
         
-        #match =re.findall(main_ch,link)[0]
-        matchtemp =re.findall(patt,link)
-        match+=matchtemp
-        if pageIndex>totalcount:
-            break
+        match_temp =re.findall(main_ch,link)[0]
+        match_temp=re.findall(patt,match_temp)
+        for cname,ctype,curl in match_temp:
+            match.append((cname,ctype,curl,''))
 
-    match.append((base64.b64decode('U2t5IFNwb3J0IDE='),base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMTY='),''))
-    match.append((base64.b64decode('U2t5IFNwb3J0IDI='),base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMjY='),''))
-    match.append((base64.b64decode('U2t5IFNwb3J0IDQ='),base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMTU='),''))
-    match.append(('ETV Urdu','etv',''))
-    match.append(('Ary Zindagi','http://live.aryzindagi.tv/','http://www.aryzindagi.tv/wp-content/uploads/2014/10/Final-logo-2.gif'))
+        match +=re.findall(patt,match_temp)
+    except: pass
+        
+    
+    match.append((base64.b64decode('U2t5IFNwb3J0IDE='),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMTY='),''))
+    match.append((base64.b64decode('U2t5IFNwb3J0IDI='),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMjY='),''))
+    match.append((base64.b64decode('U2t5IFNwb3J0IDQ='),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMTU='),''))
+    match.append(('ETV Urdu','manual','etv',''))
+    match.append(('Ary Zindagi','manual','http://live.aryzindagi.tv/','http://www.aryzindagi.tv/wp-content/uploads/2014/10/Final-logo-2.gif'))
 ##other v2
-    match.append((base64.b64decode('U2tpIFNwb3J0IDEgVjI='),base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTEgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
-    match.append((base64.b64decode('U2tpIFNwb3J0IDIgVjI='),base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTIgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
-    match.append((base64.b64decode('U2tpIFNwb3J0IDMgVjI='),base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTMgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
-    match.append((base64.b64decode('U2tpIFNwb3J0IDQgVjI='),base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTQgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
-    match.append((base64.b64decode('U2tpIFNwb3J0IDUgVjI='),base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTUgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
-    match.append((base64.b64decode('U2tpIFNwb3J0IEYxIFYy'),base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreWYxIHBhZ2VVcmw9aHR0cDovL3d3dy5oZGNhc3Qub3JnLyB0b2tlbj0jeXcldHQjd0Bra3U='),''))
+    match.append((base64.b64decode('U2tpIFNwb3J0IDEgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTEgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
+    match.append((base64.b64decode('U2tpIFNwb3J0IDIgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTIgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
+    match.append((base64.b64decode('U2tpIFNwb3J0IDMgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTMgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
+    match.append((base64.b64decode('U2tpIFNwb3J0IDQgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTQgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
+    match.append((base64.b64decode('U2tpIFNwb3J0IDUgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTUgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
+    match.append((base64.b64decode('U2tpIFNwb3J0IEYxIFYy'),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreWYxIHBhZ2VVcmw9aHR0cDovL3d3dy5oZGNhc3Qub3JnLyB0b2tlbj0jeXcldHQjd0Bra3U='),''))
 
 #    print match
 
 
-    #for s in [92,104,126,127,133,136,137,168,169,173,177,218,219,230,234,236,242,249,250,251,252,253,262,268,278,280,286,288,307,308,318,336,341,362,363,373,382,404,411,412,417,418,422,428,464,529,531,533,535,537,539,567,569,573,614,620,621,624,625,626,627,628,629,674,676,683,692,693,697,702,703,728,729,745,746,748,752,753,764,840,909,]:
-    #    match.append((str(s),'manual','http://ferrarilb.jemtv.com/index.php/2_2/gxml/play/'+str(s)))
-
-#    for s in [104,108,109,111,130,131,133,135,136,137,139,140,175,177,179,191,193,204,206,231,234,246,289,296,305,313,314,315,316,317,318,319,320,321,322,323,324,325,326,328,329,330,331,332,333,334,335,337,338,355,356,368,370,372,373,380,381,400,401,434,435,444,446,452,455,457,458,476,477,487,500,508,509,510,516,517,569,615,617,621,643,645,655,723,732,744,780,784,823,827,872,875,881,907,910,911,912,913]:
-#        match.append(('ZZTest '+str(s),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8=')+str(s)))
 
 
 #    match=sorted(match,key=itemgetter(0)   )
     match=sorted(match,key=lambda s: s[0].lower()   )
-    for cname,curl,imgurl in match:
-        if 1==1:# ctype=='liveWMV' or ctype=='manual':
-            print curl
+    for cname,ctype,curl,imgurl in match:
+        if ctype=='liveWMV' or ctype=='manual':
+#            print curl
+            #if ctype<>'': cname+= '[' + ctype+']'
             addDir(Colored(cname.capitalize(),'ZM') ,base64.b64encode(curl) ,11,imgurl, False, True,isItFolder=False)		#name,url,mode,icon
     return
     
@@ -287,7 +303,7 @@ def PlayOtherUrl ( url ):
         dag_url =re.findall(curlpatth,link)[0]
     elif 'dag1.asx' not in url and 'hdcast.org' not in url:
         req = urllib2.Request(url)
-        #req.add_header('User-Agent', 'Verismo-BlackUI_(2.4.7.5.8.0.34)')   
+        req.add_header('User-Agent', 'Verismo-BlackUI_(2.4.7.5.8.0.34)')   
         #req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
         response = urllib2.urlopen(req)
         link=response.read()
