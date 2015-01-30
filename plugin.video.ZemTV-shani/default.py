@@ -189,7 +189,7 @@ def AddChannelsFromOthers():
     except: pass
     try:
         patt='<channel><channel_number>.*?<channel_name>(.+?[^<])</channel_name><channel_type>(.+?)</channel_type>.*?[^<"]<channel_url>(.*?)</channel_url></channel>'
-        url=base64.b64decode("aHR0cDovL2ZlcnJhcmlsYi5qZW10di5jb20vaW5kZXgucGhwLzJfMi9neG1sL2NoYW5uZWxfbGlzdC8x")
+        url=base64.b64decode("aHR0cDovL2ZlcnJhcmlsYi5qZW10di5jb20vaW5kZXgucGhwLzJfNC9neG1sL2NoYW5uZWxfbGlzdA==")
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
         response = urllib2.urlopen(req)
@@ -217,6 +217,12 @@ def AddChannelsFromOthers():
     match.append((base64.b64decode('U2tpIFNwb3J0IDQgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTQgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
     match.append((base64.b64decode('U2tpIFNwb3J0IDUgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTUgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
     match.append((base64.b64decode('U2tpIFNwb3J0IEYxIFYy'),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreWYxIHBhZ2VVcmw9aHR0cDovL3d3dy5oZGNhc3Qub3JnLyB0b2tlbj0jeXcldHQjd0Bra3U='),''))
+    match.append(('Ary digital','manual','cid:475',''))
+    match.append(('Ary digital','manual','cid:981',''))
+    match.append(('Ary digital Europe','manual','cid:587',''))
+    match.append(('Ary digital World','manual','cid:589',''))
+    match.append(('Ary News','manual','cid:474',''))
+    match.append(('Ary News World','manual','cid:591',''))
 
 #    print match
 
@@ -226,8 +232,8 @@ def AddChannelsFromOthers():
 #    match=sorted(match,key=itemgetter(0)   )
     match=sorted(match,key=lambda s: s[0].lower()   )
     for cname,ctype,curl,imgurl in match:
-        if ctype=='liveWMV' or ctype=='manual':
-#            print curl
+        if 1==1:#ctype=='liveWMV' or ctype=='manual':
+            print curl
             #if ctype<>'': cname+= '[' + ctype+']'
             addDir(Colored(cname.capitalize(),'ZM') ,base64.b64encode(curl) ,11,imgurl, False, True,isItFolder=False)		#name,url,mode,icon
     return
@@ -276,6 +282,7 @@ def get_dag_url(page_data):
     
 def PlayOtherUrl ( url ):
     url=base64.b64decode(url)
+    if url.startswith('cid:'): url=base64.b64decode('aHR0cDovL2ZlcnJhcmlsYi5qZW10di5jb20vaW5kZXgucGhwLzJfNC9neG1sL3BsYXkvJXM=')%url.replace('cid:','')
     progress = xbmcgui.DialogProgress()
     progress.create('Progress', 'Fetching Streaming Info')
     progress.update( 10, "", "Finding links..", "" )
@@ -310,6 +317,8 @@ def PlayOtherUrl ( url ):
         curlpatth='<link>(.*?)<\/link>'
         progress.update( 50, "", "Preparing url..", "" )
         dag_url =re.findall(curlpatth,link)
+        if '[CDATA' in dag_url:
+            dag_url=dag_url.split('CDATA[')[1].split(']')[0]#
         if not (dag_url and len(dag_url)>0 ):
             curlpatth='\<ENTRY\>\<REF HREF="(.*?)"'
             dag_url =re.findall(curlpatth,link)[0]
@@ -319,6 +328,9 @@ def PlayOtherUrl ( url ):
         if 'hdcast.org' in url:
             direct=True
         dag_url=url
+    if '[CDATA' in dag_url:
+        dag_url=dag_url.split('CDATA[')[1].split(']')[0]#
+
     print 'dag_url',dag_url,name
     
     if 'Dunya news' in name and 'dag1.asx' not in dag_url:
