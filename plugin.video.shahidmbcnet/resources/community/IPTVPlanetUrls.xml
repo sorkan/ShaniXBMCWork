@@ -50,7 +50,7 @@
 	</item>
 </streaminginfo>
 <streaminginfo>
-	<cname>Al Oula Inter</cname>
+	<cname>Al oula Maroc</cname>
 	<item>
 		<title>High</title>
 		<link>rtmp://web.iptv-planet.com:1936/live2 playpath=Hi_AlAoulainter swfUrl=http://iptv-planet.com/swfs/player.swf pageUrl=http://iptv-planet.com/</link>
@@ -99,7 +99,7 @@
 	</item>
 </streaminginfo>
 <streaminginfo>
-	<cname>Attounsiya</cname>
+	<cname>Al Hiwar Ettounsi</cname>
 	<item>
 		<title>High</title>
 		<link>rtmp://web.iptv-planet.com:1936/live2 playpath=at swfUrl=http://iptv-planet.com/swfs/player.swf pageUrl=http://iptv-planet.com/</link>
@@ -176,7 +176,7 @@
 	</item>
 </streaminginfo>
 <streaminginfo>
-	<cname>Drama 2</cname>
+	<cname>Dream 2</cname>
 	<item>
 		<title>High</title>
 		<link>rtmp://web.iptv-planet.com:1936/live2 playpath=drama2 swfUrl=http://iptv-planet.com/swfs/player.swf pageUrl=http://iptv-planet.com/</link>
