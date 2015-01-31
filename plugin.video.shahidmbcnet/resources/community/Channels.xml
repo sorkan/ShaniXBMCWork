@@ -4318,10 +4318,10 @@
     </channel>
 <channel>
         <cname>Nart</cname>
-        <imageurl></imageurl>
+        <imageurl>http://www.lyngsat-logo.com/hires/nn/national_adiga_rtv.png</imageurl>
         <enabled>True</enabled>
         <assignedcategory>
-            <category>kids</category>
+        <category>kids</category>
         </assignedcategory>
     </channel>
 
@@ -4865,7 +4865,7 @@
 	
 	<channel>
         <cname>Karameesh</cname>
-        <imageurl>https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t1.0-1/c22.22.276.276/p320x320/1176322_553192081414676_893267265_n.jpg</imageurl>
+        <imageurl>http://www.lyngsat-logo.com/hires/kk/karameesh.png</imageurl>
         <enabled>True</enabled>
         <assignedcategory>
             <category>kids</category>
@@ -5574,7 +5574,7 @@
 	
 	<channel>
         <cname>SM SM KIDS</cname>
-        <imageurl>https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/c12.12.155.155/1186794_532214620178823_985146457_a.png</imageurl>
+        <imageurl>http://www.lyngsat-logo.com/hires/ss/semsem_tv.png</imageurl>
         <enabled>True</enabled>
         <assignedcategory>
             <category>kids</category>
