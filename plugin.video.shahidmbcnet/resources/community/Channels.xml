@@ -1,4 +1,21 @@
 <channels>
+
+<channel>
+	<cname>Dar Qamar Kids</cname>
+	<imageurl>http://www.lyngsat-logo.com/hires/dd/dar_al_qamar.png</imageurl>
+	<enabled>True</enabled>
+	<assignedcategory>
+	<category>kids</category>
+	</assignedcategory>
+</channel>
+<channel>
+	<cname>Canary Kids</cname>
+	<imageurl>http://www.brq1.com/upload/uploads/images/albrq.net-8fa142b260.jpg</imageurl>
+	<enabled>True</enabled>
+	<assignedcategory>
+	<category>kids</category>
+	</assignedcategory>
+</channel>
 <channel>
     <cname>AlJameela</cname>
     <imageurl>http://www.lyngsat-logo.com/logo/tv/aa/al_jameela_tv.png</imageurl>
