@@ -147,6 +147,36 @@ def Addtypes():
 
 def AddSports(url):
 	addDir('Smartcric' ,'Live' ,14,'')
+#	addDir('Watchcric' ,'http://www.watchcric.net/' ,16,'') blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosata
+
+def AddWatchCric(url):
+    req = urllib2.Request(url)
+    req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36')
+    response = urllib2.urlopen(req)
+    link=response.read()
+    response.close()
+    patt='<h1>(.*?)\s*</h1>(.*?)</div>'
+    match_url =re.findall(patt,link,re.DOTALL)
+    
+    patt_sn='sn = "(.*?)"'
+    for nm,div in match_url:
+            curl=''
+            cname=nm.split('<')[0]
+            pat_options='<li><a href="(.*?)">(.*?)<'
+            match_options =re.findall(pat_options,div)
+            addDir(cname ,curl ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+            if match_options and len(match_options)>0:
+                for u,n in match_options:
+                    if not u.startswith('htt'):u=url+u
+                    curl=u                
+                    addDir('    -'+n ,curl ,17,'', False, True,isItFolder=False)		#name,url,mode,icon
+            else:
+                cname='No streams available'
+                curl=''
+                addDir('    -'+cname ,curl ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+                
+
+
 
 def AddSmartCric(url):
     req = urllib2.Request('http://www.smartcric.com/')
@@ -195,6 +225,63 @@ def AddSmartCric(url):
 
     return
 
+def PlayWatchCric(url):
+    pat_ifram='<iframe.*?src=(.*?).?"?>'    
+    req = urllib2.Request(url)
+    req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+    response = urllib2.urlopen(req)
+    link=response.read()
+    response.close()
+    match_url =re.findall(pat_ifram,link)[0]
+    req = urllib2.Request(match_url)
+    req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+    req.add_header('Referer', url)
+    response = urllib2.urlopen(req)
+    link=response.read()
+    response.close()
+    
+    pat_js='channel=\'(.*?)\''
+    match_urljs =re.findall(pat_js,link)[0]
+    width='480'
+    height='380'
+    pat_e=' e=\'(.*?)\';'
+    match_e =re.findall(pat_e,link)[0]
+        
+    match_urljs='http://www.mipsplayer.com/embedplayer/'+match_urljs+'/'+match_e+'/'+width+'/'+height
+    
+    req = urllib2.Request(match_urljs)
+    req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+    req.add_header('Referer', match_url)
+    response = urllib2.urlopen(req)
+    link=response.read()
+    response.close()
+    
+    pat_flash='FlashVars\',.?\'(.*?)\''
+    match_flash =re.findall(pat_flash,link)[0]
+    matchid=match_flash.split('id=')[1].split('&')[0]
+    
+    lb_url='http://www.mipsplayer.com:1935/loadbalancer?%s'%matchid
+        
+    req = urllib2.Request(lb_url)
+    req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+    req.add_header('Referer', match_urljs)
+    response = urllib2.urlopen(req)
+    link=response.read()
+    response.close()
+    ip=link.split('=')[1]
+    
+
+    sid=match_flash.split('s=')[1].split('&')[0]
+    
+    url='rtmp://%s/live playpath=%s?id=%s pageUrl=%s swfUrl=http://www.mipsplayer.com/content/scripts/fplayer.swf Conn=S:OK timeout=20'%(ip,sid,matchid,match_urljs)
+    print url
+    playlist = xbmc.PlayList(1)
+    playlist.clear()
+    listitem = xbmcgui.ListItem( label = str(name), iconImage = "DefaultVideo.png", thumbnailImage = xbmc.getInfoImage( "ListItem.Thumb" ) )
+    playlist.add(url,listitem)
+    xbmcPlayer = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
+    xbmcPlayer.play(playlist) 
+    
 def PlaySmartCric(url):
     playlist = xbmc.PlayList(1)
     playlist.clear()
@@ -1039,6 +1126,12 @@ try:
 	elif mode==15 :
 		print "Play url is "+url
 		PlaySmartCric(url)
+	elif mode==16 :
+		print "Play url is "+url
+		AddWatchCric(url)
+	elif mode==17 :
+		print "Play url is "+url
+		PlayWatchCric(url)
 
         
         

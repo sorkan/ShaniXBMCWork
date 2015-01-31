@@ -46,3 +46,5 @@
 - Shows the list if the prefered video source is not available
 [B]Version 2.4.1[/B]
 - fix website changes, thanks to Kashiif@github
+[B]Version 2.4.2[/B]
+- fix website changes, all episodes and tune.pk url fix, thanks to Kashiif@github
