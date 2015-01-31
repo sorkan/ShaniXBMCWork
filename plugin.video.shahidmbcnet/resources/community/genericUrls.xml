@@ -3510,7 +3510,7 @@
 <streaminginfo>
     <cname>Cartoon Network FR</cname>
 	<item>
-	<title>Arabic-Toons</title>
+	<title>Cartoons</title>
 	<link>$doregex[rtmp] flashVer=WIN%2015,0,0,152 swfUrl=http://www.arabic-toons.com/flowplayer-3.2.7.swf pageUrl=http://www.arabic-toons.com live=1 timeout=15</link>
 	<regex>
 	<name>rtmp</name>
@@ -3529,7 +3529,7 @@
 <streaminginfo>
     <cname>Canary Kids</cname>
 	<item>
-	<title>Arabic-Toons</title>
+	<title>Cartoons</title>
 	<link>$doregex[rtmp] flashVer=WIN%2015,0,0,152 swfUrl=http://www.arabic-toons.com/flowplayer-3.2.7.swf pageUrl=http://www.arabic-toons.com live=1 timeout=15</link>
 	<regex>
 	<name>rtmp</name>
@@ -3540,6 +3540,61 @@
 	<name>encoded</name>
 	<expres>escape..([^\']*)</expres>
 	<page>http://www.arabic-toons.com/Canary-Kids-en-direct-live.html</page>
+	<ignorecache/>
+	</regex>
+	</item>
+</streaminginfo>
+<streaminginfo>
+    <cname>Baynounah</cname>
+	<item>
+	<title>Cartoons</title>
+	<link>$doregex[rtmp] flashVer=WIN%2015,0,0,152 swfUrl=http://www.arabic-toons.com/flowplayer-3.2.7.swf pageUrl=http://www.arabic-toons.com live=1 timeout=15</link>
+	<regex>
+	<name>rtmp</name>
+	<expres>url: "(rtmp.*?)"</expres>
+	<page>$doregex[encoded]</page>
+	</regex>
+	<regex>
+	<name>encoded</name>
+	<expres>escape..([^\']*)</expres>
+	<page>http://www.arabic-toons.com/Baynounah-en-direct-live.html</page>
+	<ignorecache/>
+	</regex>
+	</item>
+</streaminginfo>
+<streaminginfo>
+    <cname>Dar Qamar Kids</cname>
+	<item>
+	<title>Cartoons</title>
+	<link>$doregex[rtmp] flashVer=WIN%2015,0,0,152 swfUrl=http://www.arabic-toons.com/flowplayer-3.2.7.swf pageUrl=http://www.arabic-toons.com live=1 timeout=15</link>
+	<regex>
+	<name>rtmp</name>
+	<expres>url: "(rtmp.*?)"</expres>
+	<page>$doregex[encoded]</page>
+	</regex>
+	<regex>
+	<name>encoded</name>
+	<expres>escape..([^\']*)</expres>
+	<page>http://www.arabic-toons.com/Dar-Qamar-Kids-en-direct-live.html</page>
+	<ignorecache/>
+	</regex>
+	</item>
+</streaminginfo>
+
+<streaminginfo>
+    <cname>Disney HD</cname>
+	<item>
+	<title>Cartoons</title>
+	<link>$doregex[rtmp] flashVer=WIN%2015,0,0,152 swfUrl=http://www.arabic-toons.com/flowplayer-3.2.7.swf pageUrl=http://www.arabic-toons.com live=1 timeout=15</link>
+	<regex>
+	<name>rtmp</name>
+	<expres>url: "(rtmp.*?)"</expres>
+	<page>$doregex[encoded]</page>
+	</regex>
+	<regex>
+	<name>encoded</name>
+	<expres>escape..([^\']*)</expres>
+	<page>http://www.arabic-toons.com/Disney-HD-en-direct-live.html</page>
 	<ignorecache/>
 	</regex>
 	</item>
