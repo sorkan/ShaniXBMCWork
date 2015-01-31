@@ -133,14 +133,34 @@ def AddSeries(Fromurl):
 	else:
 		match =re.findall(regstring, link, re.M|re.DOTALL)
 	#match=re.compile('<a href="(.*?)"targe.*?<img.*?alt="(.*?)" src="(.*?)"').findall(link)
-	print match
+	#print '\n'.join([str(x) for x in match])
+
+
+	print 'optiontype %s' % optiontype
+
 
 
 	for cname in match:
+
+		item_name = name_from_re = cname[optiontype-1]
+
+		name_from_url = cname[0].rstrip('/').split('/')
+		# get last part of url
+		name_from_url = name_from_url[-1].replace('-', ' ')
+
+		#print '%s - %s' % (item_name, name_from_url)
+
+		if (name_from_url.lower() != name_from_re.lower()):
+			item_name = name_from_url
+
+		item_name = item_name.replace('Watch ', '').replace('watch ', '').title()
+
+		print item_name
+
 		if optiontype==2:
-			addDir(cname[1] ,cname[0] ,3,cname[2])#url,name,jpg#name,url,mode,icon
+			addDir(item_name, cname[0], 3, cname[2])#url,name,jpg#name,url,mode,icon
 		else:
-			addDir(cname[0] ,cname[1] ,3,cname[2])#name,url,img
+			addDir(item_name, cname[1], 3, cname[2])#name,url,img
 		
 #	<a href="http://www.zemtv.com/page/2/">&gt;</a></li>
 #	match =re.findall('<a href="(.*)">&gt;<\/a><\/li>', link, re.IGNORECASE)
