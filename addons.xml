@@ -182,13 +182,13 @@
 
 <addon id="plugin.video.ZemTV-shani"
        name="ZemTV.com"
-       version="3.2.3"
+       version="3.2.4"
        provider-name="shani">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
 	<import addon="script.module.urlresolver" version="1.0.0"/>
 	<import addon="plugin.video.youtube" version="2.9.2"/>
-
+       <import addon="script.module.simplejson" />
   </requires>
   <extension point="xbmc.python.pluginsource"
             library="default.py">

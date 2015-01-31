@@ -6,7 +6,11 @@ import xbmcaddon
 from operator import itemgetter
 import traceback
 import base64
-
+try:
+    import json
+except:
+    import simplejson as json
+    
 __addon__       = xbmcaddon.Addon()
 __addonname__   = __addon__.getAddonInfo('name')
 __icon__        = __addon__.getAddonInfo('icon')
@@ -49,10 +53,10 @@ def addDir(name,url,mode,iconimage,showContext=False,showLiveContext=False,isItF
 	if linkType:
 		u="XBMC.RunPlugin(%s&linkType=%s)" % (u, linkType)
 		
-	if showLiveContext==True:
-		cmd1 = "XBMC.RunPlugin(%s&linkType=%s)" % (u, "RTMP")
-		cmd2 = "XBMC.RunPlugin(%s&linkType=%s)" % (u, "HTTP")
-		liz.addContextMenuItems([('Play RTMP Steam (flash)',cmd1),('Play Http Stream (ios)',cmd2)])
+#	if showLiself.wfileveContext==True:
+#		cmd1 = "XBMC.RunPlugin(%s&linkType=%s)" % (u, "RTMP")
+#		cmd2 = "XBMC.RunPlugin(%s&linkType=%s)" % (u, "HTTP")
+#		liz.addContextMenuItems([('Play RTMP Steam (flash)',cmd1),('Play Http Stream (ios)',cmd2)])
 	
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=isItFolder)
 	return ok
@@ -137,9 +141,68 @@ def DisplayChannelNames(url):
 def Addtypes():
 	addDir('Shows' ,'Shows' ,2,'')
 	addDir('Live Channels' ,'Live' ,2,'')
+	addDir('Sports' ,'Live' ,13,'')
 	addDir('Settings' ,'Live' ,6,'',isItFolder=False)
 	return
 
+def AddSports(url):
+	addDir('Smartcric' ,'Live' ,14,'')
+
+def AddSmartCric(url):
+    req = urllib2.Request('http://www.smartcric.com/')
+    req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+    response = urllib2.urlopen(req)
+    link=response.read()
+    response.close()
+    patt='performGet\(\'(.+)\''
+    match_url =re.findall(patt,link)[0]
+    
+    patt_sn='sn = "(.*?)"'
+
+    match_sn =re.findall(patt_sn,link)[0]
+    final_url=  match_url+   match_sn
+    req = urllib2.Request(final_url)
+    req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+    response = urllib2.urlopen(req)
+    link=response.read()
+    response.close()
+    sources = json.loads(link)
+
+    addDir('Refresh' ,'Live' ,144,'')
+    
+    for source in sources["channelsList"]:
+        if 1==1:#ctype=='liveWMV' or ctype=='manual':
+            print source
+            curl=''
+            cname=source["caption"]
+            fms=source["fmsUrl"]
+            print curl
+            #if ctype<>'': cname+= '[' + ctype+']'
+            addDir(cname ,curl ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+            if 'streamsList' in source and source["streamsList"] and len(source["streamsList"])>0:
+                for s in source["streamsList"]:
+                    cname=s["caption"]
+                    curl=s["streamName"]
+                    curl="http://"+fms+":1935/mobile/"+curl+"/playlist.m3u8?"+match_sn+"";
+                    addDir('    -'+cname ,curl ,15,'', False, True,isItFolder=False)		#name,url,mode,icon
+            else:
+                cname='No streams available'
+                curl=''
+                addDir('    -'+cname ,curl ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+                
+    addDir('Refresh' ,'Live' ,144,'')
+            
+
+    return
+
+def PlaySmartCric(url):
+    playlist = xbmc.PlayList(1)
+    playlist.clear()
+    listitem = xbmcgui.ListItem( label = str(name), iconImage = "DefaultVideo.png", thumbnailImage = xbmc.getInfoImage( "ListItem.Thumb" ) )
+    playlist.add(url,listitem)
+    xbmcPlayer = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
+    xbmcPlayer.play(playlist) 
+        
 def AddEnteries(type):
 #	print "addenT"
 	if type=='Shows':
@@ -967,10 +1030,25 @@ try:
 	elif mode==6 :
 		print "Play url is "+url
 		ShowSettings(url)
+	elif mode==13 :
+		print "Play url is "+url
+		AddSports(url)
+	elif mode==14 or mode==144:
+		print "Play url is "+url
+		AddSmartCric(url)
+	elif mode==15 :
+		print "Play url is "+url
+		PlaySmartCric(url)
+
+        
+        
 except:
 	print 'somethingwrong'
 	traceback.print_exc(file=sys.stdout)
 	
 
-if not ( (mode==3 or mode==4 or mode==9 or mode==11)  )  :
-	xbmcplugin.endOfDirectory(int(sys.argv[1]))
+if not ( (mode==3 or mode==4 or mode==9 or mode==11 or mode==15)  )  :
+	if mode==144:
+		xbmcplugin.endOfDirectory(int(sys.argv[1]),updateListing=True)
+	else:
+		xbmcplugin.endOfDirectory(int(sys.argv[1]))

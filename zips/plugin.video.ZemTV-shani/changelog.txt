@@ -93,3 +93,5 @@ B]Version 3.2.2[/B]
 - quick fix, with whatever is available.
 B]Version 3.2.3[/B]
 - quick fix, with better link
+B]Version 3.2.4[/B]
+- quick fix, with better link
