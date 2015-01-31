@@ -333,16 +333,20 @@ def getDailyMotionUrl(html, short):
 
 def getTuneTvUrl(html, short):
 	try:
-		match =re.findall('<strong>Tune\s*[fU]ull<\/strong>\s*.*?src="(.*?)"',html)
-		playURL=match[0]
-		print playURL
+		# Find the first match
+		playURL =re.search('<strong>Tune\s*[Ff]ull<\/strong>\s*.*?src="(.+embed_player.php\?vid=(\d+).*?)"',html)
+		print 'getTuneTvUrl: %s' % playURL
 		if short:
 			return playURL
-		pattern='src="(.*?(embed.tune).*?)"'
-		link=getHtml(playURL)
-		match =re.findall(pattern,link)
-		playURL=match[0][0]
+
+		if playURL is None:
+			return None
+
+		print 'match: ' + playURL.group(1)
+
+		playURL= 'http://embed.tune.pk/play/%s?autoplay=no&ssl=no' % playURL.group(2)
 		print playURL
+
 		link=getHtml(playURL)
 		pattern='file":"(.*?)"'
 		match =re.findall(pattern,link)
