@@ -3508,7 +3508,7 @@
 	</item>
 </streaminginfo>
 <streaminginfo>
-    <cname>Cartoon Network FR</cname>
+    <cname>CN FR</cname>
 	<item>
 	<title>Cartoons</title>
 	<link>$doregex[rtmp] flashVer=WIN%2015,0,0,152 swfUrl=http://www.arabic-toons.com/flowplayer-3.2.7.swf pageUrl=http://www.arabic-toons.com live=1 timeout=15</link>
