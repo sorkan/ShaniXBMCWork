@@ -3545,7 +3545,7 @@
 	</item>
 </streaminginfo>
 <streaminginfo>
-    <cname>Baynounah</cname>
+    <cname>Baynouna</cname>
 	<item>
 	<title>Cartoons</title>
 	<link>$doregex[rtmp] flashVer=WIN%2015,0,0,152 swfUrl=http://www.arabic-toons.com/flowplayer-3.2.7.swf pageUrl=http://www.arabic-toons.com live=1 timeout=15</link>
@@ -3582,7 +3582,7 @@
 </streaminginfo>
 
 <streaminginfo>
-    <cname>Disney HD</cname>
+    <cname>Disney</cname>
 	<item>
 	<title>Cartoons</title>
 	<link>$doregex[rtmp] flashVer=WIN%2015,0,0,152 swfUrl=http://www.arabic-toons.com/flowplayer-3.2.7.swf pageUrl=http://www.arabic-toons.com live=1 timeout=15</link>
