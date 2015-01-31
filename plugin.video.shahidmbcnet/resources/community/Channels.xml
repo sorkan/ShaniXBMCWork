@@ -3995,8 +3995,8 @@
         <imageurl>http://www.gwenael.org/xbmc-streams/images/channels/502.png</imageurl>
         <enabled>True</enabled>
         <assignedcategory>
-            <category>kids</category>
-			<category>french</category>
+         <category>kids</category>
+	<category>french</category>
         </assignedcategory>
     </channel>
 
@@ -6338,14 +6338,7 @@
             <category>french</category>
             </assignedcategory>
     </channel>
-    <channel>
-        <cname>Cartoon Network FR</cname>
-        <imageurl>http://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Cartoon_Network_2010_logo.svg/langfr-170px-Cartoon_Network_2010_logo.svg.png</imageurl>
-        <enabled>True</enabled>
-        <assignedcategory>
-            <category>french</category>
-            </assignedcategory>
-    </channel>
+
     <channel>
         <cname>Cine Emotion</cname>
         <imageurl>http://www.lyngsat-logo.com/logo/tv/cc/cine_cinema_emotion.jpg</imageurl>
