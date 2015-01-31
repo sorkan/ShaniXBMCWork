@@ -1,6 +1,20 @@
 <streamingInfos>
 
 <streaminginfo>
+    <cname>Mecca</cname>
+	<item>
+	<title>low: You need to install f4m_tester addon from Shani Repo</title>
+	<link>plugin://plugin.video.f4mTester/?url=http://streamer11.elementssys.com:8080/mecca/archive/1422705314/now/manifest.f4m</link>
+	</item>
+</streaminginfo>
+<streaminginfo>
+    <cname>Mecca</cname>
+	<item>
+	<title>Med: You need to install f4m_tester addon from Shani Repo</title>
+	<link>plugin://plugin.video.f4mTester/?url=http://streamer11.elementssys.com:8080/mecca/archive/1422705471/now/manifest.f4m</link>
+	</item>
+</streaminginfo>
+<streaminginfo>
 	<cname>AlJameela</cname>
 	<item>
     	<title>low</title>
