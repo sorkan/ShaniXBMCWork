@@ -206,7 +206,7 @@ def AddEnteries(Fromurl):
 #	match =re.findall('<img src="(.*?)" alt=".*".+<\/a>\n*.+<div class="post-title"><a href="(.*?)".*<b>(.*)<\/b>', link, re.UNICODE)
 #	print Fromurl
 #	match =re.findall('<div class="videopart">\s*<div class="paneleft">\s*<a class="pthumb" href="(.*?)" title="(.*?)".*?img.*?src="(.*?)" class="attachment-index-post-thumbnail wp-post-image"', link, re.M|re.DOTALL)
-	match =re.findall('<div class="video_thumnail_hover" href="#">\s*<a class="pthumb" href="(.*?)" title="(.*?)" ><img alt="" src=".*?hover_bg.png"><\/a>\s*<\/div>\s*<a class="pthumb"\s+href=".*?" title=".*?" ><span></span>\s*<img width="128" height="102" src="(.*?)" class="attachment-index-post-thumbnail wp-post-image".*?\/><\/a>', link, re.M|re.DOTALL)
+	match =re.findall('<div class="video_thumnail_hover" href="#">\s*<a class="pthumb" href="(.*?)" title="(.*?)" ><img alt="" src=".*?hover_bg.png"><\/a>\s*<\/div>\s*<a class="pthumb"\s+href=".*?" title=".*?" ><span><\/span>\s*<img width="\d+" height="\d+" src="(.*?)" class="attachment-index-post-thumbnail wp-post-image".*?\/><\/a>', link, re.M|re.DOTALL)
 #	print Fromurl
 
 	#print match
@@ -333,16 +333,20 @@ def getDailyMotionUrl(html, short):
 
 def getTuneTvUrl(html, short):
 	try:
-		match =re.findall('<strong>Tune\s*[fU]ull<\/strong>\s*.*?src="(.*?)"',html)
-		playURL=match[0]
-		print playURL
+		# Find the first match
+		playURL =re.search('<strong>Tune\s*[Ff]ull<\/strong>\s*.*?src="(.+embed_player.php\?vid=(\d+).*?)"',html)
+		print 'getTuneTvUrl: %s' % playURL
 		if short:
 			return playURL
-		pattern='src="(.*?(embed.tune).*?)"'
-		link=getHtml(playURL)
-		match =re.findall(pattern,link)
-		playURL=match[0][0]
+
+		if playURL is None:
+			return None
+
+		print 'match: ' + playURL.group(1)
+
+		playURL= 'http://embed.tune.pk/play/%s?autoplay=no&ssl=no' % playURL.group(2)
 		print playURL
+
 		link=getHtml(playURL)
 		pattern='file":"(.*?)"'
 		match =re.findall(pattern,link)
