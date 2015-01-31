@@ -3411,7 +3411,7 @@
 	<regex>
 	<name>encoded</name>
 	<expres>escape..([^\']*)</expres>
-	<page>http://www.arabic-toons.com/Gulli-en-direct-live.htm</page>
+	<page>http://www.arabic-toons.com/Gulli-en-direct-live.html</page>
 	<ignorecache/>
 	</regex>
 	</item>
@@ -3507,5 +3507,41 @@
 	</regex>
 	</item>
 </streaminginfo>
+<streaminginfo>
+    <cname>Cartoon Network FR</cname>
+	<item>
+	<title>Arabic-Toons</title>
+	<link>$doregex[rtmp] flashVer=WIN%2015,0,0,152 swfUrl=http://www.arabic-toons.com/flowplayer-3.2.7.swf pageUrl=http://www.arabic-toons.com live=1 timeout=15</link>
+	<regex>
+	<name>rtmp</name>
+	<expres>url: "(rtmp.*?)"</expres>
+	<page>$doregex[encoded]</page>
+	</regex>
+	<regex>
+	<name>encoded</name>
+	<expres>escape..([^\']*)</expres>
+	<page>http://www.arabic-toons.com/Cartoon-Network-FR-en-direct-live.html</page>
+	<ignorecache/>
+	</regex>
+	</item>
+</streaminginfo>
 
+<streaminginfo>
+    <cname>Canary Kids</cname>
+	<item>
+	<title>Arabic-Toons</title>
+	<link>$doregex[rtmp] flashVer=WIN%2015,0,0,152 swfUrl=http://www.arabic-toons.com/flowplayer-3.2.7.swf pageUrl=http://www.arabic-toons.com live=1 timeout=15</link>
+	<regex>
+	<name>rtmp</name>
+	<expres>url: "(rtmp.*?)"</expres>
+	<page>$doregex[encoded]</page>
+	</regex>
+	<regex>
+	<name>encoded</name>
+	<expres>escape..([^\']*)</expres>
+	<page>http://www.arabic-toons.com/Canary-Kids-en-direct-live.html</page>
+	<ignorecache/>
+	</regex>
+	</item>
+</streaminginfo>
 </streamingInfos>
