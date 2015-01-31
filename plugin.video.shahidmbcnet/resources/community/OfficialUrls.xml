@@ -1,4 +1,12 @@
 <streamingInfos>
+
+<streaminginfo>
+	<cname>Alaraby</cname>
+	<item>
+	<title>low</title>
+	<link>http://94.127.209.149:8080/Alaraby/Alaraby650/index.m3u8</link>
+	</item>
+</streaminginfo>
 <streaminginfo>
         <cname>Al Hiwar</cname>
 	<item>
