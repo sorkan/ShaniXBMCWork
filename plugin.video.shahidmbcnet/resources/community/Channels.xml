@@ -1,5 +1,14 @@
 <channels>
 <channel>
+    <cname>AlJameela</cname>
+    <imageurl>http://www.lyngsat-logo.com/logo/tv/aa/al_jameela_tv.png</imageurl>
+    <enabled>True</enabled>
+    <assignedcategory>
+	<category>islam</category>
+    <category>gulf</category>
+    </assignedcategory>
+</channel>
+<channel>
     <cname>Aldar</cname>
     <imageurl>http://www.aldarmedia.ae/site/logo-new.png</imageurl>
     <enabled>True</enabled>
