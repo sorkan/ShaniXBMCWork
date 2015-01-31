@@ -3599,4 +3599,22 @@
 	</regex>
 	</item>
 </streaminginfo>
+<streaminginfo>
+    <cname>Noon Kids</cname>
+	<item>
+	<title>Cartoons</title>
+	<link>$doregex[rtmp] flashVer=WIN%2015,0,0,152 swfUrl=http://www.arabic-toons.com/flowplayer-3.2.7.swf pageUrl=http://www.arabic-toons.com live=1 timeout=15</link>
+	<regex>
+	<name>rtmp</name>
+	<expres>url: "(rtmp.*?)"</expres>
+	<page>$doregex[encoded]</page>
+	</regex>
+	<regex>
+	<name>encoded</name>
+	<expres>escape..([^\']*)</expres>
+	<page>http://www.arabic-toons.com/Noon-tv-en-direct-live.html</page>
+	<ignorecache/>
+	</regex>
+	</item>
+</streaminginfo>
 </streamingInfos>
