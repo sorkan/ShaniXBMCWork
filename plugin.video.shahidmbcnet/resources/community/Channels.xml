@@ -1,5 +1,14 @@
 <channels>
-
+<channel>
+	<cname>Alaraby</cname>
+	<imageurl>http://s29.postimg.org/p1fbd7yw7/logo.png</imageurl>
+	<enabled>True</enabled>
+	<assignedcategory>
+	<category>drama</category>
+	<category>gulf</category>
+	<category>news</category>
+	</assignedcategory>
+</channel>
 <channel>
 	<cname>Dar Qamar Kids</cname>
 	<imageurl>http://www.lyngsat-logo.com/hires/dd/dar_al_qamar.png</imageurl>
