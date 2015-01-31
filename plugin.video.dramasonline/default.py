@@ -206,7 +206,7 @@ def AddEnteries(Fromurl):
 #	match =re.findall('<img src="(.*?)" alt=".*".+<\/a>\n*.+<div class="post-title"><a href="(.*?)".*<b>(.*)<\/b>', link, re.UNICODE)
 #	print Fromurl
 #	match =re.findall('<div class="videopart">\s*<div class="paneleft">\s*<a class="pthumb" href="(.*?)" title="(.*?)".*?img.*?src="(.*?)" class="attachment-index-post-thumbnail wp-post-image"', link, re.M|re.DOTALL)
-	match =re.findall('<div class="video_thumnail_hover" href="#">\s*<a class="pthumb" href="(.*?)" title="(.*?)" ><img alt="" src=".*?hover_bg.png"><\/a>\s*<\/div>\s*<a class="pthumb"\s+href=".*?" title=".*?" ><span></span>\s*<img width="128" height="102" src="(.*?)" class="attachment-index-post-thumbnail wp-post-image".*?\/><\/a>', link, re.M|re.DOTALL)
+	match =re.findall('<div class="video_thumnail_hover" href="#">\s*<a class="pthumb" href="(.*?)" title="(.*?)" ><img alt="" src=".*?hover_bg.png"><\/a>\s*<\/div>\s*<a class="pthumb"\s+href=".*?" title=".*?" ><span><\/span>\s*<img width="\d+" height="\d+" src="(.*?)" class="attachment-index-post-thumbnail wp-post-image".*?\/><\/a>', link, re.M|re.DOTALL)
 #	print Fromurl
 
 	#print match
