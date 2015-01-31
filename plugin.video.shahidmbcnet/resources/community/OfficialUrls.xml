@@ -1,4 +1,12 @@
 <streamingInfos>
+
+<streaminginfo>
+	<cname>AlJameela</cname>
+	<item>
+    	<title>low</title>
+    	<link>http://de.live.net.sa:1935/live/alj/playlist.m3u8</link>
+	</item>
+</streaminginfo>
 <streaminginfo>
 	<cname>Atlas Music</cname>
 	<item>
