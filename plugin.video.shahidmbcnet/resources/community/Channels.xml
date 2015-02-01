@@ -3166,15 +3166,33 @@
         </assignedcategory>
     </channel>
 
-    <channel>
+<channel>
         <cname>Abu Dhabi Sports 1</cname>
-        <imageurl>http://i1064.photobucket.com/albums/u379/zombiB/adsport_zps6accf9c9.png</imageurl>
+        <imageurl>http://s29.postimg.org/4mq9t51gn/abusport1l.png</imageurl>
         <enabled>True</enabled>
         <enabled>True</enabled>
         <assignedcategory>
-            <category>sports</category>
+         <category>sports</category>
         </assignedcategory>
-    </channel>
+</channel>
+<channel>
+        <cname>Abu Dhabi Sports 2</cname>
+        <imageurl>http://s4.postimg.org/lqap9r9zx/Abu_dhabi_sport2.jpg</imageurl>
+        <enabled>True</enabled>
+        <enabled>True</enabled>
+        <assignedcategory>
+         <category>sports</category>
+        </assignedcategory>
+</channel>
+<channel>
+        <cname>Abu Dhabi Extra HD</cname>
+        <imageurl>http://s8.postimg.org/v4vox465h/url.png</imageurl>
+        <enabled>True</enabled>
+        <enabled>True</enabled>
+        <assignedcategory>
+         <category>sports</category>
+        </assignedcategory>
+</channel>
 
     <channel>
         <cname>BEIN US</cname>
