@@ -3,8 +3,15 @@
 <streaminginfo>
 	<cname>Al oula Maroc</cname>
 	<item>
-		<title>High</title>
+		<title>High #1</title>
 		<link>rtmp://web.iptv-planet.com:1936/live2 playpath=Hi_adaloula swfUrl=http://iptv-planet.com/swfs/player.swf pageUrl=http://iptv-planet.com/ timeout=20</link>
+	</item>
+</streaminginfo>
+<streaminginfo>
+	<cname>Al oula Maroc</cname>
+	<item>
+		<title>High #2</title>
+		<link>rtmp://web.iptv-planet.com:1936/live2 playpath=Hi_AlAoulainter swfUrl=http://iptv-planet.com/swfs/player.swf pageUrl=http://iptv-planet.com/ timeout=20</link>
 	</item>
 </streaminginfo>
 <streaminginfo>
@@ -47,13 +54,6 @@
 	<item>
 		<title>High</title>
 		<link>rtmp://web.iptv-planet.com:1936/live2 playpath=alnahardrama swfUrl=http://iptv-planet.com/swfs/player.swf pageUrl=http://iptv-planet.com/ timeout=20</link>
-	</item>
-</streaminginfo>
-<streaminginfo>
-	<cname>Al oula Maroc</cname>
-	<item>
-		<title>High</title>
-		<link>rtmp://web.iptv-planet.com:1936/live2 playpath=Hi_AlAoulainter swfUrl=http://iptv-planet.com/swfs/player.swf pageUrl=http://iptv-planet.com/ timeout=20</link>
 	</item>
 </streaminginfo>
 <streaminginfo>
