@@ -1,4 +1,29 @@
 <streamingInfos>
+<streaminginfo>
+<cname>Sada Al Balad</cname>
+<item>
+<title>Albalad youtube Direct</title>
+<link>$doregex[getQualityLink]|Cookie=$get_cookies$</link>
+<regex>
+<name>getQualityLink</name>
+<expres>RESOLUTION=640x360\s*(.*?)\s</expres>
+<page>$doregex[nuetralizeLink]</page>
+<cookieJar></cookieJar>
+</regex>
+<regex>
+<name>nuetralizeLink</name>
+<expres>$pyFunction:'$doregex[getlink]'.replace('\\','')</expres>
+<page></page>
+</regex>
+<regex>
+<name>getlink</name>
+<expres>hlsvp":"(.*?)"</expres>
+<page>https://www.youtube.com/watch?v=jI3sR82er8I</page>
+<cookieJar></cookieJar>
+</regex>
+</item>
+</streaminginfo>
+
 
 <streaminginfo>
 	<cname>Alaraby</cname>
