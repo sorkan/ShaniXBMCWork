@@ -1,3 +1,7 @@
+[B]Version 2.4.3[/B]
+- fix website changes, more tv channels and their streams ,plus retry and switching to different sources,many thanks to Kashiif@github
+
+
 [B]Version 1.0[/B]
 - First version 1
 
@@ -48,3 +52,4 @@
 - fix website changes, thanks to Kashiif@github
 [B]Version 2.4.2[/B]
 - fix website changes, all episodes and tune.pk url fix, thanks to Kashiif@github
+reversed order see at the top
