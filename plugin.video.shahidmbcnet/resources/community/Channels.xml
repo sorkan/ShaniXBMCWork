@@ -1,7 +1,7 @@
 <channels>
 <channel>
 	<cname>Al Fursan</cname>
-	<imageurl></imageurl>
+	<imageurl>http://www.jascomediacity.net/images/New/partners/AlfursanTV.jpg</imageurl>
 	<enabled>True</enabled>
 	<assignedcategory>
 	<category>gulf</category>
@@ -9,7 +9,7 @@
 </channel>
 <channel>
 	<cname>Burhan</cname>
-	<imageurl></imageurl>
+	<imageurl>http://s3.postimg.org/xwuq2ia73/burhan.png</imageurl>
 	<enabled>True</enabled>
 	<assignedcategory>
 	<category>islam</category>
@@ -25,14 +25,7 @@
 	</assignedcategory>
 </channel>
 
-<channel>
-	<cname>Libya Alrasmya</cname>
-	<imageurl></imageurl>
-	<enabled>True</enabled>
-	<assignedcategory>
-	<category>lyb</category>
-	</assignedcategory>
-</channel>
+
 <channel>
 	<cname>Libya Toumast</cname>
 	<imageurl>http://s13.postimg.org/bj0z3eorr/fousan_n.jpg</imageurl>
