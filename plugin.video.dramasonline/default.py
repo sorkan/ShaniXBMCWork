@@ -304,16 +304,49 @@ def Colored(text = '', colorid = '', isBold = False):
 	return '[COLOR ' + color + ']' + text + '[/COLOR]'	
 
 def getPlaywireUrl(html, short):
+	playURL = None
+	newFormat = False
+
 	try:
 		match =re.findall('src=".*?(playwire).*?data-publisher-id="(.*?)"\s*data-video-id="(.*?)"',html)
-		playURL=match[0]
+
+		if len(match):
+			playURL=match[0]
+
+		else:
+			# try new links
+			str = '<script data-config="http...config.playwire.com.(\d+)\/videos.v2.(\d+)\/'
+			match =re.findall(str, html)
+
+			if len(match):
+				newFormat = True
+				playURL=match[0]
+
 		print playURL
 		if short:
 			return playURL
-		(playWireVar,PubId,videoID)=playURL
-		cdnUrl="http://cdn.playwire.com/v2/%s/config/%s.json"%(PubId,videoID)
-		link=getHtml(cdnUrl)
-		playURL ="http://cdn.playwire.com/%s/%s"%(PubId,re.findall('src":".*?mp4:(.*?)"', link)[0])
+
+		if playURL is None:
+			return None
+
+		if newFormat:
+			(PubId,videoID)=playURL
+
+			cdnUrl="http://config.playwire.com/%s/videos/v2/%s/manifest.f4m" % (PubId,videoID)
+			link=getHtml(cdnUrl)
+
+			str = '<baseURL>\s*(.+)\s*</baseURL>\s*<media url="(.+)" bitrate'
+			match =re.findall(str, link)[0]
+
+			playURL ="%s/%s"%(match[0], match[1])
+
+		else:
+			(playWireVar,PubId,videoID)=playURL
+			cdnUrl="http://cdn.playwire.com/v2/%s/config/%s.json"%(PubId,videoID)
+			link=getHtml(cdnUrl)
+			playURL ="http://cdn.playwire.com/%s/%s"%(PubId,re.findall('src":".*?mp4:(.*?)"', link)[0])
+
+		print 'Final playURL: %s' % playURL
 		return playURL
 
 	except:
@@ -330,6 +363,7 @@ def getDailyMotionUrl(html, short):
 		stream_url = urlresolver.HostedMediaFile(playURL).resolve()
 		return stream_url
 	except:
+		print 'Error fetching DailyMotion stream url'
 		traceback.print_exc(file=sys.stdout)
 		return None
 
@@ -375,7 +409,7 @@ def SelectUrl(html, url):
 		available_source=[]
 		print 'selecting Url'
 		mainUrl=getDailyMotionUrl(html,True)
-		print 'selected Url',mainUrl
+		print 'selected Url: %s' % mainUrl
 
 		if (mainUrl):
 			available_source.append('Dailymotion Video')
@@ -387,7 +421,7 @@ def SelectUrl(html, url):
 		mainUrl=getPlaywireUrl(html,True)
 		if (mainUrl):
 			available_source.append('Playwire Video')
-		defaultlinks='Dailymotion Video|Tune Video|Playwire Video'.split('|')
+		defaultlinks=['Dailymotion Video', 'Tune Video', 'Playwire Video']
 		defaultLinkType=selfAddon.getSetting( "DefaultVideoType" ) 
 		if defaultLinkType is None or defaultLinkType == '':
 			defaultLinkType='0'
@@ -395,27 +429,9 @@ def SelectUrl(html, url):
 		defaultLinkType = defaultlinks[int(defaultLinkType)]
 		print defaultLinkType
 
-		print 'available_source',available_source
+		print 'available_source: %s' % available_source
 		if len(available_source)>0:
-			index=0
-			if len(available_source)>1:
-				print 'defaultLinkType',defaultLinkType
-				if not defaultLinkType in available_source:
-					dialog = xbmcgui.Dialog()
-					index = dialog.select('Choose your source', available_source)
-				else:
-					index=available_source.index(defaultLinkType)
-			if index > -1:
-				linkType=available_source[index]
-				line1 = "Finding links from "+linkType
-				xbmc.executebuiltin('Notification(%s, %s, %d, %s)'%(__addonname__,line1, 2000, __icon__))
-				print 'linkType',linkType
-				if 'Dailymotion Video'==linkType:
-					return getDailyMotionUrl(html,False)
-				if 'Tune Video'==linkType:
-					return getTuneTvUrl(html,False)
-				if 'Playwire Video'==linkType:
-					return getPlaywireUrl(html,False)
+			return _play_from_available_sources(defaultLinkType, available_source, html)
 		else:
 			line1 = "No sources found"
 			xbmc.executebuiltin('Notification(%s, %s, %d, %s)'%(__addonname__,line1, 2000, __icon__))
@@ -423,8 +439,39 @@ def SelectUrl(html, url):
 	except:
 		traceback.print_exc(file=sys.stdout)
 		return None
-		
-		
+
+def _play_from_available_sources(defaultLinkType, available_source, html):
+	index=0
+	if len(available_source)>1:
+		print 'defaultLinkType: %s' % defaultLinkType
+		if not defaultLinkType in available_source:
+			dialog = xbmcgui.Dialog()
+			index = dialog.select('Choose your source', available_source)
+		else:
+			index=available_source.index(defaultLinkType)
+	if index > -1:
+		linkType=available_source[index]
+		line1 = "Finding links from "+linkType
+		xbmc.executebuiltin('Notification(%s, %s, %d, %s)'%(__addonname__,line1, 2000, __icon__))
+		print 'linkType: %s' % linkType
+
+		ret = None
+
+		if 'Dailymotion Video'==linkType:
+			ret = getDailyMotionUrl(html,False)
+		elif 'Tune Video'==linkType:
+			ret = getTuneTvUrl(html,False)
+		elif 'Playwire Video'==linkType:
+			ret = getPlaywireUrl(html,False)
+
+		if not ret and len(available_source) > 1:
+			# try next available source
+			available_source.remove(defaultLinkType)
+
+			return _play_from_available_sources(available_source[0], available_source, html)
+
+		return ret
+
 def PlayShowLink ( url ): 
 #	url = tabURL.replace('%s',channelName);
 	line1 = "Finding links"
@@ -437,6 +484,9 @@ def PlayShowLink ( url ):
 	response.close()
 #	print url
 	urlToPlay=SelectUrl(link, url)
+
+	print 'urlToPlay: %s' % urlToPlay
+
 	if urlToPlay:
 		playlist = xbmc.PlayList(1)
 		playlist.clear()
@@ -454,8 +504,8 @@ def PlayShowLink ( url ):
  	defaultLinkType=0 #0 youtube,1 DM,2 tunepk
 	defaultLinkType=selfAddon.getSetting( "DefaultVideoType" ) 
 	#print defaultLinkType
-	#print "LT link is" + linkType
-	# if linktype is not provided then use the defaultLinkType
+	#print "LT link is" ;8+ linkType
+	# if linktype is no;t provided then use the defaultLinkType
 	linkType="LINK"
 	if linkType=="DM" or (linkType=="" and defaultLinkType=="1"):
 		#print "PlayDM"
