@@ -3,21 +3,66 @@
 	<cname>Abu Dhabi Sports 1</cname>
 	<item>
 	<title>Low</title>
-	<link>http://205.185.216.10/h5f3k7p8/cds/smil:adsport1hd/gmswf.m3u8</link>
+	<link>http://205.185.216.10/h5f3k7p8/cds/smil:adsport1hd/chunklist_b440000.m3u8</link>
+	</item>
+</streaminginfo>
+<streaminginfo>
+	<cname>Abu Dhabi Sports 1</cname>
+	<item>
+	<title>Med</title>
+	<link>http://205.185.216.10/h5f3k7p8/cds/smil:adsport1hd/chunklist_b528000.m3u8</link>
+	</item>
+</streaminginfo>
+<streaminginfo>
+	<cname>Abu Dhabi Sports 1</cname>
+	<item>
+	<title>High</title>
+	<link>http://205.185.216.10/h5f3k7p8/cds/smil:adsport1hd/chunklist_b880000.m3u8</link>
+	</item>
+</streaminginfo>
+
+
+<streaminginfo>
+	<cname>Abu Dhabi Sports 2</cname>
+	<item>
+	<title>Low</title>
+	<link>http://205.185.216.10/h5f3k7p8/cds/smil:adsport2hd/chunklist_b440000.m3u8</link>
 	</item>
 </streaminginfo>
 <streaminginfo>
 	<cname>Abu Dhabi Sports 2</cname>
 	<item>
+	<title>Med</title>
+	<link>http://205.185.216.10/h5f3k7p8/cds/smil:adsport2hd/chunklist_b528000.m3u8</link>
+	</item>
+</streaminginfo>
+<streaminginfo>
+	<cname>Abu Dhabi Sports 2</cname>
+	<item>
+	<title>High</title>
+	<link>http://205.185.216.10/h5f3k7p8/cds/smil:adsport2hd/chunklist_b880000.m3u8</link>
+	</item>
+</streaminginfo>
+
+<streaminginfo>
+	<cname>Abu Dhabi Extra HD</cname>
+	<item>
 	<title>Low</title>
-	<link>http://205.185.216.10/h5f3k7p8/cds/smil:adsport2hd/gmswf.m3u8</link>
+	<link>http://205.185.216.10/h5f3k7p8/cds/smil:adsportextrahd/chunklist_b440000.m3u8</link>
 	</item>
 </streaminginfo>
 <streaminginfo>
 	<cname>Abu Dhabi Extra HD</cname>
 	<item>
-	<title>Low</title>
-	<link>http://205.185.216.10/h5f3k7p8/cds/smil:adsportextrahd/gmswf.m3u8</link>
+	<title>Med</title>
+	<link>http://205.185.216.10/h5f3k7p8/cds/smil:adsportextrahd/chunklist_b528000.m3u8</link>
+	</item>
+</streaminginfo>
+<streaminginfo>
+	<cname>Abu Dhabi Extra HD</cname>
+	<item>
+	<title>High</title>
+	<link>http://205.185.216.10/h5f3k7p8/cds/smil:adsportextrahd/chunklist_b880000.m3u8</link>
 	</item>
 </streaminginfo>
 
