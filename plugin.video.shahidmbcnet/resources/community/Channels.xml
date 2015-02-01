@@ -1,5 +1,13 @@
 <channels>
 <channel>
+	<cname>Libya International</cname>
+	<imageurl>http://s11.postimg.org/nqqziyzdf/libya_aldawliya.jpg</imageurl>
+	<enabled>True</enabled>
+	<assignedcategory>
+	<category>lyb</category>
+	</assignedcategory>
+</channel>
+<channel>
 	<cname>Alaraby</cname>
 	<imageurl>http://s29.postimg.org/p1fbd7yw7/logo.png</imageurl>
 	<enabled>True</enabled>
