@@ -926,6 +926,7 @@ def getRegexParsed(regexs, url,cookieJar=None,forCookieJarOnly=False,recursiveCa
 
                         link = response.read()
                         link=javascriptUnEscape(link)
+                        print link
                         if 'includeheaders' in m:
                             link+=str(response.headers.get('Set-Cookie'))
 
@@ -944,7 +945,7 @@ def getRegexParsed(regexs, url,cookieJar=None,forCookieJarOnly=False,recursiveCa
                             link=val
                         else:
                             link=m['page']
-                if '$pyFunction:playmedia(' in m['expre'] or  any(x in url for x in g_ignoreSetResolved):
+                if '$pyFunction:playmedia(' in m['expre'] or 'ActivateWindow'  in m['expre']   or  any(x in url for x in g_ignoreSetResolved):
                     setresolved=False
                 if  '$doregex' in m['expre']:
                     m['expre']=getRegexParsed(regexs, m['expre'],cookieJar,recursiveCall=True,cachedPages=cachedPages)
@@ -960,9 +961,10 @@ def getRegexParsed(regexs, url,cookieJar=None,forCookieJarOnly=False,recursiveCa
                         print 'url and val',url,val
                         url = url.replace("$doregex[" + k + "]", val)
                     elif m['expre'].startswith('$pyFunction:'):
-
+                        print 'expeeeeeeeeeeeeeeeeeee',m['expre']
                         val=doEval(m['expre'].split('$pyFunction:')[1],link,cookieJar )
-
+                        if 'ActivateWindow' in m['expre']: return 
+                        print 'still hre'
                         print 'url k val',url,k,val
 
                         url = url.replace("$doregex[" + k + "]", val)
