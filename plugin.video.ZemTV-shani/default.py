@@ -140,14 +140,15 @@ def DisplayChannelNames(url):
 
 def Addtypes():
 	addDir('Shows' ,'Shows' ,2,'')
-	addDir('Live Channels' ,'Live' ,2,'')
+	addDir('Pakistani Live Channels' ,'PakLive' ,2,'')
+	addDir('Indian Live Channels' ,'IndianLive' ,2,'')
 	addDir('Sports' ,'Live' ,13,'')
 	addDir('Settings' ,'Live' ,6,'',isItFolder=False)
 	return
-
+    
 def AddSports(url):
-	addDir('Smartcric' ,'Live' ,14,'')
-#	addDir('Watchcric' ,'http://www.watchcric.net/' ,16,'') blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosata
+	addDir('SmartCric' ,'Live' ,14,'')
+	addDir('WatchCric (required new rtmp)' ,'http://www.watchcric.net/' ,16,'')# blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosata
 
 def AddWatchCric(url):
     req = urllib2.Request(url)
@@ -239,15 +240,32 @@ def PlayWatchCric(url):
     response = urllib2.urlopen(req)
     link=response.read()
     response.close()
-    
+    print 'match_url',match_url
+
+    ccommand='%s;TRUE;TRUE;'
+    swfUrl='http://www.mipsplayer.com/content/scripts/fplayer.swf'
+    sitename='www.mipsplayer.com'
+    pat_e=' e=\'(.*?)\';'
+    app='live'
+    if not 'liveflashplayer.net/resources' in link:
+        c='gaolVanusPobeleVoKosata'
+    else:
+        c='kaskatijaEkonomista'
+        swfUrl='http://www.liveflashplayer.net/resources/scripts/fplayer.swf'
+        sitename='www.liveflashplayer.net'
+        pat_e=' g=\'(.*?)\';'
+        app='stream'
+
+        
     pat_js='channel=\'(.*?)\''
     match_urljs =re.findall(pat_js,link)[0]
     width='480'
     height='380'
-    pat_e=' e=\'(.*?)\';'
+
+    print link
     match_e =re.findall(pat_e,link)[0]
-        
-    match_urljs='http://www.mipsplayer.com/embedplayer/'+match_urljs+'/'+match_e+'/'+width+'/'+height
+    
+    match_urljs=('http://%s/embedplayer/'%sitename)+match_urljs+'/'+match_e+'/'+width+'/'+height
     
     req = urllib2.Request(match_urljs)
     req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
@@ -260,7 +278,7 @@ def PlayWatchCric(url):
     match_flash =re.findall(pat_flash,link)[0]
     matchid=match_flash.split('id=')[1].split('&')[0]
     
-    lb_url='http://www.mipsplayer.com:1935/loadbalancer?%s'%matchid
+    lb_url='http://%s:1935/loadbalancer?%s'%(sitename,matchid)
         
     req = urllib2.Request(lb_url)
     req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
@@ -272,8 +290,9 @@ def PlayWatchCric(url):
     
 
     sid=match_flash.split('s=')[1].split('&')[0]
-    
-    url='rtmp://%s/live playpath=%s?id=%s pageUrl=%s swfUrl=http://www.mipsplayer.com/content/scripts/fplayer.swf Conn=S:OK timeout=20'%(ip,sid,matchid,match_urljs)
+
+    ccommand=ccommand%c
+    url='rtmp://%s/%s playpath=%s?id=%s pageUrl=%s swfUrl=%s Conn=S:OK ccommand=%s timeout=20'%(ip,app,sid,matchid,match_urljs,swfUrl,ccommand)
     print url
     playlist = xbmc.PlayList(1)
     playlist.clear()
@@ -292,51 +311,60 @@ def PlaySmartCric(url):
         
 def AddEnteries(type):
 #	print "addenT"
-	if type=='Shows':
-		AddShows(mainurl)
-	elif type=='Next Page':
-		AddShows(url)
-	else:
-		#addDir(Colored('ZemTv Channels','ZM',True) ,'ZEMTV' ,10,'', False, True,isItFolder=False)		#name,url,mode,icon
-		#AddChannels();#AddChannels()
-		addDir(Colored('EboundServices Channels','EB',True) ,'ZEMTV' ,10,'', False, True,isItFolder=False)		#name,url,mode,icon
-		try:
-			AddChannelsFromEbound();#AddChannels()
-		except: pass
-		addDir(Colored('Other sources','ZM',True) ,'ZEMTV' ,10,'', False, True,isItFolder=False)
-		try:
-			AddChannelsFromOthers()
-		except:
-			print 'somethingwrong'
-			traceback.print_exc(file=sys.stdout)
-	return
+    if type=='Shows':
+        AddShows(mainurl)
+    elif type=='Next Page':
+        AddShows(url)
+    else:
+        #addDir(Colored('ZemTv Channels','ZM',True) ,'ZEMTV' ,10,'', False, True,isItFolder=False)		#name,url,mode,icon
+        #AddChannels();#AddChannels()
+        isPakistani=(type=='Pakistani Live Channels')
+        print 'isPakistani',isPakistani
+        if isPakistani:        
+            addDir(Colored('EboundServices Channels','EB',True) ,'ZEMTV' ,10,'', False, True,isItFolder=False)		#name,url,mode,icon
+            try:
+                AddChannelsFromEbound();#AddChannels()
+            except: pass
+        addDir(Colored('Other sources','ZM',True) ,'ZEMTV' ,10,'', False, True,isItFolder=False)
+        try:
+            AddChannelsFromOthers(isPakistani)
+        except:
+            print 'somethingwrong'
+            traceback.print_exc(file=sys.stdout)
+    return
 
-def AddChannelsFromOthers():
+def AddChannelsFromOthers(isPakistani):
     main_ch='(<section_name>Pakistani<\/section_name>.*?<\/section>)'
+
+    if not isPakistani:
+        main_ch='(<section_name>Hindi<\/section_name>.*?<\/section>)'
+
     patt='<item><name>(.*?)<.*?<link>(.*?)<.*?albumart>(.*?)<'
-    url=base64.b64decode("aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbC9pdGVtcy8xMzE0LyVkLw==")
     match=[]    
-    pageIndex=0
-    try:
-        while True:
-            newUrl=url%pageIndex
-            pageIndex+=24
-            req = urllib2.Request(newUrl)
-            req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
-            response = urllib2.urlopen(req)
-            link=response.read()
-            response.close()
-            totalcountPattern='<totalitems>(.*?)<'
-            totalcount =int(re.findall(totalcountPattern,link)[0])
-            
-            #match =re.findall(main_ch,link)[0]
-            matchtemp =re.findall(patt,link)
-            for cname,curl,imgurl in matchtemp:
-                match.append((cname,'plus',curl,imgurl))
-            #match+=matchtemp
-            if pageIndex>totalcount:
-                break
-    except: pass
+    if 1==2:#stop this as its not working
+        url=base64.b64decode("aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbC9pdGVtcy8xMzE0LyVkLw==")
+
+        pageIndex=0
+        try:
+            while True:
+                newUrl=url%pageIndex
+                pageIndex+=24
+                req = urllib2.Request(newUrl)
+                req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+                response = urllib2.urlopen(req)
+                link=response.read()
+                response.close()
+                totalcountPattern='<totalitems>(.*?)<'
+                totalcount =int(re.findall(totalcountPattern,link)[0])
+                
+                #match =re.findall(main_ch,link)[0]
+                matchtemp =re.findall(patt,link)
+                for cname,curl,imgurl in matchtemp:
+                    match.append((cname,'plus',curl,imgurl))
+                #match+=matchtemp
+                if pageIndex>totalcount:
+                    break
+        except: pass
     try:
         patt='<channel><channel_number>.*?<channel_name>(.+?[^<])</channel_name><channel_type>(.+?)</channel_type>.*?[^<"]<channel_url>(.+?[^<])</channel_url>.*?</channel>'
         url=base64.b64decode("aHR0cDovL2ZlcnJhcmlsYi5qZW10di5jb20vaW5kZXgucGhwLzJfNC9neG1sL2NoYW5uZWxfbGlzdA==")
@@ -354,12 +382,19 @@ def AddChannelsFromOthers():
         match +=re.findall(patt,match_temp)
     except: pass
         
-    
+    if isPakistani:
+        match.append(('Ary digital','manual','cid:475',''))
+        match.append(('Ary digital','manual','cid:981',''))
+        match.append(('Ary digital Europe','manual','cid:587',''))
+        match.append(('Ary digital World','manual','cid:589',''))
+        match.append(('Ary News','manual','cid:474',''))
+        match.append(('Ary News World','manual','cid:591',''))
+        match.append(('ETV Urdu','manual','etv',''))
+        match.append(('Ary Zindagi','manual','http://live.aryzindagi.tv/','http://www.aryzindagi.tv/wp-content/uploads/2014/10/Final-logo-2.gif'))
+
     match.append((base64.b64decode('U2t5IFNwb3J0IDE='),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMTY='),''))
     match.append((base64.b64decode('U2t5IFNwb3J0IDI='),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMjY='),''))
     match.append((base64.b64decode('U2t5IFNwb3J0IDQ='),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMTU='),''))
-    match.append(('ETV Urdu','manual','etv',''))
-    match.append(('Ary Zindagi','manual','http://live.aryzindagi.tv/','http://www.aryzindagi.tv/wp-content/uploads/2014/10/Final-logo-2.gif'))
 ##other v2
     match.append((base64.b64decode('U2tpIFNwb3J0IDEgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTEgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
     match.append((base64.b64decode('U2tpIFNwb3J0IDIgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTIgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
@@ -367,12 +402,6 @@ def AddChannelsFromOthers():
     match.append((base64.b64decode('U2tpIFNwb3J0IDQgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTQgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
     match.append((base64.b64decode('U2tpIFNwb3J0IDUgVjI='),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreTUgcGFnZVVybD1odHRwOi8vd3d3LmhkY2FzdC5vcmcvIHRva2VuPSN5dyV0dCN3QGtrdQ=='),''))
     match.append((base64.b64decode('U2tpIFNwb3J0IEYxIFYy'),'manual',base64.b64decode('cnRtcGU6Ly80Ni4yNDYuMjkuMTYyOjE5MzUvbGl2ZS8gcGxheXBhdGg9U3BvcnRoZHNreWYxIHBhZ2VVcmw9aHR0cDovL3d3dy5oZGNhc3Qub3JnLyB0b2tlbj0jeXcldHQjd0Bra3U='),''))
-    match.append(('Ary digital','manual','cid:475',''))
-    match.append(('Ary digital','manual','cid:981',''))
-    match.append(('Ary digital Europe','manual','cid:587',''))
-    match.append(('Ary digital World','manual','cid:589',''))
-    match.append(('Ary News','manual','cid:474',''))
-    match.append(('Ary News World','manual','cid:591',''))
 
 #    print match
 

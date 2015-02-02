@@ -1,3 +1,14 @@
+B]Version 3.2.5[/B]
+- Indians channel and watch cricket added
+
+B]Version 3.2.4[/B]
+- quick fix, with better link
+
+B]Version 3.2.3[/B]
+- quick fix, with better link
+
+
+
 [B]Version 1.0[/B]
 - First version 1
 [B]Version 1.1.0[/B]
@@ -91,7 +102,4 @@ B]Version 3.2.1[/B]
 - minor effort in hiding the links..
 B]Version 3.2.2[/B]
 - quick fix, with whatever is available.
-B]Version 3.2.3[/B]
-- quick fix, with better link
-B]Version 3.2.4[/B]
-- quick fix, with better link
+reversed... go at the top
