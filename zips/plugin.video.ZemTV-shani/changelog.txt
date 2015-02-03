@@ -1,3 +1,6 @@
+B]Version 3.2.7[/B]
+- Start sports added and expres channels
+
 B]Version 3.2.6[/B]
 - Enable willow but with login only
 

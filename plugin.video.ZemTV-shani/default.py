@@ -174,6 +174,8 @@ def AddSports(url):
 	addDir('SmartCric.com' ,'Live' ,14,'')
 	addDir('WatchCric.com (requires new rtmp)' ,'http://www.watchcric.net/' ,16,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
 	addDir('Willow.Tv (login required)' ,'http://www.willow.tv/' ,19,'')
+	addDir('Star Sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/starsportse/2/600/400' ,17,'', False, True,isItFolder=False)
+#	addDir('Ptv Sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/ptvsports/2/600/400/' ,25,'')
 
     
 def AddWillSportsOldSeries(url):
@@ -522,12 +524,16 @@ def AddSmartCric(url):
 
 def PlayWatchCric(url):
     pat_ifram='<iframe.*?src=(.*?).?"?>'    
-    req = urllib2.Request(url)
-    req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
-    response = urllib2.urlopen(req)
-    link=response.read()
-    response.close()
-    match_url =re.findall(pat_ifram,link)[0]
+    if 'p3g.tv' not in url:
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+        response = urllib2.urlopen(req)
+        link=response.read()
+        response.close()
+        match_url =re.findall(pat_ifram,link)[0]
+    else:
+        match_url=url
+        url='http://embed247.com/live.php?ch=Ptv_Sports1&vw=600&vh=400&domain=www.samistream.com'
     req = urllib2.Request(match_url)
     req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
     req.add_header('Referer', url)
@@ -535,23 +541,41 @@ def PlayWatchCric(url):
     link=response.read()
     response.close()
     print 'match_url',match_url
+        
 
     ccommand='%s;TRUE;TRUE;'
     swfUrl='http://www.mipsplayer.com/content/scripts/fplayer.swf'
     sitename='www.mipsplayer.com'
     pat_e=' e=\'(.*?)\';'
     app='live'
-    if not 'liveflashplayer.net/resources' in link:
-        c='gaolVanusPobeleVoKosata'
-    else:
+    
+    if 'liveflashplayer.net/resources' in link:
         c='kaskatijaEkonomista'
         swfUrl='http://www.liveflashplayer.net/resources/scripts/fplayer.swf'
         sitename='www.liveflashplayer.net'
         pat_e=' g=\'(.*?)\';'
         app='stream'
+        pat_js='channel=\'(.*?)\''
 
+    elif 'www.mipsplayer.com' in link:
+        c='gaolVanusPobeleVoKosata'
+        ccommand='%s;TRUE;TRUE;'
+        swfUrl='http://www.mipsplayer.com/content/scripts/fplayer.swf'
+        sitename='www.mipsplayer.com'
+        pat_e=' e=\'(.*?)\';'
+        app='live'
+        pat_js='channel=\'(.*?)\''
+
+    elif 'p3g.tv' in link:
+        c='zenataStoGoPuknalaGavolot'
+        ccommand='%s;TRUE;TRUE;'
+        swfUrl='http://www.p3g.tv/resources/scripts/eplayer.swf'
+        sitename='www.p3g.tv'
+        pat_e='&g=\'?(.*?)\'?&;?'
+        app='stream'
+        pat_js='&s=(.*?)&'
         
-    pat_js='channel=\'(.*?)\''
+        
     match_urljs =re.findall(pat_js,link)[0]
     width='480'
     height='380'
@@ -683,9 +707,17 @@ def AddChannelsFromOthers(isPakistani):
         match.append(('Ary digital World','manual','cid:589',''))
         match.append(('Ary News','manual','cid:474',''))
         match.append(('Ary News World','manual','cid:591',''))
+        match.append(('Express News','manual','cid:275',''))
+        match.append(('Express News','manual','cid:788',''))
+        match.append(('Express Entertainment','manual','cid:260',''))
+        match.append(('Express Entertainment','manual','cid:793',''))
+
         match.append(('ETV Urdu','manual','etv',''))
         match.append(('Ary Zindagi','manual','http://live.aryzindagi.tv/','http://www.aryzindagi.tv/wp-content/uploads/2014/10/Final-logo-2.gif'))
 
+
+        
+        
     match.append((base64.b64decode('U2t5IFNwb3J0IDE='),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMTY='),''))
     match.append((base64.b64decode('U2t5IFNwb3J0IDI='),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMjY='),''))
     match.append((base64.b64decode('U2t5IFNwb3J0IDQ='),'manual',base64.b64decode('aHR0cDovL2pweG1sLmphZG9vdHYuY29tL3Z1eG1sLnBocC9qYWRvb3htbDMvcGxheS8zMTU='),''))
@@ -1470,7 +1502,9 @@ try:
 	elif mode==24:
 		print "Play url is "+url
 		AddWillSportsOldSeriesMatches(url)        
-
+	elif mode==25 :
+		print "Play url is "+url
+		AddP3Gtv(url)
         
 
         
