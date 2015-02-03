@@ -4,8 +4,8 @@ import urlparse
 import HTMLParser
 import xbmcaddon
 from operator import itemgetter
-import traceback
-import base64
+import traceback,cookielib
+import base64,os
 try:
     import json
 except:
@@ -16,7 +16,14 @@ __addonname__   = __addon__.getAddonInfo('name')
 __icon__        = __addon__.getAddonInfo('icon')
 addon_id = 'plugin.video.ZemTV-shani'
 selfAddon = xbmcaddon.Addon(id=addon_id)
+profile_path =  xbmc.translatePath(selfAddon.getAddonInfo('profile'))
   
+willowCommonUrl=''# this is where the common url will stay
+#willowCommonUrl=''
+
+WTVCOOKIEFILE='WTVCookieFile.lwp'
+WTVCOOKIEFILE=os.path.join(profile_path, WTVCOOKIEFILE)
+
  
 mainurl='http://www.zemtv.com/'
 liveURL='http://www.zemtv.com/live-pakistani-news-channels/'
@@ -96,6 +103,21 @@ def PlayChannel ( channelName ):
 	xbmc.Player().play(playlist)
 	return
 
+def getUrl(url, cookieJar=None,post=None, timeout=20, headers=None):
+
+    cookie_handler = urllib2.HTTPCookieProcessor(cookieJar)
+    opener = urllib2.build_opener(cookie_handler, urllib2.HTTPBasicAuthHandler(), urllib2.HTTPHandler())
+    #opener = urllib2.install_opener(opener)
+    req = urllib2.Request(url)
+    req.add_header('User-Agent','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.154 Safari/537.36')
+    if headers:
+        for h,hv in headers:
+            req.add_header(h,hv)
+
+    response = opener.open(req,post,timeout=timeout)
+    link=response.read()
+    response.close()
+    return link;
 
 def get_params():
 	param=[]
@@ -138,6 +160,7 @@ def DisplayChannelNames(url):
 			addDir(cname[1] ,cname[0] ,1,'',isItFolder=False)
 	return
 
+
 def Addtypes():
 	addDir('Shows' ,'Shows' ,2,'')
 	addDir('Pakistani Live Channels' ,'PakLive' ,2,'')
@@ -146,10 +169,274 @@ def Addtypes():
 	addDir('Settings' ,'Live' ,6,'',isItFolder=False)
 	return
     
+    
 def AddSports(url):
-	addDir('SmartCric' ,'Live' ,14,'')
-	addDir('WatchCric (required new rtmp)' ,'http://www.watchcric.net/' ,16,'')# blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosata
+	addDir('SmartCric.com' ,'Live' ,14,'')
+	addDir('WatchCric.com (requires new rtmp)' ,'http://www.watchcric.net/' ,16,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
+	addDir('Willow.Tv (login required)' ,'http://www.willow.tv/' ,19,'')
 
+    
+def AddWillSportsOldSeries(url):
+    try:
+        url_host='http://willowfeeds.willow.tv/willowMatchArchive.json'
+        req = urllib2.Request(url_host)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36')
+        response = urllib2.urlopen(req)
+        if response.info().get('Content-Encoding') == 'gzip':
+            from StringIO import StringIO
+            import gzip
+            buf = StringIO( response.read())
+            f = gzip.GzipFile(fileobj=buf)
+            res = f.read()
+        else:
+            res=response.read()
+
+        print repr(res[:100])
+        res=res.split('Handle_WLSeriesDetailsObj(')[1][:-2]
+        serieses = json.loads(res)
+  
+        response.close()
+
+        
+        for series in serieses:
+            sname=series["Name"]
+            sid=series["Id"]
+            addDir(sname ,sid,24,'')		#name,url,mode,icon
+    except: traceback.print_exc(file=sys.stdout)
+
+
+def AddWillSportsOldSeriesMatches(url):
+    addDir(Colored(name,'EB',True) ,'' ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+    try:
+        url_host='http://willowfeeds.willow.tv/willowMatchArchive.json'
+        req = urllib2.Request(url_host)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36')
+        response = urllib2.urlopen(req)
+        if response.info().get('Content-Encoding') == 'gzip':
+            from StringIO import StringIO
+            import gzip
+            buf = StringIO( response.read())
+            f = gzip.GzipFile(fileobj=buf)
+            res = f.read()
+        else:
+            res=response.read()
+
+        print repr(res[:100])
+        res=res.split('Handle_WLSeriesDetailsObj(')[1][:-2]
+        serieses = json.loads(res)
+  
+        response.close()
+
+        
+        for series in serieses:
+            sname=series["Name"]
+            sid=series["Id"]
+            if url==sid:
+                for match in series["MatchDetails"]:
+                    mname=match["Name"]
+                    matchid=match["Id"]
+                    sdate=match["StartDate"]
+                    addDir(sdate+' - '+mname ,matchid,23,'')		#name,url,mode,icon
+    except: traceback.print_exc(file=sys.stdout)
+
+def useMyOwnUserNamePwd():
+    willow_username=selfAddon.getSetting( "WillowUserName" ) 
+    return not willow_username==""
+    
+def getWTVCookieJar(updatedUName=False):
+    cookieJar=None
+    try:
+        cookieJar = cookielib.LWPCookieJar()
+        if not updatedUName:
+            cookieJar.load(WTVCOOKIEFILE,ignore_discard=True)
+    except: 
+        cookieJar=None
+
+    if not cookieJar:
+        cookieJar = cookielib.LWPCookieJar()
+    return cookieJar
+
+def performWillowLogin():
+    try:
+
+        url='http://www.willow.tv/EventMgmt/Default.asp'
+        willow_username=selfAddon.getSetting( "WillowUserName" ) 
+        willow_pwd=selfAddon.getSetting( "WillowPassword" ) 
+        willow_lasstusername=selfAddon.getSetting( "lastSuccessLogin" ) 
+        cookieJar=getWTVCookieJar(willow_username!=willow_lasstusername)
+        mainpage = getUrl(url,cookieJar=cookieJar)
+
+
+        if 'Login/Register' in mainpage:
+            url='https://www.willow.tv/EventMgmt/UserMgmt/Login.asp'
+            post = {'Email':willow_username,'Password':willow_pwd,'LoginFormSubmit':'true'}
+            post = urllib.urlencode(post)
+            mainpage = getUrl(url,cookieJar=cookieJar,post=post)
+            cookieJar.save (WTVCOOKIEFILE,ignore_discard=True)
+            selfAddon.setSetting( id="lastSuccessLogin" ,value=willow_username)
+        
+        return not 'Login/Register' in mainpage,cookieJar
+    except: 
+            traceback.print_exc(file=sys.stdout)
+    return False,None
+    
+def getMatchUrl(matchid):
+    if not useMyOwnUserNamePwd():
+        url_host=willowCommonUrl
+        if len(url_host)>0:
+            if mode==21:#live
+                post = {'matchNumber':matchid,'type':'live','debug':'1'}
+            else:
+                if ':' in matchid:
+                    matchid,partNumber=matchid.split(':')
+                    post = {'matchNumber':matchid,'type':'replay','partNumber':partNumber,'debug':'1'}
+                else:
+                    post = {'matchNumber':matchid,'type':'replay','debug':'1'}
+            post = urllib.urlencode(post)
+            req = urllib2.Request(url_host)
+            req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36')
+            response = urllib2.urlopen(req,post)
+            link=response.read()
+            response.close()
+            final_url= urllib2.unquote(link)  
+            final_url=final_url.split('debug')[0]
+            return final_url
+        else:
+            Msg="Common server is not available, Please enter your own login details."
+            dialog = xbmcgui.Dialog()
+            ok = dialog.ok('Login Failed', Msg)
+            return ''
+
+    else:
+        loginworked,cookieJar= performWillowLogin();
+        if loginworked:
+            WLlive=False
+            source_sectionid=''
+            returnParts=False
+            userid=''
+            for i in cookieJar:
+
+                s=repr(i)
+                if 'CXMUserId' in s:
+                    #print 'ssssssssssssss',s
+                    userid=s.split('value=\'')[1].split('%')[0]
+            print 'userid',userid
+            calltype='Live'
+            if mode==21:
+                WLlive=True
+                matchid,source_sectionid=matchid.split(':')
+                st='LiveMatch'
+                url='http://www.willow.tv/EventMgmt/%sURL.asp?mid=%s'%(st,matchid)
+                pat='secureurl":"(.*?)".*?priority":%s,'%source_sectionid    
+                calltype='Live'                
+            else:
+                if ':' in matchid:
+                    matchid,source_sectionid=matchid.split(':')
+                    st='Replay'
+                    url='https://www.willow.tv/EventMgmt/ReplayURL.asp?mid=%s&userId=%s'%(matchid,userid)
+                    pat='secureurl":"(.*?)".*?priority":%s,'%source_sectionid
+                    calltype='RecordOne'     
+                else:
+                    returnParts=True
+                    st='Replay'
+                    url='https://www.willow.tv/EventMgmt/ReplayURL.asp?mid=%s&userId=%s'%(matchid,userid)
+                    pat='"priority":(.+?),'
+                    calltype='RecordAll' 
+            
+            videoPage = getUrl(url,cookieJar=cookieJar)    
+
+            final_url=''
+        
+            if calltype=='Live' or calltype=='RecordOne':
+                videoPage='},\n{'.join(videoPage.split("},{"))
+                final_url=re.findall(pat,videoPage)[0]
+            else:
+                final_url=re.findall(pat,videoPage)
+                final_url2=''
+                for u in final_url:
+                    final_url2+='Part Number:'+u+'='+u+','
+                final_url=final_url2[:-1]
+            final_url= urllib2.unquote(final_url)  
+            final_url=final_url.split('debug')[0]
+            return final_url
+            
+
+        else:
+            Msg="Login failed, please make sure the login details are correct."
+            dialog = xbmcgui.Dialog()
+            ok = dialog.ok('Login Failed', Msg)
+        
+    
+    
+    
+def PlayWillowMatch(url):
+#    patt='(.*?)'
+#    print link
+#    match_url =re.findall(patt,link)[0]
+    match_url=getMatchUrl(url)
+    match_url=match_url+'|User-Agent=Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36'
+    playlist = xbmc.PlayList(1)
+    playlist.clear()
+    listitem = xbmcgui.ListItem( label = str(name), iconImage = "DefaultVideo.png", thumbnailImage = xbmc.getInfoImage( "ListItem.Thumb" ) )
+    playlist.add(match_url,listitem)
+    xbmcPlayer = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
+    xbmcPlayer.play(playlist) 
+
+def AddWillowReplayParts(url):
+    try:
+        link=getMatchUrl(url)
+        sections=link.split(',')
+        addDir(Colored(name,'EB',True) ,'' ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+        for section in sections:
+            sname,section_number=section.split('=')
+            addDir(sname ,url+':'+section_number,22,'', False, True,isItFolder=False)		#name,url,mode,icon
+    except: traceback.print_exc(file=sys.stdout)
+
+def AddWillowCric(url):
+    try:
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36')
+        response = urllib2.urlopen(req)
+        link=response.read()
+        response.close()
+        patt='json_matchbox = (.*?);'
+        match_url =re.findall(patt,link)[0]
+        print match_url
+        matches=json.loads(match_url)
+        print matches
+        addDir(Colored('Live Games','EB',True) ,'' ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+        if matches["result"]["live"]:
+            live_games=matches["result"]["live"]
+            for game in live_games:
+                match_name=game["MatchName"]
+                match_id=game["MatchId"]
+                MatchStartDate=game["MatchStartDate"]
+                entry_name=MatchStartDate+' - '+match_name
+                if useMyOwnUserNamePwd():
+                    addDir(entry_name ,match_id,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+                    for i in range(4):
+                        addDir(entry_name ,match_id+''+str(i),21,'', False, True,isItFolder=False)		#name,url,mode,icon
+                else:
+                    addDir(entry_name ,match_id,21,'', False, True,isItFolder=False)		#name,url,mode,icon
+            
+        else:
+            addDir('  No Games at the moment' ,'' ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+            
+        addDir(Colored('Recent Games','EB',True) ,'' ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+        past_games=matches["result"]["past"]
+        for game in past_games:
+            match_name=game["MatchName"]
+            match_id=game["MatchId"]
+            MatchStartDate=game["MatchStartDate"]
+            entry_name=MatchStartDate+' - '+match_name
+#            addDir(entry_name ,match_id,23,'', False, True,isItFolder=True)		#name,url,mode,icon
+            addDir(entry_name ,match_id,23,'')            
+    except: traceback.print_exc(file=sys.stdout)
+         
+    addDir(Colored('All Recorded Games','ZM',True) ,'http://www.willow.tv/EventMgmt/results.asp' ,20,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
+    
+
+    
 def AddWatchCric(url):
     req = urllib2.Request(url)
     req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36')
@@ -187,40 +474,47 @@ def AddSmartCric(url):
     response.close()
     patt='performGet\(\'(.+)\''
     match_url =re.findall(patt,link)[0]
-    
+    channeladded=False
     patt_sn='sn = "(.*?)"'
+    try:
+        match_sn =re.findall(patt_sn,link)[0]
+        final_url=  match_url+   match_sn
+        req = urllib2.Request(final_url)
+        req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+        response = urllib2.urlopen(req)
+        link=response.read()
+        response.close()
+        sources = json.loads(link)
 
-    match_sn =re.findall(patt_sn,link)[0]
-    final_url=  match_url+   match_sn
-    req = urllib2.Request(final_url)
-    req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
-    response = urllib2.urlopen(req)
-    link=response.read()
-    response.close()
-    sources = json.loads(link)
 
-    addDir('Refresh' ,'Live' ,144,'')
-    
-    for source in sources["channelsList"]:
-        if 1==1:#ctype=='liveWMV' or ctype=='manual':
-            print source
-            curl=''
-            cname=source["caption"]
-            fms=source["fmsUrl"]
-            print curl
-            #if ctype<>'': cname+= '[' + ctype+']'
-            addDir(cname ,curl ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
-            if 'streamsList' in source and source["streamsList"] and len(source["streamsList"])>0:
-                for s in source["streamsList"]:
-                    cname=s["caption"]
-                    curl=s["streamName"]
-                    curl="http://"+fms+":1935/mobile/"+curl+"/playlist.m3u8?"+match_sn+"";
-                    addDir('    -'+cname ,curl ,15,'', False, True,isItFolder=False)		#name,url,mode,icon
-            else:
-                cname='No streams available'
+
+        addDir('Refresh' ,'Live' ,144,'')
+        
+        for source in sources["channelsList"]:
+            if 1==1:#ctype=='liveWMV' or ctype=='manual':
+                print source
                 curl=''
-                addDir('    -'+cname ,curl ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
-                
+                cname=source["caption"]
+                fms=source["fmsUrl"]
+                print curl
+                #if ctype<>'': cname+= '[' + ctype+']'
+                addDir(cname ,curl ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+                if 'streamsList' in source and source["streamsList"] and len(source["streamsList"])>0:
+                    for s in source["streamsList"]:
+                        cname=s["caption"]
+                        curl=s["streamName"]
+                        curl="http://"+fms+":1935/mobile/"+curl+"/playlist.m3u8?"+match_sn+"";
+                        addDir('    -'+cname ,curl ,15,'', False, True,isItFolder=False)		#name,url,mode,icon
+                        channeladded=True
+                else:
+                    cname='No streams available'
+                    curl=''
+                    addDir('    -'+cname ,curl ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+    except: traceback.print_exc(file=sys.stdout)
+    if not channeladded:
+        cname='No streams available'
+        curl=''
+        addDir('    -'+cname ,curl ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon 
     addDir('Refresh' ,'Live' ,144,'')
             
 
@@ -1161,15 +1455,31 @@ try:
 	elif mode==17 :
 		print "Play url is "+url
 		PlayWatchCric(url)
+	elif mode==19 :
+		print "Play url is "+url
+		AddWillowCric(url)
+	elif mode==20:
+		print "Play url is "+url
+		AddWillSportsOldSeries(url)
+	elif mode==21 or mode==22:
+		print "Play url is "+url
+		PlayWillowMatch(url)        
+	elif mode==23:
+		print "Play url is "+url
+		AddWillowReplayParts(url)        
+	elif mode==24:
+		print "Play url is "+url
+		AddWillSportsOldSeriesMatches(url)        
 
         
+
         
 except:
 	print 'somethingwrong'
 	traceback.print_exc(file=sys.stdout)
 	
 
-if not ( (mode==3 or mode==4 or mode==9 or mode==11 or mode==15)  )  :
+if not ( (mode==3 or mode==4 or mode==9 or mode==11 or mode==15 or mode==21 or mode==22)  )  :
 	if mode==144:
 		xbmcplugin.endOfDirectory(int(sys.argv[1]),updateListing=True)
 	else:

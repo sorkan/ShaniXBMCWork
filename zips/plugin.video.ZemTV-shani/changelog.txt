@@ -1,3 +1,6 @@
+B]Version 3.2.6[/B]
+- Enable willow but with login only
+
 B]Version 3.2.5[/B]
 - Indians channel and watch cricket added
 
