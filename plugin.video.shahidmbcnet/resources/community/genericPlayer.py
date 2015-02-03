@@ -676,9 +676,13 @@ def replaceGLArabVariables(link, d,gcid):
         try:
             pattern='\$\/(.*?)\.m3u8'
             videoPath=re.compile(pattern).findall(link)[0]
-        except: pass
+        except: 
+            try:
+                pattern='channel=(.*?)\&'
+                videoPath=re.compile(pattern).findall(link)[0]                
+            except: pass
             
-        
+        print 'videoPath',videoPath
         if GLArabServerLOW=="": GLArabServerLOW="Try All"
         if GLArabServerHD=="": GLArabServerHD="Try All"
         if GLArabServerMED=="": GLArabServerMED="Try All"        
