@@ -46,7 +46,7 @@
 			<setting label="32072" type="text" id="GLArabUserName" values="" default=""/>
 			<setting label="32073" type="text" id="GLArabUserPwd" values="" default=""/>  
 			<setting label="32077" type="labelenum" id="GLArabServerHD" default="Try All" values="Disabled|Try All|8.21.48.19|8.21.48.20"/>
-			<setting label="32078" type="labelenum" id="GLArabServerMED" default="Try All" values="Disabled|Try All|8.21.48.19|8.21.48.20"/>
+			<setting label="32078" type="labelenum" id="GLArabServerMED" default="Try All" values="Disabled|Try All|8.21.48.19|8.21.48.20|38.99.146.71"/>
 			<setting label="32079" type="labelenum" id="GLArabServerLOW" default="Try All" values="Disabled|Try All|8.21.48.19|8.21.48.20|8.21.48.26:7777|8.21.48.28:7777|38.99.146.42:7777|38.99.146.44:7777"/>
     <setting label="32080" type="bool"   id="isGLProxyEnabled" default="false"/>
     <setting label="32081" type="text"   id="GLproxyName" default="127.0.0.1"  enable="!eq(-1,false)"  />
