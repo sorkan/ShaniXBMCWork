@@ -171,12 +171,19 @@ def Addtypes():
     
     
 def AddSports(url):
-	addDir('SmartCric.com' ,'Live' ,14,'')
-	addDir('WatchCric.com (requires new rtmp)' ,'http://www.watchcric.net/' ,16,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
-	addDir('Willow.Tv (login required)' ,'http://www.willow.tv/' ,19,'')
-	addDir('Star Sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/starsportse/2/600/400' ,17,'', False, True,isItFolder=False)
-	addDir('CricHD.tv' ,'pope' ,26,'')
-#	addDir('Ptv Sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/ptvsports/2/600/400/' ,25,'')
+    addDir(Colored('Direct Channels','EB',True) ,'' ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+    addDir('   -Ptv Sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/ptvsports/2/600/400/' ,17,'', False, True,isItFolder=False)
+    addDir('   -Star Sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/starsportse/2/600/400' ,17,'', False, True,isItFolder=False)
+    addDir('   -GeoSuper P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/geosuper121/2/640/440' ,17,'', False, True,isItFolder=False)
+    addDir('   -Ten Cricket P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/tencricketzh/2/640/440' ,17,'', False, True,isItFolder=False)
+    addDir('   -Ten sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/tenpkya/2/640/440' ,17,'', False, True,isItFolder=False)
+    addDir('   -Ten action P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/tenactionse/2/640/440' ,17,'', False, True,isItFolder=False)
+
+
+    addDir('SmartCric.com (Live matches only)' ,'Live' ,14,'')
+    addDir('WatchCric.com (requires new rtmp)-Live matches only' ,'http://www.watchcric.net/' ,16,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
+    addDir('Willow.Tv (login required)' ,'http://www.willow.tv/' ,19,'')
+    addDir('CricHD.tv (Live Channels)' ,'pope' ,26,'')
 
 
 def PlayPopeLive(url):
@@ -319,7 +326,11 @@ def getMatchUrl(matchid):
         url_host=willowCommonUrl
         if len(url_host)>0:
             if mode==21:#live
-                post = {'matchNumber':matchid,'type':'live','debug':'1'}
+                if ':' in matchid:
+                    matchid,partNumber=matchid.split(':')
+                    post = {'matchNumber':matchid,'type':'live','partNumber':partNumber,'debug':'1'}
+                else:
+                    post = {'matchNumber':matchid,'type':'live','debug':'1'}
             else:
                 if ':' in matchid:
                     matchid,partNumber=matchid.split(':')
@@ -438,6 +449,14 @@ def AddWillowCric(url):
         print match_url
         matches=json.loads(match_url)
         print matches
+        matchid=matches["result"]["past"][0]["MatchId"]
+        addDir(Colored('Live Channel (Experimental)','EB',True) ,'' ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+
+        addDir('  Source 1' ,'%s:1'%str(matchid),21,'', False, True,isItFolder=False)		#name,url,mode,icon
+        addDir('  Source 2' ,'%s:2'%str(matchid),21,'', False, True,isItFolder=False)		#name,url,mode,icon
+        addDir('  Source 3' ,'%s:3'%str(matchid),21,'', False, True,isItFolder=False)		#name,url,mode,icon
+        addDir('  Source 4' ,'%s:4'%str(matchid),21,'', False, True,isItFolder=False)		#name,url,mode,icon
+
         addDir(Colored('Live Games','EB',True) ,'' ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
         if matches["result"]["live"]:
             live_games=matches["result"]["live"]
@@ -446,28 +465,31 @@ def AddWillowCric(url):
                 match_id=game["MatchId"]
                 MatchStartDate=game["MatchStartDate"]
                 entry_name=MatchStartDate+' - '+match_name
-                if useMyOwnUserNamePwd():
-                    addDir(entry_name ,match_id,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
-                    for i in range(4):
-                        addDir(entry_name ,match_id+''+str(i),21,'', False, True,isItFolder=False)		#name,url,mode,icon
-                else:
-                    addDir(entry_name ,match_id,21,'', False, True,isItFolder=False)		#name,url,mode,icon
-            
+                #if useMyOwnUserNamePwd():
+                #    addDir(entry_name ,match_id,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+                #else:
+                for i in range(4):
+                    addDir(entry_name+(' source %s'%str(i)) ,match_id+':'+str(i),21,'', False, True,isItFolder=False)		#name,url,mode,icon
+#                else:
+#                    addDir(entry_name ,match_id,21,'', False, True,isItFolder=False)		#name,url,mode,icon           
         else:
             addDir('  No Games at the moment' ,'' ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
+
+            
             
         addDir(Colored('Recent Games','EB',True) ,'' ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
         past_games=matches["result"]["past"]
         for game in past_games:
             match_name=game["MatchName"]
             match_id=game["MatchId"]
+            print 'match_id',match_id
             MatchStartDate=game["MatchStartDate"]
             entry_name=MatchStartDate+' - '+match_name
 #            addDir(entry_name ,match_id,23,'', False, True,isItFolder=True)		#name,url,mode,icon
             addDir(entry_name ,match_id,23,'')            
     except: traceback.print_exc(file=sys.stdout)
          
-    addDir(Colored('All Recorded Games','ZM',True) ,'http://www.willow.tv/EventMgmt/results.asp' ,20,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
+    addDir(Colored('All Recorded Series','ZM',True) ,'http://www.willow.tv/EventMgmt/results.asp' ,20,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
     
 
     
