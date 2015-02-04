@@ -66,7 +66,7 @@ def PlayStream(sourceEtree, urlSoup, name, url):
                 gcid = urlSoup.item.glchannelid.text
                 if gcid and len(gcid)==0: gcid=None
             except: pass
-            liveLink=replaceGLArabVariables(liveLink,pDialog,gcid)
+            liveLink=replaceGLArabVariables(liveLink,pDialog,gcid, title)
             if liveLink=="": return False
         print 'liveLink',liveLink
         pDialog.close()
@@ -663,29 +663,32 @@ def decrypt_vaughnlive(encrypted):
         retVal+=chr(int(val.replace("0m0",""))/84/5)
     return retVal
 
-def replaceGLArabVariables(link, d,gcid):
+def replaceGLArabVariables(link, d,gcid, title):
     try:
         GLArabUserName=selfAddon.getSetting( "GLArabUserName" )
         GLArabUserPwd=selfAddon.getSetting( "GLArabUserPwd" )
         GLArabServerLOW=selfAddon.getSetting( "GLArabServerLOW" )
         GLArabServerHD=selfAddon.getSetting( "GLArabServerHD" )
         GLArabServerMED=selfAddon.getSetting( "GLArabServerMED" )
-        glProxy=selfAddon.getSetting( "isGLProxyEnabled" )=="true"
+        GLArabServerLR=selfAddon.getSetting( "GLArabServerLR" )
+        
+        glProxy=selfAddon.getSetting( "isGLProxyEnabled" )=="true" and 'Proxy' in title
         glProxyAddress=selfAddon.getSetting( "GLproxyName" )
-        videoPath='KuwaitSpace_Med'
-        try:
+        pattern='channel=(.*?)\&'
+        if 'Proxy' not in title: 
+            glProxy=False
             pattern='\$\/(.*?)\.m3u8'
+
+        videoPath='KuwaitSpace_Med'
+        try:            
             videoPath=re.compile(pattern).findall(link)[0]
-        except: 
-            try:
-                pattern='channel=(.*?)\&'
-                videoPath=re.compile(pattern).findall(link)[0]                
-            except: pass
+        except: pass
             
         print 'videoPath',videoPath
         if GLArabServerLOW=="": GLArabServerLOW="Try All"
         if GLArabServerHD=="": GLArabServerHD="Try All"
         if GLArabServerMED=="": GLArabServerMED="Try All"        
+        if GLArabServerLR=="": GLArabServerLR="Try All"        
 
         GLArabQuality=selfAddon.getSetting( "GLArabQuality" )
         tryLogin=True
@@ -750,13 +753,13 @@ def replaceGLArabVariables(link, d,gcid):
         serverPatern=''
         serverAddress=''
         type='low'
-        if '$GL-IPLOW$' in link:
+        if '$GL-IPLOW$' in link or 'Low' in title:
             serverPatern='GLArabServerLOW.*values="(.*?)"'
             link=link.replace('$GL-IPLOW$',GLArabServerLOW)
             serverAddress=GLArabServerLOW
             type='low'
 
-        if  '$GL-IPHD$' in link:
+        if  '$GL-IPHD$' in link or 'High' in title or 'HD' in title:
             print 'i am here',GLArabServerHD
             serverPatern='GLArabServerHD.*values="(.*?)"'
             link=link.replace('$GL-IPHD$',GLArabServerHD)
@@ -764,13 +767,20 @@ def replaceGLArabVariables(link, d,gcid):
             type='hd'
 
             
-        if '$GL-IPMED$' in link:
+        if '$GL-IPMED$' in link or 'Med' in title:
             serverPatern='GLArabServerMED.*values="(.*?)"'
             link=link.replace('$GL-IPMED$',GLArabServerMED)
-            serverAddress=GLArabServerHD
+            serverAddress=GLArabServerMED
             print GLArabServerMED,'GLArabServerMED  '
             type='med'
-        
+            
+        if '$GL-IPLR$' in link or 'LR' in title:
+            serverPatern='GLArabServerLR.*values="(.*?)"'
+            link=link.replace('$GL-IPLR$',GLArabServerLR)
+            serverAddress=GLArabServerLR
+            print GLArabServerLR,'GLArabServerLR  '
+            type='lr'
+            
         link=link.replace('$GL-Qlty$',GLArabQuality)
         link=link.replace('$GL-Sesession$',session)
         print 'the links is ',link
@@ -783,26 +793,34 @@ def replaceGLArabVariables(link, d,gcid):
             #print servers
             
             if not glProxy:
-                servers.insert(0,sessionserver+':7777');
+                servers.insert(0,sessionserver);
                 print 'new',servers
                 for server in servers:
                     if d.iscanceled(): return ""
                     try:
                         finalUrl=link.replace('Try All',server)
-                        getUrl(finalUrl,timeout=15);
-                        link=finalUrl
+                        ret=getUrl(finalUrl,timeout=15);
+                        if 'm3u8?' in ret:
+                            link=finalUrl
                         break
                     except: pass
             else: serverAddress=servers[0]
 
          
-        if glProxy: 
-            if type=='low' or type=='med':        
-                link=getProxyLink(glProxyAddress,sessionserver.replace(':7777',''),videoPath,session)
-            else:    
-                link=getProxyLink(glProxyAddress,serverAddress.replace(':7777',''),videoPath,session)
+        if glProxy and 'Try All' in link: 
+            link=link.replace('Try All',serverAddress)
+#            if 'High' in title or 'HD' in title:
+#                link=link.replace('Try All',serverAddress)
+#            else:
+ #               link=link.replace('Try All',sessionserver.replace(':7777',''))
+            #if type=='low' or type=='med' or type=='lr':        
+            #    link=getProxyLink(glProxyAddress,sessionserver.replace(':7777',''),videoPath,session)
+            #else:    
+            #    link=getProxyLink(glProxyAddress,serverAddress.replace(':7777',''),videoPath,session)
          
-              
+        if 'Try All' in link: 
+            print 'no working link',link
+            link=''
         return link
     except:
         traceback.print_exc(file=sys.stdout)

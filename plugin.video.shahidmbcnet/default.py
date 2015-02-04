@@ -870,9 +870,14 @@ def getSourceAndStreamInfo(channelId, returnOnFirst,pDialog, filterBySource=""):
 		GLArabServerLOW=selfAddon.getSetting( "GLArabServerLOW" )
 		GLArabServerHD=selfAddon.getSetting( "GLArabServerHD" )
 		GLArabServerMED=selfAddon.getSetting( "GLArabServerMED" )
+		GLArabServerLR=selfAddon.getSetting( "GLArabServerLR" )
+        
 		glHDDisabled=False if not GLArabServerHD=="Disabled" else True
 		glMedDisabled=False if not GLArabServerMED=="Disabled" else True
 		glLowDisabled=False if not GLArabServerLOW=="Disabled" else True
+		glLRDisabled=False if not GLArabServerLR=="Disabled" else True        
+		glproxyDisabled=not selfAddon.getSetting( "isGLProxyEnabled" )=="true"
+
 #		print "glHDDisabled",glHDDisabled
         
         
@@ -923,9 +928,12 @@ def getSourceAndStreamInfo(channelId, returnOnFirst,pDialog, filterBySource=""):
 									source_title=inf.findtext('title')
 							except: pass
 							#print sname,    glHDDisabled,source_title
-							if sname=="GLArab" and  glHDDisabled and source_title=="HD": continue                             
-							if sname=="GLArab" and  glMedDisabled and source_title=="Med": continue    
-							if sname=="GLArab" and  glLowDisabled and source_title=="Low": continue    
+
+							if sname=="GLArab" and  glproxyDisabled and 'Proxy' in source_title: continue                             
+							if sname=="GLArab" and  glHDDisabled and "HD" in source_title  : continue                             
+							if sname=="GLArab" and  glMedDisabled and "Med" in source_title: continue    
+							if sname=="GLArab" and  glLowDisabled and "Low" in source_title: continue    
+							if sname=="GLArab" and  glLRDisabled and "LR" in source_title: continue    
                             
 							#print default_source,sid,match_title,inf.findtext('title'),inf
 							if not default_source=='' and default_source==sname and (match_title =='' or match_title==source_title):                       
