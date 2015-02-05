@@ -188,7 +188,13 @@ def getRegexParsed(regexs, url,cookieJar=None,forCookieJarOnly=False,recursiveCa
                     if forCookieJarOnly:
                         return cookieJar# do nothing
                 elif not page.startswith('http'):
-                    link=page
+                    if page.startswith('$pyFunction:'):
+                        val=doEval(page.split('$pyFunction:')[1],'',cookieJar )
+                        if forCookieJarOnly:
+                            return cookieJar# do nothing
+                        link=val
+                    else:
+                        link=page
             
             expres=k.expres.text
             if  '$doregex' in expres:
