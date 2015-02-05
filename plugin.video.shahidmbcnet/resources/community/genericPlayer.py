@@ -43,7 +43,7 @@ def PlayStream(sourceEtree, urlSoup, name, url):
             xbmc.executebuiltin('Notification(%s, %s, %d, %s)'%(__addonname__,line1, timeD, __icon__))
             return False
         regexs = urlSoup.find('regex')
-        pDialog.update(80, 'Parsing info')
+        pDialog.update(20, 'Parsing info')
         if (not regexs==None) and len(regexs)>0:
             liveLink=    getRegexParsed(urlSoup,link)
         else:
@@ -57,7 +57,7 @@ def PlayStream(sourceEtree, urlSoup, name, url):
             
         timeD = 2000  #in miliseconds
         line1="Resource found,playing now."
-        pDialog.update(80, line1)
+        pDialog.update(30, line1)
         liveLink=replaceSettingsVariables(liveLink)
         name+='-'+sc+':'+title
         if (sc=='GLArab' or sc=='Local')  and '$GL-' in liveLink :
@@ -571,7 +571,7 @@ def getCookiesString(cookieJar):
     print 'cookieString',cookieString
     return cookieString
 
-def getUrl(url, cookieJar=None,post=None, timeout=20, headers=None):
+def getUrl(url, cookieJar=None,post=None, timeout=20, headers=None, returnResponse=False):
 
 
     cookie_handler = urllib2.HTTPCookieProcessor(cookieJar)
@@ -584,6 +584,7 @@ def getUrl(url, cookieJar=None,post=None, timeout=20, headers=None):
             req.add_header(h,hv)
 
     response = opener.open(req,post,timeout=timeout)
+    if returnResponse: return response
     link=response.read()
     response.close()
     return link;
@@ -792,23 +793,37 @@ def replaceGLArabVariables(link, d,gcid, title):
             servers=servers.replace('Disabled|Try All|','').split('|')  
             #print servers
             
-            if not glProxy:
+            if 1==1 or not glProxy:
                 servers.insert(0,sessionserver);
                 print 'new',servers
+                i=0
                 for server in servers:
+                    i+=1
                     if d.iscanceled(): return ""
+                    d.update(30+(50*1/len(servers)), 'Trying server %s'%server)
+
                     try:
                         finalUrl=link.replace('Try All',server)
-                        ret=getUrl(finalUrl,timeout=15);
-                        if 'm3u8?' in ret:
-                            link=finalUrl
-                        break
+                        if not glProxy:
+                            ret=getUrl(finalUrl,timeout=15);
+                            if 'm3u8?' in ret:
+                                link=finalUrl
+                                d.update(90, 'Working server found %s'%server)
+                            break
+                        else:
+                            res=getUrl(finalUrl,timeout=15,returnResponse=True);
+                            data=res.read(2000)
+                            if data and len(data)>1000:
+                                print 'working proxy found',finalUrl
+                                d.update(90, 'Working server found %s'%server)
+                                link=finalUrl
+                                break                            
                     except: pass
-            else: serverAddress=servers[0]
+            #else: serverAddress=servers[0]
 
          
-        if glProxy and 'Try All' in link: 
-            link=link.replace('Try All',serverAddress)
+        #if glProxy and 'Try All' in link: 
+        #    link=link.replace('Try All',serverAddress)
 #            if 'High' in title or 'HD' in title:
 #                link=link.replace('Try All',serverAddress)
 #            else:
