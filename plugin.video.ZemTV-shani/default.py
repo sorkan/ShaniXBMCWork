@@ -168,22 +168,56 @@ def Addtypes():
 	addDir('Sports' ,'Live' ,13,'')
 	addDir('Settings' ,'Live' ,6,'',isItFolder=False)
 	return
+
+def PlayFlashTv(url):
+#    patt='(.*?)'
+#    print link
+#    match_url =re.findall(patt,link)[0]
+    referer=[('Referer','http://sports4u.tv/embed/Sky-sports-1.php')]
+    res=getUrl(url,headers=referer)
+    stream_pat='streamer\',[\'"](.*?)[\'"]'
+    playpath_pat='\'file\',\'(.*?)\''
+    
+    swf_url="http://flashtv.co/ePlayerr.swf"
+    pageUrl="http://flashtv.co/embedo.php?live=skky1&vw=650&vh=480" 
+    rtmp_url=re.findall(stream_pat,res)[0]
+    play_path=re.findall(playpath_pat,res)[0]
+
+    
+    video_url= '%s playpath=%s pageUrl=%s swfUrl=%s token=%s timeout=20'%(rtmp_url,play_path,pageUrl,swf_url,'%ZZri(nKa@#Z')
+    
+    playlist = xbmc.PlayList(1)
+    playlist.clear()
+    listitem = xbmcgui.ListItem( label = str(name), iconImage = "DefaultVideo.png", thumbnailImage = xbmc.getInfoImage( "ListItem.Thumb" ) )
+    playlist.add(video_url,listitem)
+    xbmcPlayer = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
+    xbmcPlayer.play(playlist) 
+    
+    
+def AddP3gSports(url):
+    addDir('Ptv Sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/ptvsports/2/600/400/' ,17,'', False, True,isItFolder=False)
+    addDir('Star Sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/starsportse/2/600/400' ,17,'', False, True,isItFolder=False)
+    addDir('GeoSuper P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/geosuper121/2/640/440' ,17,'', False, True,isItFolder=False)
+    addDir('Ten Cricket P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/tencricketzh/2/640/440' ,17,'', False, True,isItFolder=False)
+    addDir('Ten sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/tenpkya/2/640/440' ,17,'', False, True,isItFolder=False)
+    addDir('Ten action P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/tenactionse/2/640/440' ,17,'', False, True,isItFolder=False)
+    
+def AddFlashtv(url):
+    addDir('Sky Sports 1' ,'http://flashtv.co/embedo.php?live=skky1&vw=650&vh=480' ,32,'', False, True,isItFolder=False)
+    addDir('Sky Sports 2' ,'http://flashtv.co/embedo.php?live=skky2&vw=650&vh=480' ,32,'', False, True,isItFolder=False)
+    addDir('Sky Sports 3' ,'http://flashtv.co/embedo.php?live=skky3&vw=650&vh=480' ,32,'', False, True,isItFolder=False)
+    addDir('Sky Sports 4' ,'http://flashtv.co/embedo.php?live=skky4&vw=650&vh=480' ,32,'', False, True,isItFolder=False)
+    addDir('Sky Sports 5' ,'http://flashtv.co/embedo.php?live=skky5&vw=650&vh=480' ,32,'', False, True,isItFolder=False)
+#    addDir('Sky Sports 1' ,'http://www.p3g.tv/embedplayer/tenactionse/2/640/440' ,32,'', False, True,isItFolder=False)
     
     
 def AddSports(url):
-    addDir(Colored('Direct Channels','EB',True) ,'' ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
-    addDir('   -Ptv Sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/ptvsports/2/600/400/' ,17,'', False, True,isItFolder=False)
-    addDir('   -Star Sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/starsportse/2/600/400' ,17,'', False, True,isItFolder=False)
-    addDir('   -GeoSuper P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/geosuper121/2/640/440' ,17,'', False, True,isItFolder=False)
-    addDir('   -Ten Cricket P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/tencricketzh/2/640/440' ,17,'', False, True,isItFolder=False)
-    addDir('   -Ten sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/tenpkya/2/640/440' ,17,'', False, True,isItFolder=False)
-    addDir('   -Ten action P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/tenactionse/2/640/440' ,17,'', False, True,isItFolder=False)
-
-
     addDir('SmartCric.com (Live matches only)' ,'Live' ,14,'')
-    addDir('WatchCric.com (requires new rtmp)-Live matches only' ,'http://www.watchcric.net/' ,16,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
-    addDir('Willow.Tv (login required)' ,'http://www.willow.tv/' ,19,'')
     addDir('CricHD.tv (Live Channels)' ,'pope' ,26,'')
+#    addDir('Flashtv.co (Live Channels)' ,'flashtv' ,31,'')
+    addDir('WatchCric.com (requires new rtmp)-Live matches only' ,'http://www.watchcric.net/' ,16,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
+    addDir('P3G.Tv (requires new rtmp)' ,'P3G'  ,30,'')
+    addDir('Willow.Tv (login required)' ,'http://www.willow.tv/' ,19,'')
 
 
 def PlayPopeLive(url):
@@ -1565,6 +1599,16 @@ try:
 	elif mode==27 :
 		print "Play url is "+url
 		PlayPopeLive(url)                
+	elif mode==31 :
+		print "Play url is "+url
+		AddFlashtv(url)                
+	elif mode==30 :
+		print "Play url is "+url
+		AddP3gSports(url)                
+	elif mode==32 :
+		print "Play url is "+url
+		PlayFlashTv(url)                
+
 
         
 except:
