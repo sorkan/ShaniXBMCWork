@@ -878,7 +878,7 @@ def getSourceAndStreamInfo(channelId, returnOnFirst,pDialog, filterBySource=""):
 		glLRDisabled=False if not GLArabServerLR=="Disabled" else True        
 		glproxyDisabled=not selfAddon.getSetting( "isGLProxyEnabled" )=="true"
 		glproxyCommonDisabled=not selfAddon.getSetting( "isGLCommonProxyEnabled" )=="true"
-
+		glproxyCommonDisabled=True #make it false if we get common proxy working
 #		print "glHDDisabled",glHDDisabled
         
         
