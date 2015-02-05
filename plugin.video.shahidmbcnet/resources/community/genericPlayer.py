@@ -673,11 +673,15 @@ def replaceGLArabVariables(link, d,gcid, title):
         GLArabServerMED=selfAddon.getSetting( "GLArabServerMED" )
         GLArabServerLR=selfAddon.getSetting( "GLArabServerLR" )
         
-        glProxy=selfAddon.getSetting( "isGLProxyEnabled" )=="true" and 'Proxy' in title
+        glLocalProxy=selfAddon.getSetting( "isGLProxyEnabled" )=="true" and 'Proxy' in title
+        glproxyCommon=selfAddon.getSetting( "isGLCommonProxyEnabled" )=="true" and 'Proxy' in title
+
         glProxyAddress=selfAddon.getSetting( "GLproxyName" )
         pattern='channel=(.*?)\&'
         if 'Proxy' not in title: 
-            glProxy=False
+            print 'Not a proxy'
+            glLocalProxy=False
+            glproxyCommon=False
             pattern='\$\/(.*?)\.m3u8'
 
         videoPath='KuwaitSpace_Med'
@@ -785,6 +789,23 @@ def replaceGLArabVariables(link, d,gcid, title):
         link=link.replace('$GL-Qlty$',GLArabQuality)
         link=link.replace('$GL-Sesession$',session)
         print 'the links is ',link
+        
+        if glproxyCommon:
+            try:
+                #4500/channel.flv?server=8.21.48.20&channel=AlJadeed_HD
+                newLink='http://178.33.241.201:4500/channel.flv?server=8.21.48.19&channel=%s'%videoPath
+                print 'trying common proxy here',newLink
+                res=getUrl(newLink,timeout=15,returnResponse=True);
+                data=res.read(2000)
+                print 'data here',len(data),repr(data)
+                if data and len(data)>1000:
+                    print 'custom proxy found',newLink
+                    d.update(90, 'Working server found (Common proxy)')
+                    return newLink
+            except: pass
+                
+                                           
+        
         if 'Try All' in link:
             fileName=communityStreamPath+'/../settings.xml'
             settingsData= open(fileName, "r").read()
@@ -793,7 +814,7 @@ def replaceGLArabVariables(link, d,gcid, title):
             servers=servers.replace('Disabled|Try All|','').split('|')  
             #print servers
             
-            if 1==1 or not glProxy:
+            if 1==1:#not glProxy:
                 servers.insert(0,sessionserver);
                 print 'new',servers
                 i=0
@@ -804,7 +825,7 @@ def replaceGLArabVariables(link, d,gcid, title):
 
                     try:
                         finalUrl=link.replace('Try All',server)
-                        if not glProxy:
+                        if not glLocalProxy:
                             ret=getUrl(finalUrl,timeout=15);
                             if 'm3u8?' in ret:
                                 link=finalUrl
@@ -819,7 +840,7 @@ def replaceGLArabVariables(link, d,gcid, title):
                                 link=finalUrl
                                 break                            
                     except: pass
-            #else: serverAddress=servers[0]
+            
 
          
         #if glProxy and 'Try All' in link: 
