@@ -61,25 +61,26 @@
 	<string id="32047">Clear Login Session Data</string>	
 	<string id="32048">Web Login Code(when Addon Login not working)</string>	
 	<string id="32049">Misc settings</string>	
-	<string id="32050">Override default view mode</string>	
-    <string id="32057">Teledunet retry count</string>	
-     <string id="32058">Favourite add mode</string>	
+	<string id="32050">Override default view mode</string>
+    <string id="32057">Teledunet retry count</string>
+     <string id="32058">Favourite add mode</string>
     <string id="32064">Twelfth Preference</string>
-	<string id="32065">Disable Offcial source</string>	
-	<string id="32066">Try All sources one by one</string>	
+	<string id="32065">Disable Offcial source</string>
+	<string id="32066">Try All sources one by one</string>
 
-	<string id="32071">GLArab Login</string>	
-	<string id="32072">GLArab User Name</string>	
-	<string id="32073">GLArab Password</string>		
-	<string id="32074">Server Selection</string>		
-	<string id="32075">Quality</string>		
-	<string id="32077">GL High Quality</string>		
-    <string id="32078">GL Mediam Quality</string>		
-     <string id="32079">GL Low Quality</string>		
-     <string id="32089">GL LR Quality</string>		
+	<string id="32071">GLArab Login</string>
+	<string id="32072">GLArab User Name</string>
+	<string id="32073">GLArab Password</string>
+	<string id="32074">Server Selection</string>
+	<string id="32075">Quality</string>
+	<string id="32077">GL Proxy High Quality</string>
+    <string id="32078">GL Proxy Mediam Quality</string>
+     <string id="32079">GL Proxy Low Quality</string>
+     <string id="32089">GL Proxy LR Quality</string>
+     <string id="32091">GL Low Quality</string>
 
-          <string id="32090">Enable Shared Proxy?</string>		
-	 <string id="32080">Enable Local Proxy?</string>		
-	 <string id="32081">GL Proxy (use 127.0.0.1) for local machine</string>		
+          <string id="32090">Enable Shared Proxy?</string>
+	 <string id="32080">Enable Local Proxy?</string>
+	 <string id="32081">GL Proxy (use 127.0.0.1) for local machine</string>
 	
 </strings>
