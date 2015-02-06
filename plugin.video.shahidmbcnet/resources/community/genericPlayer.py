@@ -678,7 +678,7 @@ def replaceGLArabVariables(link, d,gcid, title):
         GLArabServerHD=selfAddon.getSetting( "GLArabServerHD" )
         GLArabServerMED=selfAddon.getSetting( "GLArabServerMED" )
         GLArabServerLR=selfAddon.getSetting( "GLArabServerLR" )
-        
+        GLArabServerLOWNP=selfAddon.getSetting( "GLArabServerLOWNP" )
         
         glLocalProxy=selfAddon.getSetting( "isGLProxyEnabled" )=="true" and 'Proxy' in title
         glproxyCommon=selfAddon.getSetting( "isGLCommonProxyEnabled" )=="true" and 'Proxy' in title
@@ -687,12 +687,18 @@ def replaceGLArabVariables(link, d,gcid, title):
         if glProxyAddress=="": glProxyAddress="127.0.0.1"
         pattern='channel=(.*?)\&'
         link=link.replace('$GLProxyIP$',glProxyAddress)
-        
+        ProxyCall=True
         if 'Proxy' not in title: 
             print 'Not a proxy'
             glLocalProxy=False
             glproxyCommon=False
-            pattern='\$\/(.*?)\.m3u8'
+            pattern='7777\/(.*?)\.m3u8'
+            GLArabServerLOW=GLArabServerLOWNP
+            print 'low nonproxy',GLArabServerLOW
+            ProxyCall=False
+        elif glLocalProxy==False and glproxyCommon==False:
+            print 'Proxy but no proxy call'
+            return ''
         
 
         videoPath='KuwaitSpace_Med'
@@ -708,12 +714,13 @@ def replaceGLArabVariables(link, d,gcid, title):
 
         GLArabQuality=selfAddon.getSetting( "GLArabQuality" )
         tryLogin=True
-        if GLArabUserName=="" or GLArabUserPwd=="":
+        if GLArabUserName=="" or GLArabUserPwd=="":# or '$GL-IPHD$' not in link  or '$GL-IPMED$'  not in link:
             tryLogin=False
             timeD = 2000  #in miliseconds
             line1="Login not defined, using default login and low quality"
             GLArabQuality=""
-            xbmc.executebuiltin('Notification(%s, %s, %d, %s)'%(__addonname__,line1, timeD, __icon__))
+            #xbmc.executebuiltin('Notification(%s, %s, %d, %s)'%(__addonname__,line1, timeD, __icon__))
+            print line1
 
         #if GLArabServer=="": GLArabServer="Low 38.99.146.43:7777"
         #GLArabServer=GLArabServer.split(' ')[1]
@@ -770,7 +777,10 @@ def replaceGLArabVariables(link, d,gcid, title):
         serverAddress=''
         type='low'
         if '$GL-IPLOW$' in link or 'Low' in title:
-            serverPatern='GLArabServerLOW.*values="(.*?)"'
+            if not ProxyCall:
+                serverPatern='GLArabServerLOWNP.*values="(.*?)"'
+            else:            
+                serverPatern='GLArabServerLOW.*values="(.*?)"'
             link=link.replace('$GL-IPLOW$',GLArabServerLOW)
             serverAddress=GLArabServerLOW
             type='low'
@@ -801,19 +811,7 @@ def replaceGLArabVariables(link, d,gcid, title):
         link=link.replace('$GL-Sesession$',session)
         print 'the links is ',link
         
-        if glproxyCommon:
-            try:
-                #4500/channel.flv?server=8.21.48.20&channel=AlJadeed_HD
-                newLink='http://178.33.241.201:4500/channel.flv?server=8.21.48.19&channel=%s'%videoPath
-                print 'trying common proxy here',newLink
-                res=getUrl(newLink,timeout=15,returnResponse=True);
-                data=res.read(2000)
-                print 'data here',len(data),repr(data)
-                if data and len(data)>1000:
-                    print 'custom proxy found',newLink
-                    d.update(90, 'Working server found (Common proxy)')
-                    return newLink
-            except: pass
+
                 
                                            
         
@@ -837,21 +835,36 @@ def replaceGLArabVariables(link, d,gcid, title):
                     try:
                         finalUrl=link.replace('Try All',server)
                         if not glLocalProxy:
-                            ret=getUrl(finalUrl,timeout=15);
+                            ret=getUrl(finalUrl,timeout=8);
                             if 'm3u8?' in ret:
                                 link=finalUrl
                                 d.update(90, 'Working server found %s'%server)
-                            break
+                                return link
+                                break
                         else:
-                            res=getUrl(finalUrl,timeout=15,returnResponse=True);
+                            res=getUrl(finalUrl,timeout=8,returnResponse=True);
                             data=res.read(2000)
                             if data and len(data)>1000:
                                 print 'working proxy found',finalUrl
                                 d.update(90, 'Working server found %s'%server)
                                 link=finalUrl
+                                return link;#just return
                                 break                            
                     except: pass
-            
+                    
+        if glproxyCommon:
+            try:
+                #4500/channel.flv?server=8.21.48.20&channel=AlJadeed_HD
+                newLink='http://178.33.241.201:4500/channel.flv?server=8.21.48.19&channel=%s'%videoPath
+                print 'trying common proxy here',newLink
+                res=getUrl(newLink,timeout=15,returnResponse=True);
+                data=res.read(2000)
+                print 'data here',len(data),repr(data)
+                if data and len(data)>1000:
+                    print 'custom proxy found',newLink
+                    d.update(90, 'Working server found (Common proxy)')
+                    return newLink
+            except: pass            
 
          
         #if glProxy and 'Try All' in link: 
