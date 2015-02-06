@@ -679,16 +679,21 @@ def replaceGLArabVariables(link, d,gcid, title):
         GLArabServerMED=selfAddon.getSetting( "GLArabServerMED" )
         GLArabServerLR=selfAddon.getSetting( "GLArabServerLR" )
         
+        
         glLocalProxy=selfAddon.getSetting( "isGLProxyEnabled" )=="true" and 'Proxy' in title
         glproxyCommon=selfAddon.getSetting( "isGLCommonProxyEnabled" )=="true" and 'Proxy' in title
-
+    
         glProxyAddress=selfAddon.getSetting( "GLproxyName" )
+        if glProxyAddress=="": glProxyAddress="127.0.0.1"
         pattern='channel=(.*?)\&'
+        link=link.replace('$GLProxyIP$',glProxyAddress)
+        
         if 'Proxy' not in title: 
             print 'Not a proxy'
             glLocalProxy=False
             glproxyCommon=False
             pattern='\$\/(.*?)\.m3u8'
+        
 
         videoPath='KuwaitSpace_Med'
         try:            
