@@ -2626,7 +2626,7 @@
 			<imageurl>http://www.lyngsat-logo.com/hires/aa/al_sahraa_tv.png</imageurl>
 			<enabled>True</enabled>
 			<assignedcategory>
-				<category>sham</category>
+				<category>gulf</category>
 			</assignedcategory>
 		</channel>
 		
@@ -5970,7 +5970,7 @@
     </channel>
     <channel>
         <cname>ALFALASTINIAH</cname>
-        <imageurl>https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/c12.12.155.155/1149060_450569898390285_1766236908_a.jpg</imageurl>
+        <imageurl>http://panorama-pvs.com/files/image/Clients/Al-Falestinay.jpg</imageurl>
         <enabled>True</enabled>
         <assignedcategory>
             <category>sham</category>
@@ -5979,7 +5979,7 @@
 
     <channel>
         <cname>AlYawm</cname>
-        <imageurl>https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1.0-1/10003994_613112398763454_1363557654_a.jpg</imageurl>
+        <imageurl>http://www.lyngsat-logo.com/hires/oo/osn_al_yawm.png</imageurl>
         <enabled>True</enabled>
         <assignedcategory>
             <category>egypt</category>
@@ -6119,7 +6119,7 @@
 
 <channel>
      <cname>Cairo Cinema 2</cname>
-     <imageurl>http://www.lyngsat-logo.com/hires/cc/cairo_cinema_2_eg.png</imageurl>
+     <imageurl>http://www.lyngsat-logo.com/logo/tv/cc/cairo_cinema_2_eg.png</imageurl>
      <enabled>True</enabled>
      <assignedcategory>
      <category>drama</category>
