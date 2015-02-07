@@ -1,5 +1,14 @@
 <channels>
 <channel>
+	<cname>Persian Music</cname>
+	<imageurl>http://3.bp.blogspot.com/-dQUvkUVOxq0/UExABqYZWUI/AAAAAAAABkI/Tv5fE3-26kM/s1600/pmc_persian_music_channel.jpg</imageurl>
+	<enabled>True</enabled>
+	<assignedcategory>
+    	<category>music</category>
+	</assignedcategory>
+</channel>
+
+<channel>
 	<cname>Al Fursan</cname>
 	<imageurl>http://www.jascomediacity.net/images/New/partners/AlfursanTV.jpg</imageurl>
 	<enabled>True</enabled>
