@@ -10,7 +10,7 @@ from BeautifulSoup import BeautifulStoneSoup, BeautifulSoup, BeautifulSOAP
 import time
 import sys
 import  CustomPlayer
-
+import base64
 __addon__       = xbmcaddon.Addon()
 __addonname__   = __addon__.getAddonInfo('name')
 __icon__        = __addon__.getAddonInfo('icon')
@@ -760,8 +760,8 @@ def replaceGLArabVariables(link, d,gcid, title):
             sessionserver=sessionpage.split(':')[0].replace(':2077','')
          
         elif glLocalProxy or glproxyCommon:
-            gcUrl='https://apps.glwiz.com:448/UniWebAppAndroid/ajax.ashx?stream=tv&ppoint=MBCMaserDrama_High&chid=303600&chname=MBC%20Maser%20Drama&clustername=zixi&'
-            print gcUrl,'gcUrl'
+            gcUrl=base64.b64decode('aHR0cHM6Ly9hcHBzLmdsd2l6LmNvbTo0NDgvVW5pV2ViQXBwQW5kcm9pZC9hamF4LmFzaHg/c3RyZWFtPXR2JnBwb2ludD1NQkNNYXNlckRyYW1hX0hpZ2gmY2hpZD0zMDM2MDAmY2huYW1lPU1CQyUyME1hc2VyJTIwRHJhbWEmY2x1c3Rlcm5hbWU9eml4aSY=')
+            #print gcUrl,'gcUrl'
             sessionpage=getUrl(gcUrl)            
             print sessionpage
             session=sessionpage.split(':')[2]
