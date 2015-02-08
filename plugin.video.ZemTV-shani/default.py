@@ -1168,8 +1168,8 @@ def AddShows(Fromurl):
 	if '<div id="top-articles">' in link:
 		link=link.split('<div id="top-articles">')[0]
 	match =re.findall('<div class="thumbnail">\\s*<a href="(.*?)".*\s*<img class="thumb".*?src="(.*?)" alt="(.*?)"', link, re.UNICODE)
-	print link
-	print match
+#	print link
+#	print match
 
 #	print match
 	h = HTMLParser.HTMLParser()
