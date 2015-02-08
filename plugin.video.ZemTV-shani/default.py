@@ -25,10 +25,10 @@ WTVCOOKIEFILE='WTVCookieFile.lwp'
 WTVCOOKIEFILE=os.path.join(profile_path, WTVCOOKIEFILE)
 
  
-mainurl='http://www.zemtv.com/'
-liveURL='http://www.zemtv.com/live-pakistani-news-channels/'
+mainurl=base64.b64decode('aHR0cDovL3d3dy56ZW10di5jb20v')
+liveURL=base64.b64decode('aHR0cDovL3d3dy56ZW10di5jb20vbGl2ZS1wYWtpc3RhbmktbmV3cy1jaGFubmVscy8=')
 
-tabURL ='http://www.eboundservices.com:8888/users/rex/m_live.php?app=%s&stream=%s'
+tabURL =base64.b64decode('aHR0cDovL3d3dy5lYm91bmRzZXJ2aWNlcy5jb206ODg4OC91c2Vycy9yZXgvbV9saXZlLnBocD9hcHA9JXMmc3RyZWFtPSVz')
 class NoRedirection(urllib2.HTTPErrorProcessor):
    def http_response(self, request, response):
        return response
@@ -89,7 +89,7 @@ def PlayChannel ( channelName ):
 #	print strval
 	req = urllib2.Request(strval)
 	req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
-	req.add_header('Referer', 'http://www.eboundservices.com:8888/users/rex/m_live.php')
+	req.add_header('Referer', base64.b64decode('aHR0cDovL3d3dy5lYm91bmRzZXJ2aWNlcy5jb206ODg4OC91c2Vycy9yZXgvbV9saXZlLnBocA=='))
 	response = urllib2.urlopen(req)
 	link=response.read()
 	response.close()
@@ -177,13 +177,13 @@ def PlayFlashTv(url):
 #    patt='(.*?)'
 #    print link
 #    match_url =re.findall(patt,link)[0]
-    referer=[('Referer','http://sports4u.tv/embed/Sky-sports-1.php')]
+    referer=[('Referer',base64.b64decode('aHR0cDovL3Nwb3J0czR1LnR2L2VtYmVkL1NreS1zcG9ydHMtMS5waHA='))]
     res=getUrl(url,headers=referer)
     stream_pat='streamer\',[\'"](.*?)[\'"]'
     playpath_pat='\'file\',\'(.*?)\''
     
-    swf_url="http://flashtv.co/ePlayerr.swf"
-    pageUrl="http://flashtv.co/embedo.php?live=skky1&vw=650&vh=480" 
+    swf_url=base64.b64decode("aHR0cDovL2ZsYXNodHYuY28vZVBsYXllcnIuc3dm")
+    pageUrl=base64.b64decode("aHR0cDovL2ZsYXNodHYuY28vZW1iZWRvLnBocD9saXZlPXNra3kxJnZ3PTY1MCZ2aD00ODA=")
     rtmp_url=re.findall(stream_pat,res)[0]
     play_path=re.findall(playpath_pat,res)[0]
 
@@ -200,20 +200,20 @@ def PlayFlashTv(url):
     
 def AddP3gSports(url):
 
-    addDir('Ptv Sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/ptvsportadeal/2/600/430' ,17,'', False, True,isItFolder=False)
-    addDir('Star Sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/starsportse/2/600/400' ,17,'', False, True,isItFolder=False)
-    addDir('GeoSuper P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/geosuper121/2/640/440' ,17,'', False, True,isItFolder=False)
-    addDir('Ten Cricket P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/tencricketzh/2/640/440' ,17,'', False, True,isItFolder=False)
-    addDir('Ten sports P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/tenpkya/2/640/440' ,17,'', False, True,isItFolder=False)
-    addDir('Ten action P3G.Tv (requires new rtmp)' ,'http://www.p3g.tv/embedplayer/tenactionse/2/640/440' ,17,'', False, True,isItFolder=False)
+    addDir('Ptv Sports P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvcHR2c3BvcnRhZGVhbC8yLzYwMC80MzA=') ,17,'', False, True,isItFolder=False)
+    addDir('Star Sports P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvc3RhcnNwb3J0c2UvMi82MDAvNDAw') ,17,'', False, True,isItFolder=False)
+    addDir('GeoSuper P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvZ2Vvc3VwZXIxMjEvMi82NDAvNDQw') ,17,'', False, True,isItFolder=False)
+    addDir('Ten Cricket P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvdGVuY3JpY2tldHpoLzIvNjQwLzQ0MA==') ,17,'', False, True,isItFolder=False)
+    addDir('Ten sports P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvdGVucGt5YS8yLzY0MC80NDA=' ),17,'', False, True,isItFolder=False)
+    addDir('Ten action P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvdGVuYWN0aW9uc2UvMi82NDAvNDQw' ),17,'', False, True,isItFolder=False)
     
 def AddFlashtv(url):
-    addDir('Sky Sports 1' ,'http://flashtv.co/embedo.php?live=skky1&vw=650&vh=480' ,32,'', False, True,isItFolder=False)
-    addDir('Sky Sports 2' ,'http://flashtv.co/embedo.php?live=skky2&vw=650&vh=480' ,32,'', False, True,isItFolder=False)
-    addDir('Sky Sports 3' ,'http://flashtv.co/embedo.php?live=skky3&vw=650&vh=480' ,32,'', False, True,isItFolder=False)
-    addDir('Sky Sports 4' ,'http://flashtv.co/embedo.php?live=skky4&vw=650&vh=480' ,32,'', False, True,isItFolder=False)
-    addDir('Sky Sports 5' ,'http://flashtv.co/embedo.php?live=skky5&vw=650&vh=480' ,32,'', False, True,isItFolder=False)
-#    addDir('Sky Sports 1' ,'http://www.p3g.tv/embedplayer/tenactionse/2/640/440' ,32,'', False, True,isItFolder=False)
+    addDir('Sky Sports 1' ,base64.b64decode('aHR0cDovL2ZsYXNodHYuY28vZW1iZWRvLnBocD9saXZlPXNra3kxJnZ3PTY1MCZ2aD00ODA='),32,'', False, True,isItFolder=False)
+    addDir('Sky Sports 2' ,base64.b64decode('aHR0cDovL2ZsYXNodHYuY28vZW1iZWRvLnBocD9saXZlPXNra3kyJnZ3PTY1MCZ2aD00ODA=') ,32,'', False, True,isItFolder=False)
+    addDir('Sky Sports 3' ,base64.b64decode('aHR0cDovL2ZsYXNodHYuY28vZW1iZWRvLnBocD9saXZlPXNra3kzJnZ3PTY1MCZ2aD00ODA='),32,'', False, True,isItFolder=False)
+    addDir('Sky Sports 4' ,base64.b64decode('aHR0cDovL2ZsYXNodHYuY28vZW1iZWRvLnBocD9saXZlPXNra3k0JnZ3PTY1MCZ2aD00ODA=') ,32,'', False, True,isItFolder=False)
+    addDir('Sky Sports 5' ,base64.b64decode('aHR0cDovL2ZsYXNodHYuY28vZW1iZWRvLnBocD9saXZlPXNra3k1JnZ3PTY1MCZ2aD00ODA='),32,'', False, True,isItFolder=False)
+
     
     
 def AddSports(url):
@@ -244,14 +244,14 @@ def AddSports(url):
     addDir('SmartCric.com (Live matches only)' ,'Live' ,14,'')
     addDir('CricHD.tv (Live Channels)' ,'pope' ,26,'')
 #    addDir('Flashtv.co (Live Channels)' ,'flashtv' ,31,'')
-    addDir('WatchCric.com (requires new rtmp)-Live matches only' ,'http://www.watchcric.net/' ,16,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
+    addDir('WatchCric.com (requires new rtmp)-Live matches only' ,base64.b64decode('aHR0cDovL3d3dy53YXRjaGNyaWMubmV0Lw==' ),16,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
     addDir('P3G.Tv (requires new rtmp)' ,'P3G'  ,30,'')
-    addDir('Willow.Tv (login required)' ,'http://www.willow.tv/' ,19,'')
+    addDir('Willow.Tv (login required)' ,base64.b64decode('aHR0cDovL3d3dy53aWxsb3cudHYv') ,19,'')
 
 
 def PlayPopeLive(url):
     playlist = xbmc.PlayList(1)
-    url='rtmp://rtmp.popeoftheplayers.pw:1935/redirect playpath='+url+' swfVfy=true swfUrl=http://popeoftheplayers.pw/atdedead.swf flashVer=WIN\2016,0,0,235 pageUrl=http://popeoftheplayers.pw/atdedead.swf live=true timeout=20 token=#atd%#$ZH'
+    url='rtmp://rtmp.popeoftheplayers.pw:1935/redirect playpath='+url+base64.b64decode('IHN3ZlZmeT10cnVlIHN3ZlVybD1odHRwOi8vcG9wZW9mdGhlcGxheWVycy5wdy9hdGRlZGVhZC5zd2YgZmxhc2hWZXI9V0lOXDIwMTYsMCwwLDIzNSBwYWdlVXJsPWh0dHA6Ly9wb3Blb2Z0aGVwbGF5ZXJzLnB3L2F0ZGVkZWFkLnN3ZiBsaXZlPXRydWUgdGltZW91dD0yMCB0b2tlbj0jYXRkJSMkWkg=')
 
     playlist.clear()
     listitem = xbmcgui.ListItem( label = str(name), iconImage = "DefaultVideo.png", thumbnailImage = xbmc.getInfoImage( "ListItem.Thumb" ) )
@@ -282,7 +282,7 @@ def AddPopeLive(url):
     
 def AddWillSportsOldSeries(url):
     try:
-        url_host='http://willowfeeds.willow.tv/willowMatchArchive.json'
+        url_host=base64.b64decode('aHR0cDovL3dpbGxvd2ZlZWRzLndpbGxvdy50di93aWxsb3dNYXRjaEFyY2hpdmUuanNvbg==')
         req = urllib2.Request(url_host)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36')
         response = urllib2.urlopen(req)
@@ -312,7 +312,7 @@ def AddWillSportsOldSeries(url):
 def AddWillSportsOldSeriesMatches(url):
     addDir(Colored(name,'EB',True) ,'' ,-1,'', False, True,isItFolder=False)		#name,url,mode,icon
     try:
-        url_host='http://willowfeeds.willow.tv/willowMatchArchive.json'
+        url_host=base64.b64decode('aHR0cDovL3dpbGxvd2ZlZWRzLndpbGxvdy50di93aWxsb3dNYXRjaEFyY2hpdmUuanNvbg==')
         req = urllib2.Request(url_host)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36')
         response = urllib2.urlopen(req)
@@ -363,7 +363,7 @@ def getWTVCookieJar(updatedUName=False):
 def performWillowLogin():
     try:
 
-        url='http://www.willow.tv/EventMgmt/Default.asp'
+        url=base64.b64decode('aHR0cDovL3d3dy53aWxsb3cudHYvRXZlbnRNZ210L0RlZmF1bHQuYXNw')
         willow_username=selfAddon.getSetting( "WillowUserName" ) 
         willow_pwd=selfAddon.getSetting( "WillowPassword" ) 
         willow_lasstusername=selfAddon.getSetting( "lastSuccessLogin" ) 
@@ -434,7 +434,7 @@ def getMatchUrl(matchid):
                 WLlive=True
                 matchid,source_sectionid=matchid.split(':')
                 st='LiveMatch'
-                url='http://www.willow.tv/EventMgmt/%sURL.asp?mid=%s'%(st,matchid)
+                url=base64.b64decode('aHR0cDovL3d3dy53aWxsb3cudHYvRXZlbnRNZ210LyVzVVJMLmFzcD9taWQ9JXM=')%(st,matchid)
                 pat='secureurl":"(.*?)".*?priority":%s,'%source_sectionid    
                 calltype='Live'                
             else:
@@ -552,7 +552,7 @@ def AddWillowCric(url):
             addDir(entry_name ,match_id,23,'')            
     except: traceback.print_exc(file=sys.stdout)
          
-    addDir(Colored('All Recorded Series','ZM',True) ,'http://www.willow.tv/EventMgmt/results.asp' ,20,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
+    addDir(Colored('All Recorded Series','ZM',True) ,base64.b64decode('aHR0cDovL3d3dy53aWxsb3cudHYvRXZlbnRNZ210L3Jlc3VsdHMuYXNw' ),20,'') #blocking as the rtmp requires to be updated to send gaolVanusPobeleVoKosat
     
 
     
@@ -586,7 +586,7 @@ def AddWatchCric(url):
 
 
 def AddSmartCric(url):
-    req = urllib2.Request('http://www.smartcric.com/')
+    req = urllib2.Request(base64.b64decode('aHR0cDovL3d3dy5zbWFydGNyaWMuY29tLw=='))
     req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
     response = urllib2.urlopen(req)
     link=response.read()
@@ -650,7 +650,7 @@ def PlayWatchCric(url):
         match_url =re.findall(pat_ifram,link)[0]
     else:
         match_url=url
-        url='http://embed247.com/live.php?ch=Ptv_Sports1&vw=600&vh=400&domain=www.samistream.com'
+        url=base64.b64decode('aHR0cDovL2VtYmVkMjQ3LmNvbS9saXZlLnBocD9jaD1QdHZfU3BvcnRzMSZ2dz02MDAmdmg9NDAwJmRvbWFpbj13d3cuc2FtaXN0cmVhbS5jb20=')
     req = urllib2.Request(match_url)
     req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
     req.add_header('Referer', url)
@@ -661,14 +661,14 @@ def PlayWatchCric(url):
         
 
     ccommand='%s;TRUE;TRUE;'
-    swfUrl='http://www.mipsplayer.com/content/scripts/fplayer.swf'
+    swfUrl=base64.b64decode('aHR0cDovL3d3dy5taXBzcGxheWVyLmNvbS9jb250ZW50L3NjcmlwdHMvZnBsYXllci5zd2Y=')
     sitename='www.mipsplayer.com'
     pat_e=' e=\'(.*?)\';'
     app='live'
     
     if 'liveflashplayer.net/resources' in link:
         c='kaskatijaEkonomista'
-        swfUrl='http://www.liveflashplayer.net/resources/scripts/fplayer.swf'
+        swfUrl=base64.b64decode('aHR0cDovL3d3dy5saXZlZmxhc2hwbGF5ZXIubmV0L3Jlc291cmNlcy9zY3JpcHRzL2ZwbGF5ZXIuc3dm')
         sitename='www.liveflashplayer.net'
         pat_e=' g=\'(.*?)\';'
         app='stream'
@@ -677,7 +677,7 @@ def PlayWatchCric(url):
     elif 'www.mipsplayer.com' in link:
         c='gaolVanusPobeleVoKosata'
         ccommand='%s;TRUE;TRUE;'
-        swfUrl='http://www.mipsplayer.com/content/scripts/fplayer.swf'
+        swfUrl=base64.b64decode('aHR0cDovL3d3dy5taXBzcGxheWVyLmNvbS9jb250ZW50L3NjcmlwdHMvZnBsYXllci5zd2Y=')
         sitename='www.mipsplayer.com'
         pat_e=' e=\'(.*?)\';'
         app='live'
@@ -686,7 +686,7 @@ def PlayWatchCric(url):
     elif 'p3g.tv' in link:
         c='zenataStoGoPuknalaGavolot'
         ccommand='%s;TRUE;TRUE;'
-        swfUrl='http://www.p3g.tv/resources/scripts/eplayer.swf'
+        swfUrl=base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvcmVzb3VyY2VzL3NjcmlwdHMvZXBsYXllci5zd2Y=')
         sitename='www.p3g.tv'
         pat_e='&g=\'?(.*?)\'?&;?'
         app='stream'
@@ -830,7 +830,7 @@ def AddChannelsFromOthers(isPakistani):
         match.append(('Express Entertainment','manual','cid:793',''))
 
         match.append(('ETV Urdu','manual','etv',''))
-        match.append(('Ary Zindagi','manual','http://live.aryzindagi.tv/','http://www.aryzindagi.tv/wp-content/uploads/2014/10/Final-logo-2.gif'))
+        match.append(('Ary Zindagi','manual',base64.b64decode('aHR0cDovL2xpdmUuYXJ5emluZGFnaS50di8='),base64.b64decode('aHR0cDovL3d3dy5hcnl6aW5kYWdpLnR2L3dwLWNvbnRlbnQvdXBsb2Fkcy8yMDE0LzEwL0ZpbmFsLWxvZ28tMi5naWY=')))
     else:
         match.append(('Color','manual','cid:316',''))
 
@@ -914,7 +914,7 @@ def PlayOtherUrl ( url ):
     progress.update( 10, "", "Finding links..", "" )
 
     direct=False
-    if url=='http://live.aryzindagi.tv/':
+    if url==base64.b64decode('aHR0cDovL2xpdmUuYXJ5emluZGFnaS50di8='):
         req = urllib2.Request(url)
         #req.add_header('User-Agent', 'Verismo-BlackUI_(2.4.7.5.8.0.34)')   
         #req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
@@ -925,7 +925,7 @@ def PlayOtherUrl ( url ):
         progress.update( 50, "", "Preparing url..", "" )
         dag_url =re.findall(curlpatth,link)[0]
     elif url=='etv':
-        req = urllib2.Request('http://m.news18.com/live-tv/etv-urdu')
+        req = urllib2.Request(base64.b64decode('aHR0cDovL20ubmV3czE4LmNvbS9saXZlLXR2L2V0di11cmR1'))
         #req.add_header('User-Agent', 'Verismo-BlackUI_(2.4.7.5.8.0.34)')   
         req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
         #req.add_header('User-Agent', 'Verismo-BlackUI_(2.4.7.5.8.0.34)') 
@@ -969,9 +969,6 @@ def PlayOtherUrl ( url ):
             direct=True
 
         
-    if 'Dunya news' in name and 'dag1.asx' not in dag_url:
-        print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-        dag_url='http://dag-chi.totalstream.net/dag1.asx?id=ad1!dunya'
 
     if 'dag1.asx' in dag_url:    
         req = urllib2.Request(dag_url)
@@ -994,7 +991,7 @@ def PlayOtherUrl ( url ):
     xbmc.Player( xbmc.PLAYER_CORE_AUTO ).play( final_url, listitem)    
 
 def AddChannelsFromEbound():
-	liveURL='http://eboundservices.com/istream_demo.php'
+	liveURL=base64.b64decode('aHR0cDovL2Vib3VuZHNlcnZpY2VzLmNvbS9pc3RyZWFtX2RlbW8ucGhw')
 	req = urllib2.Request(liveURL)
 	req.add_header('User-Agent','Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
 	response = urllib2.urlopen(req)
@@ -1180,7 +1177,7 @@ def AddShows(Fromurl):
 		#tname=repr(tname)
 		addDir(tname,cname[0] ,3,cname[1], True,isItFolder=False)
 		
-#	<a href="http://www.zemtv.com/page/2/">&gt;</a></li>
+
 	match =re.findall('<a class="nextpostslink" rel="next" href="(.*?)">', link, re.IGNORECASE)
 	
 	if len(match)==1:
@@ -1276,7 +1273,7 @@ def PlayShowLink ( url ):
 		playURL=match[0]
 		dt=playURL[1]
 		clip=playURL[0]
-		urli='http://www.eboundservices.com/iframe/new/vod_ugc.php?stream=mp4:vod/%s/%s&width=620&height=350&clip=%s&day=%s&month=undefined'%(dt,clip,clip,dt)
+		urli=base64.b64decode('aHR0cDovL3d3dy5lYm91bmRzZXJ2aWNlcy5jb20vaWZyYW1lL25ldy92b2RfdWdjLnBocD9zdHJlYW09bXA0OnZvZC8lcy8lcyZ3aWR0aD02MjAmaGVpZ2h0PTM1MCZjbGlwPSVzJmRheT0lcyZtb250aD11bmRlZmluZWQ=')%(dt,clip,clip,dt)
 		#req = urllib2.Request(urli)
 		#req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
 		#response = urllib2.urlopen(req)
@@ -1284,14 +1281,14 @@ def PlayShowLink ( url ):
 		#response.close()
 		post = {'username':'hash'}
 		post = urllib.urlencode(post)
-		req = urllib2.Request('http://eboundservices.com/flashplayerhash/index.php')
+		req = urllib2.Request(base64.b64decode('aHR0cDovL2Vib3VuZHNlcnZpY2VzLmNvbS9mbGFzaHBsYXllcmhhc2gvaW5kZXgucGhw'))
 		req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36')
 		response = urllib2.urlopen(req,post)
 		link=response.read()
 		response.close()
 		strval =link;# match[0]
 
-		stream_url='rtmp://cdn.ebound.tv/vod playpath=mp4:vod/%s/%s app=vod?wmsAuthSign=%s swfurl=http://www.eboundservices.com/live/v6/player.swf?domain=www.zemtv.com&channel=%s&country=EU pageUrl=%s tcUrl=rtmp://cdn.ebound.tv/vod?wmsAuthSign=%s live=true timeout=15'	% (dt,clip,strval,clip,urli,strval)
+		stream_url=base64.b64decode('cnRtcDovL2Nkbi5lYm91bmQudHYvdm9kIHBsYXlwYXRoPW1wNDp2b2QvJXMvJXMgYXBwPXZvZD93bXNBdXRoU2lnbj0lcyBzd2Z1cmw9aHR0cDovL3d3dy5lYm91bmRzZXJ2aWNlcy5jb20vbGl2ZS92Ni9wbGF5ZXIuc3dmP2RvbWFpbj13d3cuemVtdHYuY29tJmNoYW5uZWw9JXMmY291bnRyeT1FVSBwYWdlVXJsPSVzIHRjVXJsPXJ0bXA6Ly9jZG4uZWJvdW5kLnR2L3ZvZD93bXNBdXRoU2lnbj0lcyBsaXZlPXRydWUgdGltZW91dD0xNQ==')%(dt,clip,strval,clip,urli,strval)
 
 		print stream_url
 		playlist = xbmc.PlayList(1)
@@ -1343,13 +1340,13 @@ def PlayShowLink ( url ):
 			return 
 		if V==1:
 			(playWireVar,PubId,videoID)=playURL[0]
-			cdnUrl="http://cdn.playwire.com/v2/%s/config/%s.json"%(PubId,videoID)
+			cdnUrl=base64.b64decode("aHR0cDovL2Nkbi5wbGF5d2lyZS5jb20vdjIvJXMvY29uZmlnLyVzLmpzb24=")%(PubId,videoID)
 			req = urllib2.Request(cdnUrl)
 			req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
 			response = urllib2.urlopen(req)
 			link=response.read()
 			response.close()
-			playURL ="http://cdn.playwire.com/%s/%s"%(PubId,re.findall('src":".*?mp4:(.*?)"', link)[0])
+			playURL =base64.b64decode("aHR0cDovL2Nkbi5wbGF5d2lyZS5jb20vJXMvJXM=")%(PubId,re.findall('src":".*?mp4:(.*?)"', link)[0])
 			print 'playURL',playURL
 		else:
 			playURL=playURL[0]
@@ -1465,8 +1462,7 @@ def PlayLiveLink ( url ):
 	import math, random, time
 	rv=str(int(5000+ math.floor(random.random()*10000)))
 	currentTime=str(int(time.time()*1000))
-	#newURL='http://www.eboundservices.com/iframe/newads/iframe.php?stream='+ cName+'&width=undefined&height=undefined&clip=' + cName
-	newURL='http://www.eboundservices.com/iframe/new/mainPage.php?stream='+cName+  '&width=undefined&height=undefined&clip=' + cName+'&rv='+rv+'&_='+currentTime
+	newURL=base64.b64decode('aHR0cDovL3d3dy5lYm91bmRzZXJ2aWNlcy5jb20vaWZyYW1lL25ldy9tYWluUGFnZS5waHA/c3RyZWFtPQ==')+cName+  '&width=undefined&height=undefined&clip=' + cName+'&rv='+rv+'&_='+currentTime
 	
 	req = urllib2.Request(newURL)
 	req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
@@ -1516,7 +1512,7 @@ def PlayLiveLink ( url ):
 		progress.update( 60, "", "Finding links..", "" )
 		post = {'username':'hash'}
         	post = urllib.urlencode(post)
-		req = urllib2.Request('http://eboundservices.com/flashplayerhash/index.php')
+		req = urllib2.Request(base64.b64decode('aHR0cDovL2Vib3VuZHNlcnZpY2VzLmNvbS9mbGFzaHBsYXllcmhhc2gvaW5kZXgucGhw'))
 		req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36')
 		response = urllib2.urlopen(req,post)
 		link=response.read()
@@ -1538,8 +1534,7 @@ def PlayLiveLink ( url ):
 		#playlist.clear()
 		#playlist.add (strval)
 
-		playfile='rtmp://cdn.ebound.tv/tv?wmsAuthSign=/%s app=tv?wmsAuthSign=%s swfurl=http://www.eboundservices.com/live/v6/jwplayer.flash.swf?domain=www.eboundservices.com&channel=%s&country=EU pageUrl=http://www.eboundservices.com/channel.php?app=tv&stream=%s tcUrl=rtmp://cdn.ebound.tv/tv?wmsAuthSign=%s live=true timeout=15'	% (cName,strval,cName,cName,strval)
-		#playfile='rtmp://cdn.ebound.tv/tv?wmsAuthSign=/humtv app=tv?wmsAuthSign=?%s swfurl=http://www.eboundservices.com/live/v6/player.swf?domain=&channel=humtv&country=GB pageUrl=http://www.eboundservices.com/iframe/newads/iframe.php?stream=humtv tcUrl=rtmp://cdn.ebound.tv/tv?wmsAuthSign=?%s live=true'	% (strval,strval)
+		playfile=base64.b64decode('cnRtcDovL2Nkbi5lYm91bmQudHYvdHY/d21zQXV0aFNpZ249LyVzIGFwcD10dj93bXNBdXRoU2lnbj0lcyBzd2Z1cmw9aHR0cDovL3d3dy5lYm91bmRzZXJ2aWNlcy5jb20vbGl2ZS92Ni9qd3BsYXllci5mbGFzaC5zd2Y/ZG9tYWluPXd3dy5lYm91bmRzZXJ2aWNlcy5jb20mY2hhbm5lbD0lcyZjb3VudHJ5PUVVIHBhZ2VVcmw9aHR0cDovL3d3dy5lYm91bmRzZXJ2aWNlcy5jb20vY2hhbm5lbC5waHA/YXBwPXR2JnN0cmVhbT0lcyB0Y1VybD1ydG1wOi8vY2RuLmVib3VuZC50di90dj93bXNBdXRoU2lnbj0lcyBsaXZlPXRydWUgdGltZW91dD0xNQ==')%(cName,strval,cName,cName,strval)
 		progress.update( 100, "", "Almost done..", "" )
 		print playfile
 		#xbmc.Player().play(playlist)
