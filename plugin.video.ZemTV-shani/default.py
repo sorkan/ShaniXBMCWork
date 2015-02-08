@@ -1167,8 +1167,9 @@ def AddShows(Fromurl):
 
 	if '<div id="top-articles">' in link:
 		link=link.split('<div id="top-articles">')[0]
-	match =re.findall('img src="(.*?)".+\s*<div class="post-title">.*?href="(.*?)".*?<b>(.*?)</', link, re.UNICODE)
-#	print Fromurl
+	match =re.findall('<div class="thumbnail">\\s*<a href="(.*?)".*\s*<img class="thumb".*?src="(.*?)" alt="(.*?)"', link, re.UNICODE)
+	print link
+	print match
 
 #	print match
 	h = HTMLParser.HTMLParser()
@@ -1177,7 +1178,7 @@ def AddShows(Fromurl):
 		tname=cname[2]
 		tname=re.sub(r'[\x80-\xFF]+', convert,tname )
 		#tname=repr(tname)
-		addDir(tname,cname[1] ,3,cname[0], True,isItFolder=False)
+		addDir(tname,cname[0] ,3,cname[1], True,isItFolder=False)
 		
 #	<a href="http://www.zemtv.com/page/2/">&gt;</a></li>
 	match =re.findall('<a class="nextpostslink" rel="next" href="(.*?)">', link, re.IGNORECASE)
