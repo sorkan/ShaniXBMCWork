@@ -758,7 +758,14 @@ def replaceGLArabVariables(link, d,gcid, title):
             print sessionpage
             session=sessionpage.split(':')[2]
             sessionserver=sessionpage.split(':')[0].replace(':2077','')
-
+         
+        elif glLocalProxy or glproxyCommon:
+            gcUrl='https://apps.glwiz.com:448/UniWebAppAndroid/ajax.ashx?stream=tv&ppoint=MBCMaserDrama_High&chid=303600&chname=MBC%20Maser%20Drama&clustername=zixi&'
+            print gcUrl,'gcUrl'
+            sessionpage=getUrl(gcUrl)            
+            print sessionpage
+            session=sessionpage.split(':')[2]
+            sessionserver=sessionpage.split(':')[0].replace(':2077','')
         else:
             hell_pat='hello-data", "(.*?)"'
             header=[('Referer','http://www.glarab.com/homepage.aspx')]
@@ -771,7 +778,7 @@ def replaceGLArabVariables(link, d,gcid, title):
             print sessionpage
             session=sessionpage.split('|')[1]
             sessionserver=sessionpage.split('|')[2].replace(':2077','')
-            
+ 
             
         serverPatern=''
         serverAddress=''
