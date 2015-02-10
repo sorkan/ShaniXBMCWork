@@ -201,7 +201,10 @@ def PlayFlashTv(url):
 def AddP3gSports(url):
 
     addDir('Ptv Sports P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvcHR2c3BvcnRhZGVhbC8yLzYwMC80MzA=') ,17,'', False, True,isItFolder=False)
-    addDir('Star Sports P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvc3RhcnNwb3J0c2UvMi82MDAvNDAw') ,17,'', False, True,isItFolder=False)
+    addDir('Star Sports 1 P3G.Tv (requires new rtmp)' ,base64.b64decode('hdHRwOi8vd3d3LnAzZy50di9lbWJlZHBsYXllci9zdGFyc3BvcnRzaW1wLzIvNjAwLzQwMA==' ),17,'', False, True,isItFolder=False)
+    addDir('Star Sports 3 P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvc3RhcnNwb3J0YTMvMi82MDAvNDAw') ,17,'', False, True,isItFolder=False)
+    addDir('Star Sports 4 P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvc3RhcnNwb3J0czRkLzIvNjAwLzQwMA==') ,17,'', False, True,isItFolder=False)
+    
     addDir('GeoSuper P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvZ2Vvc3VwZXIxMjEvMi82NDAvNDQw') ,17,'', False, True,isItFolder=False)
     addDir('Ten Cricket P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvdGVuY3JpY2tldHpoLzIvNjQwLzQ0MA==') ,17,'', False, True,isItFolder=False)
     addDir('Ten sports P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvdGVucGt5YS8yLzY0MC80NDA=' ),17,'', False, True,isItFolder=False)
