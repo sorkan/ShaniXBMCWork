@@ -1191,6 +1191,8 @@ def PlayShowLink ( url ):
 	response = urllib2.urlopen(req)
 	link=response.read()
 	response.close()
+	patt='({.*})'
+	link=re.findall(patt, link)[0]
 	jsonData=json.loads(link)
 	#print jsonData;
 	url=jsonData["data"]["url"]
