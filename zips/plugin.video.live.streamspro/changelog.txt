@@ -1,3 +1,6 @@
+Version 1.5.7
+fix iphonetv and sample to use it
+
 Version 1.5.6
 added daramas online addon in ignore setsolved list
 
