@@ -213,7 +213,7 @@
 </channel>
 <channel>
 	<cname>Selah</cname>
-	<imageurl>http://selahtv.tv/file/2014/09/sela-logo.gif</imageurl>
+	<imageurl>http://s16.postimg.org/u08vwfm7l/sela_logo1.png</imageurl>
 	<enabled>True</enabled>
 	<assignedcategory>
 	<category>gulf</category>
@@ -391,7 +391,7 @@
 </channel>
 <channel>
      <cname>Maannews</cname>
-     <imageurl>http://civiccoalition-jerusalem.org/system/files/images/maan_logo_med_q_0.jpg</imageurl>
+     <imageurl>http://s30.postimg.org/6dv7vvwld/url.jpg</imageurl>
      <enabled>True</enabled>
      <assignedcategory>
 	 <category>gulf</category>
@@ -895,7 +895,7 @@
 </channel>
 <channel>
         <cname>Sharjah Kabla</cname>
-        <imageurl>http://www.smc.ae/assets/images/logo-sharqiya.png </imageurl>
+        <imageurl>http://s15.postimg.org/ebzyvp3g7/man_qalba_off.png</imageurl>
         <enabled>True</enabled>
         <assignedcategory>
         <category>gulf</category>
@@ -1255,7 +1255,7 @@
 </channel>
 <channel>
         <cname>Shada</cname>
-        <imageurl>http://free-eg.com/channels-logos/Shada_Logo.png</imageurl>
+        <imageurl>http://www.lyngsat-logo.com/logo/tv/ss/shada_tv_jo.png</imageurl>
         <enabled>True</enabled>
         <assignedcategory>
         <category>gulf</category>
@@ -1745,15 +1745,24 @@
 			</assignedcategory>
 	</channel>
 
-	<channel>
-			<cname>Al Etejah</cname>
-			<imageurl>http://referenceur-tv.com/wp-content/uploads/2013/05/al-etejah-tv-online-live-channel-streaming-150x150.png</imageurl>
-			<enabled>True</enabled>
-			<assignedcategory>
-			 <category>news</category>
-			 <category>Iraq</category>
-			</assignedcategory>
-	</channel>
+<channel>
+	<cname>Al Etejah</cname>
+	<imageurl>http://www.lyngsat-logo.com/hires/aa/al_etejah_tv_iq.png</imageurl>
+	<enabled>True</enabled>
+	<assignedcategory>
+	<category>news</category>
+	<category>Iraq</category>
+	</assignedcategory>
+</channel>
+<channel>
+	<cname>Al Etejah EN</cname>
+	<imageurl>http://www.lyngsat-logo.com/hires/aa/al_etejah_tv_iq_english.png</imageurl>
+	<enabled>True</enabled>
+	<assignedcategory>
+	<category>news</category>
+	<category>Iraq</category>
+	</assignedcategory>
+</channel>
 	<channel>
 			<cname>Nilat</cname>
 			<imageurl>http://www.jascomediacity.net/images/New/partners/NaylatTV.jpg</imageurl>
@@ -6210,7 +6219,7 @@
 </channel>
 <channel>
      <cname>ETV1</cname>
-     <imageurl></imageurl>
+     <imageurl>http://www.lyngsat-logo.com/hires/ee/ebc_et.png</imageurl>
      <enabled>True</enabled>
      <assignedcategory>
      <category>news</category>
