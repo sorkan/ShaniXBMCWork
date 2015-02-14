@@ -62,8 +62,12 @@ def getUrl(url, cookieJar=None,post=None, timeout=20, headers=None):
 	response.close()
 	return link;
 
-def decrypt_vipracing(page_url, justHtml=False,doDecrypt=True):
-	page_data=getUrl(page_url);
+def decrypt_vipracing(page_url, justHtml=False,doDecrypt=True,ref=None):
+	if ref:
+		headers=[('Referer',ref)]
+		page_data=getUrl(page_url,headers=headers)
+	else:
+		page_data=getUrl(page_url)
 	url=page_url
 	if doDecrypt:
 		str_pattern='src="(.*?(\/embed).*?)"'
