@@ -1808,7 +1808,7 @@
 	</channel>
 	<channel>
 			<cname>ZDF</cname>
-			<imageurl>https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfp1/t1.0-1/1549440_581355895273377_1670882419_a.jpg</imageurl>
+			<imageurl>http://www.lyngsat-logo.com/hires/zz/zdf_de.png</imageurl>
 			<enabled>True</enabled>
 			<assignedcategory>
 			 <category>oth</category>
@@ -2279,7 +2279,7 @@
 	</channel>
 	<channel>
 			<cname>Al Taghier</cname>
-			<imageurl></imageurl>
+			<imageurl>http://www.lyngsat-logo.com/logo/tv/aa/al_taghier_jo.png</imageurl>
 			<enabled>True</enabled>
 			<assignedcategory>
 			<category>gulf</category>
@@ -2413,7 +2413,7 @@
 	</channel>
 	<channel>
 			<cname>Jordan Sport</cname>
-			<imageurl>https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-prn1/539253_325639020859435_1061646324_n.jpg</imageurl>
+			<imageurl>http://www.lyngsat-logo.com/hires/ss/sport_tv_jo.png</imageurl>
 			<enabled>True</enabled>
 			<assignedcategory>
 			 <category>sports</category>
@@ -2462,7 +2462,7 @@
 	</channel>
 	<channel>
 			<cname>AlWatan Algerie</cname>
-			<imageurl>https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/t1.0-1/c13.0.320.320/p320x320/10313534_611057852334417_8197505129995555985_n.png</imageurl>
+			<imageurl>http://s4.postimg.org/5ngkzovwp/el_Watan_DZTV_95x42.png</imageurl>
 			<enabled>True</enabled>
 			<assignedcategory>
 			 <category>dzair</category>
@@ -3055,7 +3055,7 @@
     
     <channel>
         <cname>AlFajer Gaza</cname>
-        <imageurl>https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1.0-1/p160x160/1510792_10151952424443801_1499060125_n.jpg</imageurl>
+        <imageurl>http://s22.postimg.org/8casnry5d/10391006_10152301096753801_1638869858217869121_n.jpg</imageurl>
         <enabled>True</enabled>
         <assignedcategory>
             <category>sham</category>
@@ -3066,7 +3066,7 @@
     
     <channel>
         <cname>Alfajr Int</cname>
-        <imageurl>https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t1.0-1/c48.48.603.603/s160x160/1234314_380583395402173_1897807652_n.jpg</imageurl>
+        <imageurl>http://s22.postimg.org/8casnry5d/10391006_10152301096753801_1638869858217869121_n.jpg</imageurl>
         <enabled>True</enabled>
         <assignedcategory>
             <category>sham</category>
@@ -3275,7 +3275,7 @@
 	
 	 <channel>
         <cname>AL AHLY</cname>
-        <imageurl>https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/t1.0-1/c0.0.320.320/p320x320/10342431_786683428017569_444476441238564112_n.jpg</imageurl>
+        <imageurl>http://www.lyngsat-logo.com/hires/aa/al_ahly_tv_cairo_eg.png</imageurl>
         <enabled>True</enabled>
         <assignedcategory>
             <category>sports</category>
@@ -6239,14 +6239,6 @@
      <enabled>True</enabled>
      <assignedcategory>
      <category>news</category>
-     </assignedcategory>
-</channel>
-<channel>
-     <cname>Line Sport</cname>
-     <imageurl></imageurl>
-     <enabled>True</enabled>
-     <assignedcategory>
-     <category>sports</category>
      </assignedcategory>
 </channel>
 <channel>
