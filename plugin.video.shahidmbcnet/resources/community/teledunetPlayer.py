@@ -64,6 +64,8 @@ def PlayStream(sourceEtree, urlSoup, name, url):
 				if result:
 					link=result['link']
 					token=result['token']
+					mainpage=result['mainpage']
+                    
 					print 'file_exists',len(link)
 				else:
 					print 'cache or the url failed!!'
@@ -110,19 +112,22 @@ def PlayStream(sourceEtree, urlSoup, name, url):
 				traceback.print_exc(file=sys.stdout)
 				print 'trying backup'
 				try:
-					link=getUrl("http://www.pastebin.com/download.php?i=fKh4gG5s", getCookieJar())
+					link=getUrl("http://pastebin.com/raw.php?i=5Z0GLFab", getCookieJar())
 					rtmp =re.findall(('rtmp://(.*?)/%s\''%channelId), link)[0]
 					rtmp='rtmp://%s/%s'%(rtmp,channelId)
 				except:
 					traceback.print_exc(file=sys.stdout)
-					rtmp='rtmp://5.135.134.110:1935/teledunet/%s'%(channelId)
+					rtmp='rtmp://178.33.241.201:1935/teledunet/%s'%(channelId)
 					print 'error in channel using hardcoded value'
 		pDialog.update(80, 'trying to play')
 		liveLink= sourceEtree.findtext('rtmpstring');
 
 		print 'rtmpstring',liveLink,rtmp
 #		liveLink=liveLink%(rtmp,channelId,match,channelId,channelId)
-		liveLink=liveLink%(rtmp,channelId,timesegment,channelId,'user'+token,token)
+		liveLink=liveLink%(rtmp,channelId,timesegment,channelId,selfAddon.getSetting( "teledunetTvLogin" ),token)
+
+        
+
 		name+='-Teledunet'
 		print 'liveLink',liveLink
 		pDialog.close()
@@ -136,6 +141,11 @@ def PlayStream(sourceEtree, urlSoup, name, url):
 		pDialog = xbmcgui.DialogProgress()
 		pDialog.create('XBMC', 'Playing channel')
 		howMaytimes=1
+		patt='add_friend=(.*?)\'.*?<img src="premium.png"'
+		res=re.findall(patt, mainpage)
+		randomuser=''
+		if res and len(res)>0:
+			randomuser=res[0]
 		while totalTried<howMaytimes:
 
 			totalTried+=1
@@ -147,6 +157,11 @@ def PlayStream(sourceEtree, urlSoup, name, url):
 			player.pdialogue=pDialog
 			if pDialog.iscanceled():
 				break
+			if totalTried==2:
+				if len(randomuser)==0:
+					break
+				else:
+					liveLink=re.sub('user=(.*?)&','user=%s&'%randomuser,liveLink)
 			player.play( liveLink,listitem)  
 			if pDialog.iscanceled():
 				break
@@ -344,7 +359,7 @@ def getChannelHTML(cid):
         else:
             cookie_jar=cookielib.LWPCookieJar()
         getUrl('http://www.teledunet.com/', cookie_jar)
-        getUrl('http://www.teledunet.com/', cookie_jar,referer='http://www.teledunet.com/boutique/connexion.php')
+        mainpage=getUrl('http://www.teledunet.com/', cookie_jar,referer='http://www.teledunet.com/boutique/connexion.php')
  
         import time
         #currentTime=int(time.time()*1000)
@@ -383,7 +398,7 @@ def getChannelHTML(cid):
         if newod1:
             link+='fromspacer('+newod1+")"
         
-        return {'link':link,'token':token}
+        return {'link':link,'token':token,'mainpage':mainpage}
     except:
         traceback.print_exc(file=sys.stdout)
         return ''
