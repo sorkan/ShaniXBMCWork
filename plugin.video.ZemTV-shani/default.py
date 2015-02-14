@@ -254,7 +254,8 @@ def AddSports(url):
 
 def PlayPopeLive(url):
     playlist = xbmc.PlayList(1)
-    url='rtmp://rtmp.popeoftheplayers.pw:1935/redirect playpath='+url+base64.b64decode('IHN3ZlZmeT10cnVlIHN3ZlVybD1odHRwOi8vcG9wZW9mdGhlcGxheWVycy5wdy9hdGRlZGVhZC5zd2YgZmxhc2hWZXI9V0lOXDIwMTYsMCwwLDIzNSBwYWdlVXJsPWh0dHA6Ly9wb3Blb2Z0aGVwbGF5ZXJzLnB3L2F0ZGVkZWFkLnN3ZiBsaXZlPXRydWUgdGltZW91dD0yMCB0b2tlbj0jYXRkJSMkWkg=')
+    #url='rtmp://rtmp.popeoftheplayers.pw:1935/redirect playpath='+url+base64.b64decode('IHN3ZlZmeT10cnVlIHN3ZlVybD1odHRwOi8vcG9wZW9mdGhlcGxheWVycy5wdy9hdGRlZGVhZC5zd2YgZmxhc2hWZXI9V0lOXDIwMTYsMCwwLDIzNSBwYWdlVXJsPWh0dHA6Ly9wb3Blb2Z0aGVwbGF5ZXJzLnB3L2F0ZGVkZWFkLnN3ZiBsaXZlPXRydWUgdGltZW91dD0yMCB0b2tlbj0jYXRkJSMkWkg=')
+    url='rtmp://rtmp.popeoftheplayers.eu:1935/redirect playpath='+url+base64.b64decode('IHN3ZlZmeT10cnVlIHN3ZlVybD1odHRwOi8vcG9wZW9mdGhlcGxheWVycy5ldS9hdGRlZGVhZC5zd2YgZmxhc2hWZXI9V0lOXDIwMTYsMCwwLDIzNSBwYWdlVXJsPWh0dHA6Ly9wb3Blb2Z0aGVwbGF5ZXJzLmV1L2F0ZGVkZWFkLnN3ZiBsaXZlPXRydWUgdGltZW91dD0yMCB0b2tlbj0jYXRkJSMkWkg=')
 
     playlist.clear()
     listitem = xbmcgui.ListItem( label = str(name), iconImage = "DefaultVideo.png", thumbnailImage = xbmc.getInfoImage( "ListItem.Thumb" ) )
@@ -894,8 +895,34 @@ def revist_dag(page_data):
         final_url = final_url.replace('devinlive', 'flive')
     if 'permlivefs.fplive.net' not in final_url:
         final_url = final_url.replace('permlive', 'flive')
-    return final_url
+    
 
+    return final_url
+    
+def get_ferrari_url(page_data):
+    print 'get_dag_url2',page_data
+    page_data2=getUrl(page_data);
+    print 'page_data2',page_data2
+    patt='(http.*)'
+    if 'adsid=' in page_data2:
+        page_data=re.compile(patt).findall(page_data2)[0]
+        page_data2=getUrl(page_data);
+    else:
+        return page_data
+
+    import uuid
+    playback=str(uuid.uuid1()).upper()
+    links=re.compile(patt).findall(page_data2)
+    headers=[('X-Playback-Session-Id',playback)]
+    for l in links:
+        try:
+                print l
+                page_datatemp=getUrl(l,headers=headers);
+                    
+        except: traceback.print_exc(file=sys.stdout)
+    
+    return page_data+'|&X-Playback-Session-Id='+playback
+    
 def get_dag_url(page_data):
     print 'get_dag_url',page_data
     if '127.0.0.1' in page_data:
@@ -907,6 +934,7 @@ def get_dag_url(page_data):
         if len(final_url)==0:
             final_url=page_data
     final_url = final_url.replace(' ', '%20')
+
     return final_url
     
 def PlayOtherUrl ( url ):
@@ -987,6 +1015,12 @@ def PlayOtherUrl ( url ):
         final_url=dag_url
     else:
         final_url=get_dag_url(dag_url)
+    
+    print 'final_urlllllllllllll',final_url
+
+    if base64.b64decode('amFkb29fdG9rZW4=') in final_url:
+        print 'In Ferari url'
+        final_url=get_ferrari_url(final_url)        
     progress.update( 100, "", "Almost done..", "" )
     print final_url
     listitem = xbmcgui.ListItem( label = str(name), iconImage = "DefaultVideo.png", thumbnailImage = xbmc.getInfoImage( "ListItem.Thumb" ) )
