@@ -200,9 +200,9 @@ def PlayFlashTv(url):
     
 def AddP3gSports(url):
 
-    addDir('Ptv Sports P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvcHR2c3BvcnRhZGVhbC8yLzYwMC80MzA=') ,17,'', False, True,isItFolder=False)
-    addDir('Star Sports 1 P3G.Tv (requires new rtmp)' ,base64.b64decode('hdHRwOi8vd3d3LnAzZy50di9lbWJlZHBsYXllci9zdGFyc3BvcnRzaW1wLzIvNjAwLzQwMA==' ),17,'', False, True,isItFolder=False)
-    addDir('Star Sports 3 P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvc3RhcnNwb3J0YTMvMi82MDAvNDAw') ,17,'', False, True,isItFolder=False)
+    addDir('Ptv Sports P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvcHR2c2hlcmUvMi82MDAvNDIw') ,17,'', False, True,isItFolder=False)
+    addDir('Star Sports 1 P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvc3RhcmhkYWxhLzIvNjAwLzQyMA==' ),17,'', False, True,isItFolder=False)
+    addDir('Star Sports 3 P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvY3N0YXJzcG9ydDMvMi82MDAvNDIw') ,17,'', False, True,isItFolder=False)
     addDir('Star Sports 4 P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvc3RhcnNwb3J0czRkLzIvNjAwLzQwMA==') ,17,'', False, True,isItFolder=False)
     
     addDir('GeoSuper P3G.Tv (requires new rtmp)' ,base64.b64decode('aHR0cDovL3d3dy5wM2cudHYvZW1iZWRwbGF5ZXIvZ2Vvc3VwZXIxMjEvMi82NDAvNDQw') ,17,'', False, True,isItFolder=False)
