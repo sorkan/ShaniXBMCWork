@@ -1,6 +1,14 @@
 <channels>
 
 <channel>
+    <cname>Citruss</cname>
+    <imageurl>http://www.lyngsat-logo.com/hires/cc/citruss_tv.png</imageurl>
+    <enabled>True</enabled>
+    <assignedcategory>
+    <category>gulf</category>
+    </assignedcategory>
+</channel>
+<channel>
     <cname>Speda</cname>
     <imageurl>http://www.lyngsat-logo.com/logo/tv/ss/speda_channel_iq.png</imageurl>
     <enabled>True</enabled>
