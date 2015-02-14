@@ -1,6 +1,15 @@
 <channels>
 
 <channel>
+    <cname>Star2000</cname>
+    <imageurl>http://s11.postimg.org/ryhjm9nxv/Stra2000.jpg</imageurl>
+    <enabled>True</enabled>
+    <assignedcategory>
+    <category>music</category>
+    <category>sham</category>
+    </assignedcategory>
+</channel>
+<channel>
     <cname>Citruss</cname>
     <imageurl>http://www.lyngsat-logo.com/hires/cc/citruss_tv.png</imageurl>
     <enabled>True</enabled>
