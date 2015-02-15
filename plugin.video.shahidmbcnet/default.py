@@ -202,11 +202,11 @@ def get_params():
 
 
 def Addtypes():
+	addDir('Shahid Live' ,'CCats' ,14,addonArt+'/Network-1-icon.png')
 	#2 is series=3 are links
 	addDir('Shahid Vod by Channels' ,getMainUrl()+'/ar/channel-browser.html' ,2,addonArt+'/channels.png') #links #2 channels,3 series,4 video entry, 5 play
 	addDir('Shahid Vod by Series' ,getMainUrl()+'/ar/series-browser.html' ,6,addonArt+'/serial.png')
 	#addDir('Streams' ,'streams' ,9,addonArt+'/stream.png')
-	addDir('Shahid Live' ,'CCats' ,14,addonArt+'/Network-1-icon.png')
 	addDir('Shahid Youtube' ,'http://gdata.youtube.com/feeds/api/users/aljadeedonline' ,18,addonArt+'/youtube.png')    
 	addDir('Download Files' ,'cRefresh' ,17,addonArt+'/download-icon.png',isItFolder=False)
 	addDir('Settings' ,'Settings' ,8,addonArt+'/setting.png',isItFolder=False) ##
