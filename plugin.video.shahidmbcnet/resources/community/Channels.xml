@@ -6604,8 +6604,9 @@
         <imageurl>http://www.lyngsat-logo.com/logo/tv/ss/sky_de_bundesliga.png</imageurl>
         <enabled>True</enabled>
         <assignedcategory>
-            <category>french</category>
-            </assignedcategory>
+        <category>french</category>
+        <category>sports</category>
+        </assignedcategory>
   </channel>
     <channel>
         <cname>Mehwar 2</cname>
