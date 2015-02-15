@@ -808,7 +808,7 @@ def AddChannelsFromOthers(isPakistani):
         patt='<channel><channel_number>.*?<channel_name>(.+?[^<])</channel_name><channel_type>(.+?)</channel_type>.*?[^<"]<channel_url>(.+?[^<])</channel_url>.*?</channel>'
         url=base64.b64decode("aHR0cDovL2ZlcnJhcmlsYi5qZW10di5jb20vaW5kZXgucGhwLzJfNC9neG1sL2NoYW5uZWxfbGlzdA==")
         req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+        req.add_header('User-Agent', 'Verismo-BlackUI')
         response = urllib2.urlopen(req)
         link=response.read()
         response.close()
@@ -947,9 +947,7 @@ def PlayOtherUrl ( url ):
     direct=False
     if url==base64.b64decode('aHR0cDovL2xpdmUuYXJ5emluZGFnaS50di8='):
         req = urllib2.Request(url)
-        #req.add_header('User-Agent', 'Verismo-BlackUI_(2.4.7.5.8.0.34)')   
-        #req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
-        req.add_header('User-Agent', 'Verismo-BlackUI_(2.4.7.5.8.0.34)') 
+        req.add_header('User-Agent', base64.b64decode('VmVyaXNtby1CbGFja1VJXygyLjQuNy41LjguMC4zNCk=')) 
         response = urllib2.urlopen(req)
         link=response.read()
         curlpatth='file: "(htt.*?)"'
@@ -957,9 +955,7 @@ def PlayOtherUrl ( url ):
         dag_url =re.findall(curlpatth,link)[0]
     elif url=='etv':
         req = urllib2.Request(base64.b64decode('aHR0cDovL20ubmV3czE4LmNvbS9saXZlLXR2L2V0di11cmR1'))
-        #req.add_header('User-Agent', 'Verismo-BlackUI_(2.4.7.5.8.0.34)')   
         req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
-        #req.add_header('User-Agent', 'Verismo-BlackUI_(2.4.7.5.8.0.34)') 
         response = urllib2.urlopen(req)
         link=response.read()
         curlpatth='<source src="(.*?)"'
@@ -967,8 +963,7 @@ def PlayOtherUrl ( url ):
         dag_url =re.findall(curlpatth,link)[0]
     elif 'dag1.asx' not in url and 'hdcast.org' not in url and '?securitytype=2' not in url:
         req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Verismo-BlackUI_(2.4.7.5.8.0.34)')   
-        #req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+        req.add_header('User-Agent', base64.b64decode('VmVyaXNtby1CbGFja1VJXygyLjQuNy41LjguMC4zNCk='))   
         response = urllib2.urlopen(req)
         link=response.read()
         curlpatth='<link>(.*?)<\/link>'
@@ -1003,7 +998,7 @@ def PlayOtherUrl ( url ):
 
     if 'dag1.asx' in dag_url:    
         req = urllib2.Request(dag_url)
-        req.add_header('User-Agent', 'Verismo-BlackUI_(2.4.7.5.8.0.34)')   
+        req.add_header('User-Agent', base64.b64decode('VmVyaXNtby1CbGFja1VJXygyLjQuNy41LjguMC4zNCk='))   
         response = urllib2.urlopen(req)
         link=response.read()
         dat_pattern='href="([^"]+)"[^"]+$'

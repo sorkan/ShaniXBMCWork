@@ -1,3 +1,6 @@
+B]Version 3.3.6[/B]
+- updated, green channels vanished
+
 B]Version 3.3.5[/B]
 - green channels stopping fix, p3glinks updated and thanks to Gujjal, pope links too
 
