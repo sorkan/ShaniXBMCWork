@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.video.kannadaserial"
-       name="KannadaSerial.tv"
-       version="2.2.3"
-       provider-name="shani">
+       name="Kannada TV"
+       version="2.2.4"
+       provider-name="sorkan">
   <requires>
-    <import addon="xbmc.python" version="2.1.0"/>
+    	<import addon="xbmc.python" version="2.1.0"/>
 	<import addon="script.module.urlresolver" version="1.0.0"/>
 	<import addon="plugin.video.youtube" version="2.9.2"/>
   </requires>
@@ -13,8 +13,8 @@
         <provides>video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary>kannadaserial.tv XBMC Client</summary>
-    <description>Watch kannadaserial.tv on your XBMC. This plugin fetches the video sources from kannadaserial.tv and play on XBMC compatible plateforms</description>
+    <summary>kannada.serialzone.in XBMC Client</summary>
+    <description>Watch kannada.serialzone.in on your XBMC. This plugin fetches the video sources from kannada.serialzone.in and play on XBMC compatible plateforms</description>
     <platform>all</platform>
   </extension>
 </addon>
