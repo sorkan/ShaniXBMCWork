@@ -74,19 +74,20 @@ def get_params():
 
 def Addtypes():
 	#2 is series=3 are links
-	addDir('UDAYA TV' ,'http://kannadaserial.tv/tv/udaya-tv' ,2,'')
-	addDir('SUVARNA TV' ,'http://kannadaserial.tv/tv/suvarna-tv' ,2,'')
-	addDir('ZEE KANNADA' ,'http://kannadaserial.tv/tv/zee-kannada' ,2,'')
-	addDir('ETV KANNADA' ,'http://kannadaserial.tv/tv/etv-kannada' ,2,'')
+	addDir('UDAYA TV' ,'http://kannada.serialzone.in/tv/udaya-tv' ,2,'')
+	addDir('SUVARNA TV' ,'http://kannada.serialzone.in/tv/suvarna-tv' ,2,'')
+	addDir('ZEE KANNADA' ,'http://kannada.serialzone.in/tv/zee-kannada' ,2,'')
+	addDir('ETV KANNADA' ,'http://kannada.serialzone.in/tv/etv-kannada' ,2,'')
 	#addDir('COMEDY' ,'http://kannadaserial.tv/tv/udaya-tv' ,2,'')
-	addDir('TV SHOWS' ,'http://kannadaserial.tv/tv/kannada-tv-shows' ,2,'')
-	addDir('RECIPES' ,'http://kannadaserial.tv/tv/kannada-recipes' ,2,'')
-	
-	
+	addDir('TV SHOWS' ,'http://kannada.serialzone.in/tv/kannada-tv-shows' ,2,'')
+	#addDir('RECIPES' ,'http://kannadaserial.tv/tv/kannada-recipes' ,2,'')
+
 	return
+
 
 def ShowSettings(Fromurl):
 	selfAddon.openSettings()
+
 
 def AddSeries(Fromurl):
 #	print Fromurl
@@ -111,11 +112,13 @@ def AddSeries(Fromurl):
 	#	optiontype=2
 	match =re.findall(regstring, link)
 	#match=re.compile('<a href="(.*?)"targe.*?<img.*?alt="(.*?)" src="(.*?)"').findall(link)
-	print match
-
+	#print match
 
 	for cname in match:
-		addDir(cname[2] ,cname[1] ,3,'http://kannadaserial.tv'+cname[0])#url,name,jpg#name,url,mode,icon
+            # ignore online games from showing on XBMC/KODI - take all other series info
+            if cname[2] not in ('The Kings League: Odyssey','TT Racer'):
+               # print "Name:%s\nURLI:%s\nICON:%s\n" %(cname[0],cname[1],cname[2])
+	       addDir(cname[2] ,cname[1] ,3,'http://kannada.serialzone.in'+cname[0])#url,name,jpg_name,url,mode,icon
 		
 #	<a href="http://www.zemtv.com/page/2/">&gt;</a></li>
 #	match =re.findall('<a href="(.*)">&gt;<\/a><\/li>', link, re.IGNORECASE)
@@ -127,15 +130,16 @@ def AddSeries(Fromurl):
 	return
 
 
+
 def AddEnteries(Fromurl):
-#	print Fromurl
+#	print "FROMURL: " ,Fromurl
 	req = urllib2.Request(Fromurl)
 	req.add_header('User-Agent','Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
 	response = urllib2.urlopen(req)
 	link=response.read()
 	response.close()
-#	print link
-#	print "addshows"
+	#print link
+	print "adding shows"
 #	match=re.compile('<param name="URL" value="(.+?)">').findall(link)
 #	match=re.compile('<a href="(.+?)"').findall(link)
 #	match=re.compile('onclick="playChannel\(\'(.*?)\'\);">(.*?)</a>').findall(link)
@@ -143,18 +147,18 @@ def AddEnteries(Fromurl):
 #	match =re.findall('onclick="playChannel\(\'(.*?)\'\);".?>(.*?)</a>', link, re.DOTALL|re.IGNORECASE)
 #	match =re.findall('<div class=\"post-title\"><a href=\"(.*?)\".*<b>(.*)<\/b><\/a>', link, re.IGNORECASE)
 #	match =re.findall('<img src="(.*?)" alt=".*".+<\/a>\n*.+<div class="post-title"><a href="(.*?)".*<b>(.*)<\/b>', link, re.UNICODE)
-#	print Fromurl
-	match =re.findall('<div class="episode" id=\'h3_(.*?)\' ><h4>(.*?)<\/h4><\/div>', link, re.M|re.DOTALL)
-#	print Fromurl
 
-	#print match
+        # new match string
+	match =re.findall('<div class="episode" id=\'h3_(.*?)\' ><a href=(.*?)><h4>(.*?)<\/h4></a><\/div>', link, re.M|re.DOTALL)
+
+#	print "MATCHED ARRAY: ", match
 	h = HTMLParser.HTMLParser()
 
 	for cname in match:
-		addDir(cname[1] ,cname[0] ,4,'',isItFolder=False)
-		
-#
-	
+	    # ignore online games - take only the dates
+            if cname[2] not in ('The Kings League: Odyssey', 'TT Racer'):
+               #print "Name:%s\nURLI:%s\nICON:%s\n" %(cname[0],cname[1],cname[2])
+	       addDir(cname[2] ,cname[0] ,4, "",isItFolder=False) #(name, url, mode, icon)
 	return
 	
 def AddChannels(liveURL):
@@ -183,35 +187,37 @@ def AddChannels(liveURL):
 
 def PlayShowLink ( url ): 
 #	url = tabURL.replace('%s',channelName);
-
-	
-	url='http://kannadaserial.tv/admin/AjaxProcess.php?cfile=load_video&id=%s&param=value&_=%s' % (url, time.time())
-	print url
-	req = urllib2.Request(url)
+#	print "URL: %s" %url
+        
+	url2='http://kannada.serialzone.in/admin/AjaxProcess.php?cfile=load_video&id=%s&param=value&_=%s' % (url, time.time())
+	print url2
+	req = urllib2.Request(url2)
 	req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
 	response = urllib2.urlopen(req)
 	link=response.read()
 	response.close()
 
-
+#        print "LINK READ: ", link
 	match =re.findall('embed\/(.*?)\?', link)
-	
+#        print "MATCH: ",match,"\t\tMATCH LEN: ",len(match)
+        
 	if len(match)==0:
-		print 'not found trying again'
-		match =re.findall('yt\(\'(.*?)\'', link)
-	print link,match
+#		print 'not found trying again'
+		match =re.findall('yp\(\'(.*?)\'', link)
+#	print "LINK: ",link
+#        print "MATCH: ",match
 	
 	time1=2000
 	line1 = "Playing Youtube Link"
 	xbmc.executebuiltin('Notification(%s, %s, %d, %s)'%(__addonname__,line1, time1, __icon__))
 
 	youtubecode=match[0]
-	uurl = 'plugin://plugin.video.youtube/?action=play_video&videoid=%s' % youtubecode
+	uurl = 'plugin://plugin.video.youtube/play/?video_id=%s' % youtubecode
+	#uurl = 'plugin://plugin.video.youtube/v/%s' % youtubecode
 #	print uurl
 	xbmc.executebuiltin("xbmc.PlayMedia("+uurl+")")
 
 	return
-	
 
 
 def PlayLiveLink ( url ): 
