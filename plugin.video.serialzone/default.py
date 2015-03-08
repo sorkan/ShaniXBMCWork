@@ -9,7 +9,7 @@ from operator import itemgetter
 __addon__       = xbmcaddon.Addon()
 __addonname__   = __addon__.getAddonInfo('name')
 __icon__        = __addon__.getAddonInfo('icon')
-addon_id = 'plugin.video.kannadaserial'
+addon_id = 'plugin.video.serialzone'
 selfAddon = xbmcaddon.Addon(id=addon_id)
   
  
@@ -19,6 +19,7 @@ def addLink(name,url,iconimage):
 	liz.setInfo( type="Video", infoLabels={ "Title": name } )
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
 	return ok
+# end function
 
 
 def addDir(name,url,mode,iconimage	,showContext=False, showLiveContext=False,isItFolder=True):
@@ -48,6 +49,7 @@ def addDir(name,url,mode,iconimage	,showContext=False, showLiveContext=False,isI
 	
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=isItFolder)
 	return ok
+# end function
 	
 
 
@@ -68,25 +70,33 @@ def get_params():
 				param[splitparams[0]]=splitparams[1]
 				
 	return param
-
+# end function
 
 
 
 def Addtypes():
 	#2 is series=3 are links
-	addDir('UDAYA TV' ,'http://kannada.serialzone.in/tv/udaya-tv' ,2,'')
-	addDir('SUVARNA TV' ,'http://kannada.serialzone.in/tv/suvarna-tv' ,2,'')
-	addDir('ZEE KANNADA' ,'http://kannada.serialzone.in/tv/zee-kannada' ,2,'')
-	addDir('ETV KANNADA' ,'http://kannada.serialzone.in/tv/etv-kannada' ,2,'')
+	#addDir('UDAYA TV' ,'http://kannada.serialzone.in/tv/udaya-tv' ,2,'')
+	#addDir('SUVARNA TV' ,'http://kannada.serialzone.in/tv/suvarna-tv' ,2,'')
+	#addDir('ZEE KANNADA' ,'http://kannada.serialzone.in/tv/zee-kannada' ,2,'')
+	#addDir('ETV KANNADA' ,'http://kannada.serialzone.in/tv/etv-kannada' ,2,'')
 	#addDir('COMEDY' ,'http://kannadaserial.tv/tv/udaya-tv' ,2,'')
-	addDir('TV SHOWS' ,'http://kannada.serialzone.in/tv/kannada-tv-shows' ,2,'')
+	#addDir('TV SHOWS' ,'http://kannada.serialzone.in/tv/kannada-tv-shows' ,2,'')
 	#addDir('RECIPES' ,'http://kannadaserial.tv/tv/kannada-recipes' ,2,'')
 
+	addDir('Bengali' ,'http://bengali.serialzone.in', 2, '')
+	addDir('Hindi' ,'http://hindi.serialzone.in', 2,'')
+	addDir('kannada' ,'http://kannada.serialzone.in' , 2,'')
+	addDir('Malayalam' ,'http://malayalam.serialzone.in', 2,'')
+	addDir('Marati' ,'http://marati.serialzone.in', 2, '')
+	addDir('Tamil' ,'http://tamil.serialzone.in', 2, '')
+	addDir('Telugu' ,'http://telugu.serialzone.in', 2, '')
 	return
 
 
 def ShowSettings(Fromurl):
 	selfAddon.openSettings()
+#end function
 
 
 def AddSeries(Fromurl):
@@ -128,7 +138,7 @@ def AddSeries(Fromurl):
 #       print match
 	
 	return
-
+#end function
 
 
 def AddEnteries(Fromurl):
@@ -160,6 +170,8 @@ def AddEnteries(Fromurl):
                #print "Name:%s\nURLI:%s\nICON:%s\n" %(cname[0],cname[1],cname[2])
 	       addDir(cname[2] ,cname[0] ,4, "",isItFolder=False) #(name, url, mode, icon)
 	return
+# end function
+
 	
 def AddChannels(liveURL):
 	req = urllib2.Request(liveURL)
@@ -183,6 +195,7 @@ def AddChannels(liveURL):
 	for cname in match:
 		addDir(cname[1] ,cname[0] ,7,cname[2], False, True)		#name,url,mode,icon
 	return	
+# end function
 	
 
 def PlayShowLink ( url ): 
@@ -218,6 +231,7 @@ def PlayShowLink ( url ):
 	xbmc.executebuiltin("xbmc.PlayMedia("+uurl+")")
 
 	return
+#end function
 
 
 def PlayLiveLink ( url ): 
@@ -315,6 +329,7 @@ def PlayLiveLink ( url ):
 	
 	
 	return
+#end function
 
 	
 #print "i am here"
