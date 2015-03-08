@@ -14,7 +14,7 @@
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary>serialzone.in XBMC Client</summary>
-    <description>Watch any language and TV shows on your XBMC. This plugin fetches the video sources from serialzone and play on XBMC compatible plateforms</description>
+    <description>Watch any available Indian language and TV serials/shows on your XBMC. This plugin fetches the video sources from serialzone and play on XBMC compatible plateforms</description>
     <platform>all</platform>
   </extension>
 </addon>
