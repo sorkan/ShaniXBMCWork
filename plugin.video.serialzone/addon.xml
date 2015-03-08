@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.kannadaserial"
-       name="Kannada TV"
-       version="2.2.4"
+<addon id="plugin.video.serialzone"
+       name="SerialZone TV"
+       version="1.0"
        provider-name="sorkan">
   <requires>
     	<import addon="xbmc.python" version="2.1.0"/>
@@ -13,8 +13,8 @@
         <provides>video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary>kannada.serialzone.in XBMC Client</summary>
-    <description>Watch kannada.serialzone.in on your XBMC. This plugin fetches the video sources from kannada.serialzone.in and play on XBMC compatible plateforms</description>
+    <summary>serialzone.in XBMC Client</summary>
+    <description>Watch any language and TV shows on your XBMC. This plugin fetches the video sources from serialzone and play on XBMC compatible plateforms</description>
     <platform>all</platform>
   </extension>
 </addon>
