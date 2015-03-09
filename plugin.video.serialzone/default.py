@@ -112,10 +112,10 @@ def AddTVChannels(Fromurl):
 	regstring='<div class="nav">(.*?)<a href="(.*?)">(.*?)<\/a>(.*?)<\/ul><\/div>'
 	match_temp =re.findall(regstring, link)
 
-        #take the fourth element
-        link_temp=match[0][3]
-        regstring='<a href="(.*?)">(.*?)<\/a>'
-        match = re.findall(regstring, link_temp)
+	#take the fourth element
+	link_temp=match[0][3]
+	regstring='<a href="(.*?)">(.*?)<\/a>'
+	match = re.findall(regstring, link_temp)
      
 	print match
 
@@ -126,7 +126,7 @@ def AddTVChannels(Fromurl):
 
             if cname[1] not in ('GAMES','ACTRESS','ACTOR'):
                print "Name:%s\nURLI:%s\n" %(cname[1],cname[0])
-	       addDir(cname[1] ,'http://kannada.serialzone.in'+cname[0], 3, '')#url,name,jpg_name,url,mode,icon
+	       addDir(cname[1] ,Fromurl+cname[0], 3, '')#url,name,jpg_name,url,mode,icon
 	return
 #end function
 
@@ -159,7 +159,7 @@ def AddSeries(Fromurl):
             # ignore online games from showing on XBMC/KODI - take all other series info
             if cname[2] not in ('The Kings League: Odyssey','TT Racer'):
                # print "Name:%s\nURLI:%s\nICON:%s\n" %(cname[0],cname[1],cname[2])
-	       addDir(cname[2] ,cname[1] ,4,'http://kannada.serialzone.in'+cname[0])#url,name,jpg_name,url,mode,icon
+	       addDir(cname[2] ,cname[1] ,4,Fromurl+cname[0])#url,name,jpg_name,url,mode,icon
 		
 #	<a href="http://www.zemtv.com/page/2/">&gt;</a></li>
 #	match =re.findall('<a href="(.*)">&gt;<\/a><\/li>', link, re.IGNORECASE)
