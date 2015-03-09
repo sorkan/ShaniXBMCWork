@@ -99,6 +99,37 @@ def ShowSettings(Fromurl):
 #end function
 
 
+def AddTVChannels(Fromurl):
+	print Fromurl
+	req = urllib2.Request(Fromurl)
+	req.add_header('User-Agent','Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+	response = urllib2.urlopen(req)
+	link=response.read()
+	response.close()
+	#print link
+	print "addchannels"
+        # first level to match on nav pttern
+	regstring='<div class="nav">(.*?)<a href="(.*?)">(.*?)<\/a>(.*?)<\/ul><\/div>'
+	match_temp =re.findall(regstring, link)
+
+        #take the fourth element
+        link_temp=match[0][3]
+        regstring='<a href="(.*?)">(.*?)<\/a>'
+        match = re.findall(regstring, link_temp)
+     
+	print match
+
+	for cname in match:
+            # ignore online games from showing on XBMC/KODI - take all other channel info
+	    if 'gallery' in cname[1]:
+                continue # continue to next entry
+
+            if cname[1] not in ('GAMES','ACTRESS','ACTOR'):
+               print "Name:%s\nURLI:%s\n" %(cname[1],cname[0])
+	       addDir(cname[1] ,'http://kannada.serialzone.in'+cname[0], 3, '')#url,name,jpg_name,url,mode,icon
+	return
+#end function
+
 def AddSeries(Fromurl):
 #	print Fromurl
 	req = urllib2.Request(Fromurl)
@@ -128,7 +159,7 @@ def AddSeries(Fromurl):
             # ignore online games from showing on XBMC/KODI - take all other series info
             if cname[2] not in ('The Kings League: Odyssey','TT Racer'):
                # print "Name:%s\nURLI:%s\nICON:%s\n" %(cname[0],cname[1],cname[2])
-	       addDir(cname[2] ,cname[1] ,3,'http://kannada.serialzone.in'+cname[0])#url,name,jpg_name,url,mode,icon
+	       addDir(cname[2] ,cname[1] ,4,'http://kannada.serialzone.in'+cname[0])#url,name,jpg_name,url,mode,icon
 		
 #	<a href="http://www.zemtv.com/page/2/">&gt;</a></li>
 #	match =re.findall('<a href="(.*)">&gt;<\/a><\/li>', link, re.IGNORECASE)
@@ -168,7 +199,7 @@ def AddEnteries(Fromurl):
 	    # ignore online games - take only the dates
             if cname[2] not in ('The Kings League: Odyssey', 'TT Racer'):
                #print "Name:%s\nURLI:%s\nICON:%s\n" %(cname[0],cname[1],cname[2])
-	       addDir(cname[2] ,cname[0] ,4, "",isItFolder=False) #(name, url, mode, icon)
+	       addDir(cname[2] ,cname[0] ,5, "",isItFolder=False) #(name, url, mode, icon)
 	return
 # end function
 
@@ -370,13 +401,17 @@ try:
 
 	elif mode==2:
 		print "Ent url is "+name,url
-		AddSeries(url)
+		AddTVChannels(url)
 
 	elif mode==3:
 		print "Ent url is "+url
-		AddEnteries(url)
+		AddSeries(url)
 
 	elif mode==4:
+		print "Ent url is "+url
+		AddEnteries(url)
+
+	elif mode==5:
 		print "Play url is "+url
 		PlayShowLink(url)
 except:
