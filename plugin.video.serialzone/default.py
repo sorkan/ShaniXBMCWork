@@ -78,7 +78,7 @@ def Addtypes():
 	#2 is series=3 are links
 	addDir('Bengali' ,'http://bengali.serialzone.in', 2, '')
 	addDir('Hindi' ,'http://hindi.serialzone.in', 2,'')
-	addDir('kannada' ,'http://kannada.serialzone.in' , 2,'')
+	addDir('Kannada' ,'http://kannada.serialzone.in' , 2,'')
 	addDir('Malayalam' ,'http://malayalam.serialzone.in', 2,'')
 	addDir('Marathi' ,'http://marati.serialzone.in', 2, '')
 	addDir('Tamil' ,'http://tamil.serialzone.in', 2, '')
@@ -92,25 +92,30 @@ def ShowSettings(Fromurl):
 
 
 def AddTVChannels(Fromurl):
-	print "Incoming: %s" %Fromurl
-	req = urllib2.Request(Fromurl)
-	req.add_header('User-Agent','Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
-	response = urllib2.urlopen(req)
-	link=response.read()
-	response.close()
-	print link
-	print "addchannels"
+	#print "Incoming: %s" %Fromurl
+	try:
+	   req = urllib2.Request(Fromurl)
+	   req.add_header('User-Agent','Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+	   response = urllib2.urlopen(req)
+	   link=response.read()
+	   response.close()
+	except:
+           print "Error opening URL"
+	   return(0)
+
+	#print link
+	#print "addchannels"
         # first level to match on nav pttern
 	regstring='<div class="nav">(.*?)<a href="(.*?)">(.*?)<\/a>(.*?)<\/ul><\/div>'
 	match_temp =re.findall(regstring, link)
-        print "Match - Lev 1: ",match_temp
+        #print "Match - Lev 1: ",match_temp
 
 	#take the fourth element
 	link_temp=match_temp[0][3]
 	regstring='<a href="(.*?)">(.*?)<\/a>'
 	match = re.findall(regstring, link_temp)
      
-	print "Match - Lev 2: ",match
+	#print "Match - Lev 2: ",match
 
 	for cname in match:
             # ignore online games from showing on XBMC/KODI - take all other channel info
@@ -121,36 +126,48 @@ def AddTVChannels(Fromurl):
                 continue # continue to next entry
 	
             elif cname[1] not in ('GAMES','ACTRESS','ACTOR','Games','Actor'):
-               print "Name:%s\nURLI:%s\n" %(cname[1],cname[0])
-	       addDir(cname[1] ,Fromurl+cname[0], 3, '')#url,name,jpg_name,url,mode,icon
+               #print "Name:%s\nURLI:%s\n" %(cname[1],cname[0])
+               URLI=''
+               if 'http:' in cname[0]:
+                  URLI='%s' %(cname[0])
+               else:
+		  URLI="%s%s" %(Fromurl,cname[0])
+
+               #print "addDir('%s', '%s', 3, '') " %(cname[1],URLI)
+	       addDir(cname[1] ,URLI, 3, '')#url,name,jpg_name,url,mode,icon
 
 	return
 #end function
 
 
 def AddSeries(Fromurl):
-	print "Incoming URL:",Fromurl
-	req = urllib2.Request(Fromurl)
-	req.add_header('User-Agent','Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
-	response = urllib2.urlopen(req)
-	link=response.read()
-	response.close()
-	print link
-	print "addshows"
+	#print "Incoming URL:",Fromurl
+        try:
+	   req = urllib2.Request(Fromurl)
+	   req.add_header('User-Agent','Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+	   response = urllib2.urlopen(req)
+	   link=response.read()
+	   response.close()
+	except:
+           print "Error opening URL"
+	   return(0)
+
+	#print link
+	#print "addshows"
 
 	# do first level match
 	regstring='<div class="rm">(.*?)<\/div>'
 	match_temp=re.findall(regstring, link)
-        print "Num elements: ",len(match_temp)
-        print "Match_items: ",match_temp
+        #print "Num elements: ",len(match_temp)
+        #print "Match_items: ",match_temp
 	for entries in match_temp:
 	    # walk thru matched patterns to find sub-pattern
-	    print "MATCH ENTRY LEV1: ",entries
+	    #print "MATCH ENTRY LEV1: ",entries
 	    subreg_str='<img src="(.*?)".*\s*<div class="rml"><a href="(.*?)" >(.*?)<\/a>'
             match2=re.findall(subreg_str, entries)
 
 	    for cname in match2:
-		print "LEV 2 match: ",cname
+		#print "LEV 2 match: ",cname
 		# ignore online games from showing on XBMC/KODI - take all other series info
 		URLI=cname[0]
 		if 'http:' not in URLI:
@@ -158,9 +175,11 @@ def AddSeries(Fromurl):
 		else:
 		   URLI=cname[0]
 
+		SHOWURL=cname[1]
+		SHOWURL+="?view=all"
 		if cname[2] not in ('The Kings League: Odyssey','TT Racer'):
-		   print "Name:%s\nURLI:%s\nICON:%s\n" %(cname[2],cname[1],cname[0])
-		   addDir(cname[2] ,cname[1] ,4, URLI)#url,name,jpg_name,url,mode,icon
+		   #print "Name:%s\nURLI:%s\nICON:%s\n" %(cname[2], SHOWURL, URLI)
+		   addDir(cname[2] , SHOWURL, 4, URLI)#url,name,jpg_name,url,mode,icon
 	    # end inner-loop
 	# end outer-loop
 	return
@@ -168,26 +187,24 @@ def AddSeries(Fromurl):
 
 
 def AddEnteries(Fromurl):
-	print "FROMURL: " ,Fromurl
-	req = urllib2.Request(Fromurl)
-	req.add_header('User-Agent','Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
-	response = urllib2.urlopen(req)
-	link=response.read()
-	response.close()
-	print link
-	print "adding shows"
-#	match=re.compile('<param name="URL" value="(.+?)">').findall(link)
-#	match=re.compile('<a href="(.+?)"').findall(link)
-#	match=re.compile('onclick="playChannel\(\'(.*?)\'\);">(.*?)</a>').findall(link)
-#	match =re.findall('onclick="playChannel\(\'(.*?)\'\);">(.*?)</a>', link, re.DOTALL|re.IGNORECASE)
-#	match =re.findall('onclick="playChannel\(\'(.*?)\'\);".?>(.*?)</a>', link, re.DOTALL|re.IGNORECASE)
-#	match =re.findall('<div class=\"post-title\"><a href=\"(.*?)\".*<b>(.*)<\/b><\/a>', link, re.IGNORECASE)
-#	match =re.findall('<img src="(.*?)" alt=".*".+<\/a>\n*.+<div class="post-title"><a href="(.*?)".*<b>(.*)<\/b>', link, re.UNICODE)
+	#print "FROMURL: " ,Fromurl
+	try:
+	   req = urllib2.Request(Fromurl)
+	   req.add_header('User-Agent','Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
+	   response = urllib2.urlopen(req)
+	   link=response.read()
+	   response.close()
+	except:
+	   print "Error opening URL"
+	   return(0)
+
+	#print link
+	#print "adding shows"
 
         # new match string
 	match =re.findall('<div class="episode" id=\'h3_(.*?)\' ><a href=(.*?)><h4>(.*?)<\/h4></a><\/div>', link, re.M|re.DOTALL)
 
-#	print "MATCHED ARRAY: ", match
+#	#print "MATCHED ARRAY: ", match
 	h = HTMLParser.HTMLParser()
 
 	for cname in match:
@@ -226,9 +243,11 @@ def AddChannels(liveURL):
 
 def PlayShowLink ( url ): 
 #	url = tabURL.replace('%s',channelName);
-#	print "URL: %s" %url
+	print "URL: %s" %url
+	#regstring='http:\/\/(.*?)\/admin'
+        #match=re.findall(regstring, url)
         
-	url2='http://kannada.serialzone.in/admin/AjaxProcess.php?cfile=load_video&id=%s&param=value&_=%s' % (url, time.time())
+	url2='http://serialzone.in/admin/AjaxProcess.php?cfile=load_video&id=%s&param=value&_=%s' % (url, time.time())
 	print url2
 	req = urllib2.Request(url2)
 	req.add_header('User-Agent', 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
