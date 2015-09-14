@@ -76,6 +76,7 @@ def get_params():
 
 def Addtypes():
 	#2 is series=3 are links
+        print "In function: Addtypes()"
 	addDir('Bengali' ,'http://bengali.serialzone.in', 2, '')
 	addDir('Hindi' ,'http://hindi.serialzone.in', 2,'')
 	addDir('Kannada' ,'http://kannada.serialzone.in' , 2,'')
@@ -83,6 +84,7 @@ def Addtypes():
 	addDir('Marathi' ,'http://marati.serialzone.in', 2, '')
 	addDir('Tamil' ,'http://tamil.serialzone.in', 2, '')
 	addDir('Telugu' ,'http://telugu.serialzone.in', 2, '')
+        print "Leaving function: Addtypes()"
 	return
 
 
@@ -92,7 +94,8 @@ def ShowSettings(Fromurl):
 
 
 def AddTVChannels(Fromurl):
-	#print "Incoming: %s" %Fromurl
+        print "In function: AddTVChannels()"
+	print "Incoming: %s" %Fromurl
 	try:
 	   req = urllib2.Request(Fromurl)
 	   req.add_header('User-Agent','Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
@@ -103,26 +106,35 @@ def AddTVChannels(Fromurl):
            print "Error opening URL"
 	   return(0)
 
-	#print link
+	print link
 	print "add TV channels"
-        idx1= link.index("<div class=\"nav\">")
+        idx1=0
+        srch_str=''
+        try:
+           idx1= link.index('<div class="nav">')
+           srch_str='"nav"'
+        except ValueError:
+           idx1= link.index("<div class=nav>")
+           srch_str='nav'
+
         #print "INDEX1: %s" %idx1
-        templ=link[idx1:]
+        #templ=link[idx1:]
         #print "TEMPL: %s" %templ
-        idx2=templ.index(r"</div>")
+        #idx2=templ.index(r"</div>")
         #print "INDEX2: %s" %idx2
-        new_link=templ[:idx2+6]
+        #new_link=templ[:idx2+6]
         #print "LINK: %s" %new_link
 
         # first level to match on nav pttern
-	#regstring='<div class="nav"><ul>  (.*?)<a href="(.*?)">(.*?)<\/a>(.*?)<\/ul><\/div>'
-	#match_temp =re.findall(regstring, new_link)
-        #print "Match - Lev 1: ",match_temp
+	regstring='<div class=%s><ul>(.*?)<a href="(.*?)">(.*?)<\/a>(.*?)<\/ul><\/div>' %srch_str
+	match_temp =re.findall(regstring, link)
+        print "Match - Lev 1: ",match_temp
 
 	#take the fourth element
-	#link_temp=match_temp[0][3]
+	link_temp=match_temp[0][3]
 	regstring='<a href="(.*?)">(.*?)<\/a>'
-	match = re.findall(regstring, new_link)
+	match = re.findall(regstring, link_temp)
+        match.append((match_temp[0][1],match_temp[0][2]))
      
 	print "Match - Lev 2: ",match
 
@@ -149,11 +161,13 @@ def AddTVChannels(Fromurl):
 	       addDir(cname[1] ,URLI, 3, '')#url,name,jpg_name,url,mode,icon
 
 	return
+        print "Leaving function: AddTVChannels()"
 #end function
 
 
 def AddSeries(Fromurl):
-	#print "Incoming URL:",Fromurl
+        print "In function: AddSeries()"
+	print "Incoming URL:",Fromurl
         try:
 	   req = urllib2.Request(Fromurl)
 	   req.add_header('User-Agent','Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10')
@@ -164,10 +178,22 @@ def AddSeries(Fromurl):
            print "Error opening URL"
 	   return(0)
 
-	print link
-	print "addshows"
-
-	regstring='<div class="serial">(.*?)<\/div>'
+	print link,len(link)
+	print "addshows: Serials"
+        idx1=0
+        serial_srchstr=''
+        title_srchstr=''
+        try:
+          idx1=link.index('<div class="serial">')
+          serial_srchstr='"serial"'
+          title_srchstr='"title"'
+        except ValueError:
+          idx1=link.index('<div class=serial>')
+          serial_srchstr='serial'
+          title_srchstr='title'
+        
+	regstring='<div class=%s>(.*?)<\/div>' %(serial_srchstr)
+        print "REGSTRING: ",regstring
 	match_temp=re.findall(regstring, link)
         print "Num elements: ",len(match_temp)
         print "Match_items: ",match_temp
@@ -179,7 +205,8 @@ def AddSeries(Fromurl):
             #mpl=entries[idx1:]
             #rint "TEMPL: %s" %templ
             #ntries=templ
-            subreg_str='<img src="(.*?)".*?<div class="title"><a href="(.*?)">(.*?)<\/a>'
+            subreg_str='<img src="(.*?)".*?<div class=%s>' %title_srchstr
+            subreg_str+='<a href="(.*?)">(.*?)<\/a>'
             match2=re.findall(subreg_str, entries)
             print match2
 
@@ -217,11 +244,20 @@ def AddEnteries(Fromurl):
 
 	#print link
 	#print "adding shows"
+        idx=0
+        srch_str=''
+        try:
+           idx=link.index('<div class="episode" id=')
+           srch_str='"episode"'
+        except ValueError:
+           idx=link.index('<div class=episode id=')
+           srch_str='episode'
 
         # new match string
-	match =re.findall('<div class="episode" id=\'h3_(.*?)\' ><a href=(.*?)><h4>(.*?)<\/h4></a><\/div>', link, re.M|re.DOTALL)
+        regexpr='<div class=%s id=\'h3_(.*?)\' ><a href=(.*?)><h4>(.*?)<\/h4></a><\/div>' %srch_str
+	match =re.findall(regexpr, link, re.M|re.DOTALL)
 
-#	#print "MATCHED ARRAY: ", match
+	print "MATCHED ARRAY: ", match
 	h = HTMLParser.HTMLParser()
 
 	for cname in match:
